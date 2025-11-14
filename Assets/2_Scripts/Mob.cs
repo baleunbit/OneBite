@@ -179,6 +179,8 @@ public class Mob : MonoBehaviour
     {
         if (!isLive) return;
         isLive = false;
+
+        EatBar.Instance?.AddFromEat(1);
         if (deathSfx) AudioSource.PlayClipAtPoint(deathSfx, transform.position, deathSfxVolume);
         ShowQuestion(false); ShowAlert(false);
         foreach (var c in GetComponentsInChildren<Collider2D>(true)) if (c) c.enabled = false;

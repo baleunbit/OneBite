@@ -66,6 +66,7 @@ public class Bite : MonoBehaviour
         }
     }
 
+    // Bite 시작 코루틴 내부
     IEnumerator CoDoBite(Mob target)
     {
         _isBiting = true;
@@ -73,7 +74,9 @@ public class Bite : MonoBehaviour
         _hasDealtDamage = false;
         _pendingTarget = target;
 
-        // 🔸 플레이어 이동 완전 정지
+        // ⭐ Player 이동 완전 잠금
+        _player.SetBiteState(true);
+
         if (_player.TryGetComponent<Rigidbody2D>(out var rb))
             rb.linearVelocity = Vector2.zero;
 
@@ -81,20 +84,27 @@ public class Bite : MonoBehaviour
         _anim.SetTrigger(HashBiteTrigger);
         _anim.CrossFadeInFixedTime(biteStateName, 0.05f, 0, 0f);
 
-        if (debugLog) Debug.Log("[Bite] 시작 → 대상: " + target.name);
+        float totalLen = Mathf.Max(0.25f, GetStateLength(biteStateName));
+        float earlyRelease = 0.7f; // 너가 정한 조기 해제 시간
 
-        // 애니메이션 길이 + 여유시간
-        float len = Mathf.Max(0.25f, GetStateLength(biteStateName));
-        yield return new WaitForSeconds(len + 0.05f);
+        // ⭐ 애니메이션 후반부는 이동만 먼저 허용해줄 것
+        yield return new WaitForSeconds(Mathf.Max(0f, totalLen - earlyRelease));
 
-        // 서 있는 자세로 복귀
-        _anim.CrossFadeInFixedTime(standStateName, 0.05f, 0, 0f);
-
+        // ⭐ Player 이동 잠금 해제
         _isBiting = false;
+        _player.SetBiteState(false); // 이동 가능
+
+        // ⭐ Bite 쿨다운 해제는 지금 바로 수행
         _canBite = true;
+
+        // 나머지 애니메이션 자연스럽게 마무리
+        float remain = Mathf.Max(0f, earlyRelease);
+        yield return new WaitForSeconds(remain);
+
         _pendingTarget = null;
         _hasDealtDamage = false;
     }
+
 
     Mob FindBestTarget()
     {
@@ -134,7 +144,7 @@ public class Bite : MonoBehaviour
             if (biteVfx) Instantiate(biteVfx, _pendingTarget.transform.position, Quaternion.identity);
 
             _player?.AddExpFromBite(1);
-            EatBar.Instance?.AddFromEat(10);
+            EatBar.Instance?.AddFromEat(5);
             _pendingTarget.KillSilently();
 
             if (debugLog)

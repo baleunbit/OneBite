@@ -44,7 +44,6 @@ public class ClearMgr : MonoBehaviour
                 {
                     done = true;
                     yield return new WaitForSeconds(delayBeforeLoad);
-                    SceneMgr.I?.GoToEndScene();
                     yield break;
                 }
             }

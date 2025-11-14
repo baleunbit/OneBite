@@ -30,6 +30,18 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Button btn1, btn2, btn3, btn4;
 
     private Gun currentGun;
+    public bool IsLevelUpPanelOpen { get; private set; }
+
+    void Update()
+    {
+        if (IsLevelUpPanelOpen)
+        {
+            if (Input.GetKeyDown(KeyCode.Alpha1)) OnChooseAbility(1);
+            if (Input.GetKeyDown(KeyCode.Alpha2)) OnChooseAbility(2);
+            if (Input.GetKeyDown(KeyCode.Alpha3)) OnChooseAbility(3);
+            if (Input.GetKeyDown(KeyCode.Alpha4)) OnChooseAbility(4);
+        }
+    }
 
     void Awake()
     {
@@ -54,18 +66,18 @@ public class UIManager : MonoBehaviour
     // ===== 레벨업 패널 =====
     public void ShowLevelUpPanel()
     {
-        if (levelUpPanelGO) levelUpPanelGO.SetActive(true);
+        IsLevelUpPanelOpen = true;
+        levelUpPanelGO?.SetActive(true);
         Time.timeScale = 0f;
         Cursor.visible = true;
-        Cursor.lockState = CursorLockMode.None;
     }
 
     public void HideLevelUpPanel()
     {
-        if (levelUpPanelGO) levelUpPanelGO.SetActive(false);
+        IsLevelUpPanelOpen = false;
+        levelUpPanelGO?.SetActive(false);
         Time.timeScale = 1f;
         Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Confined;
     }
 
     public void HideLevelUpPanelImmediate()

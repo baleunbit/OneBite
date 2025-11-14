@@ -11,6 +11,18 @@ public class Player : MonoBehaviour
     [SerializeField] private int level = 1;
     [SerializeField] private int exp = 0;
 
+    [Header("강화 스탯")]
+    public int weaponDamageBonus = 0;      // 무기 공격력 +X
+    public float moveSpeedBonus = 0f;      // 이동속도 +X%
+    public float biteRangeBonus = 0f;      // 한입 범위 증가
+    public float quietStepBonus = 0f;      // 조용한 발걸음(적 ? 범위 감소)
+
+
+    // Player 쪽에 상태 플래그
+    public bool IsBusyWithBite { get; private set; }
+    public void SetBiteState(bool on) => IsBusyWithBite = on;
+
+
     public int Level => level;
     public int Exp => exp;
     public int ExpToNext => GetExpToNext(level);
@@ -37,13 +49,39 @@ public class Player : MonoBehaviour
     void Update()
     {
         if (isDead) return;
-        input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")).normalized;
+
+        // 🔥 바이트 중에는 입력 자체를 0으로
+        if (IsBusyWithBite)
+        {
+            input = Vector2.zero;
+            return;
+        }
+
+        input = new Vector2(
+            Input.GetAxisRaw("Horizontal"),
+            Input.GetAxisRaw("Vertical")
+        ).normalized;
     }
+
     void FixedUpdate()
     {
-        if (isDead) { rb.linearVelocity = Vector2.zero; return; }
+        if (isDead)
+        {
+            rb.linearVelocity = Vector2.zero;
+            return;
+        }
+
+        // Bite 중이면 이동 멈추기 (입력은 유지됨)
+        if (IsBusyWithBite)
+        {
+            rb.linearVelocity = Vector2.zero;
+            return;
+        }
+
+        // Bite 끝나면 여기 코드 실행 → Held input으로 다시 움직임
         rb.linearVelocity = input * moveSpeed;
     }
+
     void LateUpdate()
     {
         ani?.SetFloat("Speed", input.sqrMagnitude);
@@ -93,15 +131,54 @@ public class Player : MonoBehaviour
         return 18;
     }
 
-    public void ApplyLevelUpChoice(int idx)
+    public void ApplyLevelUpChoice(int choiceIndex)
     {
-        switch (idx)
+        switch (choiceIndex)
         {
-            case 1: maxHealth += 10; health = maxHealth; UpdateHealthBar(); break;
-            case 2: moveSpeed += 1f; break;
-            case 3: /* 공격 속도 증가 등 */ break;
-            case 4: /* 재장전 속도 증가 등 */ break;
+            case 1:
+                weaponDamageBonus += 2;
+                Debug.Log("기본 무기 강화 (+2 damage)");
+                break;
+
+            case 2:
+                quietStepBonus += 2f;
+                ReduceMobDetectRadius(2f);
+                Debug.Log("조용한 발걸음 (detectRadius -2)");
+                break;
+
+            case 3:
+                moveSpeedBonus += moveSpeed * 0.05f;
+                moveSpeed += moveSpeed * 0.05f;
+                Debug.Log("이동속도 +5%");
+                break;
+
+            case 4:
+                biteRangeBonus += 1f;
+                var bite = GetComponent<Bite>();
+                if (bite) bite.biteRange += 1f;
+                Debug.Log("한입 범위 +1");
+                break;
         }
-        UIManager.Instance?.HideLevelUpPanel(); // ✔ 패널만 닫기
+        UIManager.Instance?.HideLevelUpPanel();
     }
+
+    void ReduceMobDetectRadius(float amount)
+    {
+        Mob[] mobs = FindObjectsByType<Mob>(FindObjectsSortMode.None);
+
+        foreach (var m in mobs)
+        {
+            if (!m) continue;
+
+            // ? 표시 범위 감소
+            m.detectRadius = Mathf.Max(0.1f, m.detectRadius - amount);
+
+            // 발각 거리(!) 감소
+            m.viewDistance = Mathf.Max(0.5f, m.viewDistance - amount);
+
+            // 시야각도 줄여서 쉽게 못 봄 (예: -5°)
+            m.fovAngle = Mathf.Clamp(m.fovAngle - (amount * 0.5f), 10f, 180f);
+        }
+    }
+
 }

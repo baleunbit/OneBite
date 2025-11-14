@@ -23,14 +23,16 @@ public class Gun : MonoBehaviour
     public bool useSharedAmmo = true;
     public SharedAmmo sharedAmmo;                 // Player 등에 붙은 SharedAmmo
 
+    Player player;
     int currentAmmo;                              // 개별 모드에서만 사용
     bool isReloading;
-    float nextFireTime;
-    Player player;
     bool deathHandled;
+    float baseDamage;
+    float nextFireTime;
 
     void Awake()
     {
+        baseDamage = Damage;  // ✔ 인스턴스 생성 후 초기화 가능
         if (useSharedAmmo && !sharedAmmo)
         {
             // 부모나 씬에서 자동으로 찾아서 연결
@@ -76,24 +78,41 @@ public class Gun : MonoBehaviour
             return;
         }
 
+        // -----------------------
+        //  🔥 자동 장전
+        // -----------------------
+        if (!isReloading && GetCurrentAmmo() <= 0)
+        {
+            StartCoroutine(Reload());
+            return;
+        }
+
+        // -----------------------
+        //  레벨업 패널 열려있으면 입력 금지
+        // -----------------------
+        if (UIManager.Instance && UIManager.Instance.IsLevelUpPanelOpen)
+            return;
+
         if (isReloading) return;
 
+        // -----------------------
+        //  R키 수동 장전
+        // -----------------------
         if (Input.GetKeyDown(KeyCode.R) && GetCurrentAmmo() < GetMaxAmmo())
         {
             StartCoroutine(Reload());
             return;
         }
 
+        // -----------------------
+        //  공격
+        // -----------------------
         if (Input.GetMouseButton(0) && Time.time >= nextFireTime)
         {
             if (GetCurrentAmmo() > 0)
             {
                 Fire();
                 nextFireTime = Time.time + fireRate;
-            }
-            else
-            {
-                StartCoroutine(Reload());
             }
         }
     }
@@ -148,11 +167,14 @@ public class Gun : MonoBehaviour
         float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
         Quaternion rot = Quaternion.AngleAxis(angle + 270f, Vector3.forward);
 
+        // 🔥 강화 적용된 공격력 계산
+        float finalDamage = Damage + (player ? player.weaponDamageBonus : 0f);
+
         var go = Instantiate(bulletPrefab, spawnPos, rot);
         var b = go.GetComponent<Bullet>();
         if (b != null)
         {
-            b.Init(Damage, Pierce, dir);
+            b.Init(finalDamage, Pierce, dir);
             b.Setup(dir);
         }
         else
