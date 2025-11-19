@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 5526343335363277939}
   - component: {fileID: 1090293646835280750}
   m_Layer: 0
-  m_Name: Cracker
+  m_Name: 2_Cracker
   m_TagString: Mob
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

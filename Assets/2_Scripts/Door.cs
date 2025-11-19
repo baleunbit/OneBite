@@ -18,7 +18,8 @@ public class Door : MonoBehaviour
     [SerializeField] string blockedMessage = "아직 적이 남아 있어!";
 
     [Header("애니메이션")]
-    [SerializeField] Animator doorAnimator;      // Animator에 Bool "Open"
+    [SerializeField] Animator doorAnimator;
+    bool openedOnce = false;
     [SerializeField] float clearCheckInterval = 0.25f;
 
     float startTime;
@@ -39,20 +40,34 @@ public class Door : MonoBehaviour
         ownerRoom = FindTopmostParentRoom(transform);
 
         if (!doorAnimator) doorAnimator = GetComponent<Animator>();
-        InvokeRepeating(nameof(UpdateOpenAnimation), 0.1f, clearCheckInterval);
+        ownerRoom = FindTopmostParentRoom(transform);
     }
 
-    void UpdateOpenAnimation()
+    void Update()
     {
-        if (!doorAnimator) return;
-        doorAnimator.SetBool("Open", IsRoomCleared(ownerRoom));
+        if (!openedOnce && IsRoomCleared(ownerRoom))
+        {
+            openedOnce = true;
+            doorAnimator.SetTrigger("OpenDoor");
+        }
     }
 
     bool IsRoomCleared(Room room)
     {
         if (!room) return false;
+
         var mobs = room.GetComponentsInChildren<Mob>(true);
-        foreach (var m in mobs) if (m && m.IsAlive) return false;
+
+        Debug.Log("[DoorCheck] Mob Count = " + mobs.Length);
+
+        foreach (var m in mobs)
+        {
+            Debug.Log("[DoorCheck] Mob: " + m.name + " / IsAlive = " + m.IsAlive);
+
+            if (m && m.IsAlive)
+                return false;
+        }
+
         return true;
     }
 
