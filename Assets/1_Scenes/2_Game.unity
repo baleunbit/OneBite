@@ -2056,6 +2056,11 @@ MonoBehaviour:
     enemies:
     - {fileID: 6595793593659005269, guid: 210b388a0856e584cb2422ab1d6d4359, type: 3}
     - {fileID: 5047303742285198552, guid: 787b7eb8792a2af4cbfe862923b789c8, type: 3}
+  - stage: 4
+    enemies:
+    - {fileID: 2140210154727693862, guid: a3ff34e988997e1498c21990690400e4, type: 3}
+    - {fileID: 774278344359315910, guid: 958d7863f1cc50a4aab1c30f5087d43d, type: 3}
+    - {fileID: 1026966863744158604, guid: 02fd04303e9baea45be11adeb0ff64e7, type: 3}
   minEnemiesPerRoom: 6
   maxEnemiesPerRoom: 12
   avoidOthersRadius: 0.5
@@ -5342,8 +5347,12 @@ MonoBehaviour:
   - {fileID: 4950907188419301654, guid: 04f06816f1adb6343821e76590cc2f1e, type: 3}
   - {fileID: 4214751380123066969, guid: ee17cf9525538d1408ddef21b4160693, type: 3}
   - {fileID: 7104724545160488150, guid: 207870641dff6134aa1fbf61276a9419, type: 3}
+  - {fileID: 1870163528212713986, guid: f5c77fd97785d21478eb71439eac9518, type: 3}
+  - {fileID: 966212559828144017, guid: 9baf9f9ef87edb5498e5f3bd9ea0a8d7, type: 3}
+  - {fileID: 6008022591430521491, guid: f9ccaf860db58d248b1a6c5848215e13, type: 3}
+  - {fileID: 7927180176692764142, guid: eaf9ed0ecca022249ae3786137679c0d, type: 3}
   startStage: 1
-  endStage: 3
+  endStage: 4
   roomsPerStage: 2
   bossRoomExactName: BossRoom
   padding: {x: 1, y: 1}

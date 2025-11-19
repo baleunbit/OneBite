@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 7848271372155502926}
   - component: {fileID: 6530229525328045324}
-  - component: {fileID: 3452261557984356634}
   - component: {fileID: 4744298531492898067}
   - component: {fileID: 3361475803995331736}
   - component: {fileID: 7677151499142277859}
@@ -94,28 +93,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!95 &3452261557984356634
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 774278344359315910}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 0d3842a994495234589cb6d54c1215e2, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!50 &4744298531492898067
 Rigidbody2D:
   serializedVersion: 5
@@ -163,7 +140,7 @@ MonoBehaviour:
   viewDistance: 15
   fovAngle: 80
   target: {fileID: 0}
-  anim: {fileID: 3452261557984356634}
+  anim: {fileID: 0}
   questionMarkPrefab: {fileID: 8768382743714012739, guid: cd3cf4424527366438d63bec7342f42a, type: 3}
   exclamationMarkPrefab: {fileID: 4429560685922436355, guid: a096cbb40cf6aec4bab3a981d2fd900c, type: 3}
   markerOffset: {x: 0, y: 1.5}

@@ -69,6 +69,7 @@ public class Mob : MonoBehaviour
     void FixedUpdate()
     {
         dealtThisFixed = false;
+
         if (!isLive || !target)
         {
             rb.linearVelocity = Vector2.zero;
@@ -76,30 +77,32 @@ public class Mob : MonoBehaviour
             return;
         }
 
-        // 감지/발각
+        // 🔥 360도 감지
         if (!hasSpotted)
         {
-            float sqr = (target.position - rb.position).sqrMagnitude;
-            bool inProximity = sqr <= detectRadius * detectRadius; // ?
-            bool inFov = InFovAndVisible();                        // !
+            bool canSee = CanSeePlayer360();
 
-            if (inFov) SetAlerted();
-            else { ShowQuestion(inProximity); ShowAlert(false); }
-
-            if (!hasSpotted)
+            if (canSee)
+                SetAlerted();
+            else
             {
+                ShowQuestion(false);
+                ShowAlert(false);
+
                 rb.linearVelocity = Vector2.zero;
                 if (anim) anim.SetBool(hashIsWalk, false);
                 return;
             }
         }
 
+        // 🔥 플레이어 위치로 자연스럽게 바라보기 (좌우만)
+        sr.flipX = target.position.x < rb.position.x;
+
         // 추격 이동
         Vector2 cur = rb.position;
         Vector2 dir = ((Vector2)target.position - cur).normalized;
         rb.MovePosition(cur + dir * Speed * Time.fixedDeltaTime);
 
-        sr.flipX = target.position.x < rb.position.x;
         if (anim) anim.SetBool(hashIsWalk, true);
         rb.linearVelocity = Vector2.zero;
     }
@@ -135,18 +138,16 @@ public class Mob : MonoBehaviour
         dealtThisFixed = true;
     }
 
-    bool InFovAndVisible()
+    bool CanSeePlayer360()
     {
         Vector2 myPos = rb.position;
         Vector2 to = target.position - myPos;
-        float dist = to.magnitude;
-        if (dist > viewDistance) return false;
 
-        Vector2 forward = (sr && sr.flipX) ? Vector2.left : Vector2.right;
-        float ang = Vector2.Angle(forward, to.normalized);
-        if (ang > (fovAngle * 0.5f)) return false;
+        // 거리 체크만 함 (방향 체크 X)
+        if (to.sqrMagnitude > viewDistance * viewDistance)
+            return false;
 
-        // 필요 시 Linecast로 가림 처리 추가
+        // 필요하면 라인캐스트 추가 가능
         return true;
     }
 

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 [RequireComponent(typeof(Mob))]
-public class MobSenseVisualizerClear : MonoBehaviour
+public class MobSenseVisualize : MonoBehaviour
 {
     [Range(12, 256)] public int segments = 64;
     public float lineWidth = 0.035f;
@@ -59,21 +59,25 @@ public class MobSenseVisualizerClear : MonoBehaviour
 
     void DrawFan()
     {
+        if (!mob || !mob.target) return;
+
         float dist = Mathf.Max(0.01f, mob.viewDistance);
         float half = Mathf.Clamp(mob.fovAngle * 0.5f, 0f, 180f);
         int N = Mathf.Max(12, segments / 2);
 
-        // Mob 내부에서 관리하는 정면을 얻기 위해 작은 헬퍼 제공했다고 가정 (없어도 sprite flip으로 근사)
-        Vector2 forward;
-        var sr = GetComponentInChildren<SpriteRenderer>();
-        forward = (sr != null && sr.flipX) ? Vector2.left : Vector2.right;
-
-        // 부채꼴: [중심] + [호를 따라 N+1점] + [다시 중심]
         fan.positionCount = N + 3;
         var c = fovColor; c.a = alpha;
         fan.startColor = fan.endColor = c;
 
         Vector3 center = transform.position;
+
+        // 🔥 Vector2 변환 후 forward 계산
+        Vector2 mobPos2D = new Vector2(center.x, center.y);
+        Vector2 target2D = new Vector2(mob.target.position.x, mob.target.position.y);
+
+        Vector2 forward = (target2D - mobPos2D).normalized;
+
+        // 중심
         fan.SetPosition(0, center);
 
         float start = -half;
@@ -81,8 +85,7 @@ public class MobSenseVisualizerClear : MonoBehaviour
         {
             float a = start + (half * 2f) * (i / (float)N);
             Vector2 dir = Quaternion.Euler(0, 0, a) * forward;
-            Vector3 p = (Vector3)(dir.normalized * dist) + center;
-            fan.SetPosition(1 + i, p);
+            fan.SetPosition(1 + i, center + (Vector3)(dir.normalized * dist));
         }
 
         fan.SetPosition(N + 2, center);
