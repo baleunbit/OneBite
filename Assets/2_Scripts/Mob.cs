@@ -8,9 +8,13 @@ public class Mob : MonoBehaviour
     [Header("공격")] public int minDamage = 3; public int maxDamage = 5; public float attackCooldown = 1f;
 
     [Header("탐지")]
-    public float detectRadius = 4f;          // ? 표시 범위
-    public float viewDistance = 6f;          // 발각 판단 거리
+    public float detectRadius = 4f;       // 경계 시작 범위 (부채꼴 회전 시작)
+    public float viewDistance = 6f;       // 부채꼴 길이
     [Range(0, 180)] public float fovAngle = 80f;
+
+    [Header("시야 회전")]
+    public float rotationSpeed = 360f; // 초당 회전 각도 (도/초)
+    [HideInInspector] public Vector2 currentViewDirection = Vector2.up; // 현재 부채꼴이 바라보는 방향
 
     [Header("참조")] public Rigidbody2D target; [SerializeField] Animator anim;
 
@@ -33,6 +37,7 @@ public class Mob : MonoBehaviour
 
     int currentHP; bool isLive = true; bool hasSpotted = false;
     float nextAttackTime = 0f; bool dealtThisFixed = false;
+    public bool isSensing = false; // 경계 상태 변수 추가
 
     Rigidbody2D rb; SpriteRenderer sr;
     int hashIsWalk, Attack;
@@ -40,11 +45,16 @@ public class Mob : MonoBehaviour
     // 내부에서만 관리하는 마커 인스턴스
     GameObject _qm, _em;
 
+    MobSenseVisualize mobSenseVisualize;
+
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         sr = GetComponent<SpriteRenderer>();
+        mobSenseVisualize = GetComponent<MobSenseVisualize>();
         currentHP = Mathf.Max(1, maxHP);
+        
+        currentViewDirection = Vector2.up;
 
         if (!target)
         {
@@ -55,7 +65,6 @@ public class Mob : MonoBehaviour
         if (!anim) anim = GetComponentInChildren<Animator>(true);
         if (anim) { hashIsWalk = Animator.StringToHash("isWalk"); Attack = Animator.StringToHash("doAttack"); }
 
-        // 프리팹에서만 생성
         if (questionMarkPrefab) _qm = Instantiate(questionMarkPrefab, transform);
         if (exclamationMarkPrefab) _em = Instantiate(exclamationMarkPrefab, transform);
 
@@ -77,25 +86,48 @@ public class Mob : MonoBehaviour
             return;
         }
 
-        // 🔥 360도 감지
+        // 1. 발각 여부 체크 (hasSpotted == false)
         if (!hasSpotted)
         {
-            bool canSee = CanSeePlayer360();
+            Vector2 toTarget = target.position - rb.position;
+            float sqrDist = toTarget.sqrMagnitude;
+            
+            bool inDetectRange = sqrDist <= detectRadius * detectRadius;
+            bool inViewRange = CanSeePlayerInFOV(sqrDist); // 회전 중인 부채꼴에 닿았는지 체크
 
-            if (canSee)
-                SetAlerted();
+            // 1-1. FOV에 닿으면 최종 발각 (Alerted)
+            if (inViewRange) 
+            {
+                SetAlerted(); // hasSpotted = true, '!' 마커 표시
+            }
+            // 1-2. detectRadius 안에 들어왔으면 경계 (Sensing) 시작
+            else if (inDetectRange) 
+            {
+                if (!isSensing)
+                {
+                    isSensing = true; // 경계 상태로 전환: MobSenseVisualize가 회전 시작
+                    ShowQuestion(true); // '?' 마커 표시
+                }
+                // 경계 상태일 때: 정지 상태 유지 (바라보지 않음, 추격 안 함)
+                rb.linearVelocity = Vector2.zero;
+                if (anim) anim.SetBool(hashIsWalk, false);
+                return;
+            }
+            // 1-3. 모든 범위 밖이면 대기 (Idle)
             else
             {
+                isSensing = false; // 경계 상태 해제: MobSenseVisualize가 고정 방향(위)으로 돌아옴
                 ShowQuestion(false);
                 ShowAlert(false);
-
                 rb.linearVelocity = Vector2.zero;
                 if (anim) anim.SetBool(hashIsWalk, false);
                 return;
             }
         }
+        
+        // 2. 발각된 상태 (hasSpotted == true) 일 때만 추격 로직 실행
 
-        // 🔥 플레이어 위치로 자연스럽게 바라보기 (좌우만)
+        // 플레이어 위치로 자연스럽게 바라보기 (좌우만) 
         sr.flipX = target.position.x < rb.position.x;
 
         // 추격 이동
@@ -109,7 +141,6 @@ public class Mob : MonoBehaviour
 
     void LateUpdate()
     {
-        // 위치/크기 유지
         UpdateMarkerTransform(_qm);
         UpdateMarkerTransform(_em);
     }
@@ -138,22 +169,35 @@ public class Mob : MonoBehaviour
         dealtThisFixed = true;
     }
 
-    bool CanSeePlayer360()
+    // ────────────────────────── FOV 감지 ──────────────────────────
+    bool CanSeePlayerInFOV(float sqrDist)
     {
-        Vector2 myPos = rb.position;
-        Vector2 to = target.position - myPos;
-
-        // 거리 체크만 함 (방향 체크 X)
-        if (to.sqrMagnitude > viewDistance * viewDistance)
+        // 1. 거리 체크: viewDistance (6m) 내에 들어왔는지 확인
+        if (sqrDist > viewDistance * viewDistance)
             return false;
 
-        // 필요하면 라인캐스트 추가 가능
-        return true;
+        // 2. 각도 체크: 시야 부채꼴 안에 들어왔는지 확인
+        Vector2 toTarget = (Vector2)target.position - rb.position;
+        Vector2 directionToTarget = toTarget.normalized;
+        
+        // MobSenseVisualize에서 부드럽게 회전 중인 시야 방향 사용
+        Vector2 viewDir = currentViewDirection; 
+        
+        float angleToTarget = Vector2.Angle(viewDir, directionToTarget);
+
+        if (angleToTarget <= fovAngle * 0.5f)
+        {
+            return true;
+        }
+
+        return false;
     }
+    // ───────────────────────────────────────────────────────────────────────
 
     void SetAlerted()
     {
         hasSpotted = true;
+        isSensing = false;
         ShowQuestion(false);
         ShowAlert(true);
     }
@@ -181,7 +225,7 @@ public class Mob : MonoBehaviour
         if (!isLive) return;
         isLive = false;
 
-        EatBar.Instance?.AddFromEat(1);
+        // EatBar.Instance?.AddFromEat(1); 
         if (deathSfx) AudioSource.PlayClipAtPoint(deathSfx, transform.position, deathSfxVolume);
         ShowQuestion(false); ShowAlert(false);
         foreach (var c in GetComponentsInChildren<Collider2D>(true)) if (c) c.enabled = false;

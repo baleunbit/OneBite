@@ -14,11 +14,16 @@ public class MobSenseVisualize : MonoBehaviour
     LineRenderer ring;    // 근접 원
     LineRenderer fan;     // 시야 부채꼴 (중심 포함)
 
+    Vector2 currentForward = Vector2.up; // 현재 시야 부채꼴의 방향 (회전 중인 방향)
+
     void Awake()
     {
         mob = GetComponent<Mob>();
         ring = MakeLR("SenseRing");
         fan = MakeLR("SenseFOV");
+
+        currentForward = Vector2.up;
+        if (mob) mob.currentViewDirection = currentForward;
     }
 
     LineRenderer MakeLR(string n)
@@ -34,10 +39,49 @@ public class MobSenseVisualize : MonoBehaviour
         return lr;
     }
 
-    void Update()
+    void LateUpdate()
     {
+        UpdateForwardDirection(); // 회전 로직 실행
         DrawRing();
         DrawFan();
+    }
+
+    void UpdateForwardDirection()
+    {
+        if (!mob || !mob.target)
+        {
+            currentForward = Vector2.up;
+            if (mob) mob.currentViewDirection = Vector2.up;
+            return;
+        }
+
+        Vector2 mobPos2D = transform.position;
+        Vector2 target2D = mob.target.position;
+
+        Vector2 targetDirection;
+
+        // 🔥 Mob이 발각 (Alerted)되었거나 경계 (Sensing) 중일 때 플레이어를 목표로 회전
+        if (mob.IsAlerted || mob.isSensing)
+        {
+            // 경계/발각 상태일 때: 플레이어를 향하는 방향이 목표
+            targetDirection = (target2D - mobPos2D).normalized;
+        }
+        else
+        {
+            // 대기 상태일 때: 고정된 방향 (위)가 목표
+            targetDirection = Vector2.up;
+        }
+
+        // 현재 방향에서 목표 방향으로 '서서히' 회전
+        float angle = Vector2.SignedAngle(currentForward, targetDirection);
+
+        // rotationSpeed를 사용하여 회전할 각도를 제한
+        angle = Mathf.MoveTowards(0f, angle, mob.rotationSpeed * Time.deltaTime);
+
+        // 새 방향 계산
+        currentForward = Quaternion.Euler(0, 0, angle) * currentForward;
+
+        if (mob) mob.currentViewDirection = currentForward;
     }
 
     void DrawRing()
@@ -57,7 +101,7 @@ public class MobSenseVisualize : MonoBehaviour
         }
     }
 
-    void DrawFan()
+    public void DrawFan()
     {
         if (!mob || !mob.target) return;
 
@@ -71,13 +115,8 @@ public class MobSenseVisualize : MonoBehaviour
 
         Vector3 center = transform.position;
 
-        // 🔥 Vector2 변환 후 forward 계산
-        Vector2 mobPos2D = new Vector2(center.x, center.y);
-        Vector2 target2D = new Vector2(mob.target.position.x, mob.target.position.y);
+        Vector2 forward = currentForward;
 
-        Vector2 forward = (target2D - mobPos2D).normalized;
-
-        // 중심
         fan.SetPosition(0, center);
 
         float start = -half;

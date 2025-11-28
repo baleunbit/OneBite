@@ -47,16 +47,12 @@ public class EatBar : MonoBehaviour
 
             UpdateUI();
 
-            if (current == 0 && !notifiedDeath)
+            if (current <= 3 && !notifiedDeath)
             {
                 notifiedDeath = true;
-
-                // ✅ 플레이어에게 "배고파서 죽음" 통지
                 var p = GameObject.FindGameObjectWithTag("Player");
                 var player = p ? p.GetComponent<Player>() : null;
                 player?.DieFromHunger();
-
-                // (UIManager에서 게임오버를 띄우므로, 여기서는 추가 UI 호출 불필요)
             }
         }
     }
