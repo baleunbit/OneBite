@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 4949324135245171582}
   - component: {fileID: 9064681499742167542}
   - component: {fileID: 2483776494360354565}
-  - component: {fileID: 4845417331867457700}
+  - component: {fileID: -1037034260484899570}
   m_Layer: 0
   m_Name: 1_Jelly
   m_TagString: Mob
@@ -138,6 +138,8 @@ MonoBehaviour:
   detectRadius: 15
   viewDistance: 15
   fovAngle: 80
+  rotationSpeed: 360
+  currentViewDirection: {x: 0, y: 1}
   target: {fileID: 0}
   anim: {fileID: 0}
   questionMarkPrefab: {fileID: 8768382743714012739, guid: cd3cf4424527366438d63bec7342f42a, type: 3}
@@ -150,6 +152,7 @@ MonoBehaviour:
   hitSfxVolume: 1
   deathSfx: {fileID: 0}
   deathSfxVolume: 1
+  isSensing: 0
 --- !u!60 &9064681499742167542
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -232,7 +235,7 @@ MonoBehaviour:
   alpha: 0.35
   ringColor: {r: 0.2, g: 0.69803923, b: 1, a: 0.6}
   fovColor: {r: 1, g: 0.9, b: 0.1, a: 0.35}
---- !u!114 &4845417331867457700
+--- !u!114 &-1037034260484899570
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -249,7 +252,7 @@ MonoBehaviour:
   crossRadius: 1.5
   patrolSpeed: 3
   arriveDist: 0.05
-  waitAtPoint: 0.5
+  waitAtPoint: 0.4
   pingPong: 1
   approachOnProximity: 1
   suspicionSpeed: 2

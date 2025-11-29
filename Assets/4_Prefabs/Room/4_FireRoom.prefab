@@ -25,14 +25,14 @@ Transform:
   m_GameObject: {fileID: 359460006698496171}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 29.993412, y: 9.471012, z: 0}
-  m_LocalScale: {x: 1, y: 1.0091999, z: 1}
+  m_LocalPosition: {x: 4.3196106, y: 6.3477197, z: 0}
+  m_LocalScale: {x: 0.2780481, y: 0.5986057, z: 0.31680223}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8433592978074654007}
   - {fileID: 7432242157661307804}
   - {fileID: 3781450567382680743}
-  m_Father: {fileID: 1921264949057712914}
+  m_Father: {fileID: 3394339554093203029}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &787376082043207341
 GameObject:
@@ -143,7 +143,7 @@ MonoBehaviour:
   requireClearRoom: 1
   blockedMessage: "\uC544\uC9C1 \uC801\uC774 \uB0A8\uC544 \uC788\uC5B4!"
   doorAnimator: {fileID: 0}
-  clearCheckInterval: 0.25
+  anim: {fileID: 0}
 --- !u!61 &8659207389522059565
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -692,7 +692,6 @@ GameObject:
   - component: {fileID: 1169253826549453998}
   - component: {fileID: 8087695457761666735}
   - component: {fileID: 6604494378444686619}
-  - component: {fileID: 4522882470397546765}
   - component: {fileID: 2640626141102035118}
   m_Layer: 0
   m_Name: 4_FireRoom
@@ -722,7 +721,7 @@ Transform:
   - {fileID: 3721605483103942357}
   - {fileID: 6214233555506476577}
   - {fileID: 6450005831896933707}
-  - {fileID: 1921264949057712914}
+  - {fileID: 7882926911415341087}
   - {fileID: 4434335265420283387}
   - {fileID: 5558951103502707132}
   - {fileID: 3194063466577140876}
@@ -884,27 +883,6 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 6.5578356, y: 7.571127}
   m_EdgeRadius: 0
---- !u!114 &4522882470397546765
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1870163528212713986}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 13f4bcf7202522b4b965dcbf125fc707, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  generator: {fileID: 0}
-  player: {fileID: 0}
-  activateDelay: 0.75
-  reenterCooldown: 0.4
-  exitOffset: {x: 0, y: 0.75}
-  requireClearRoom: 1
-  blockedMessage: "\uC544\uC9C1 \uC801\uC774 \uB0A8\uC544 \uC788\uC5B4!"
-  doorAnimator: {fileID: 0}
-  clearCheckInterval: 0.25
 --- !u!114 &2640626141102035118
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1338,7 +1316,7 @@ MonoBehaviour:
   requireClearRoom: 1
   blockedMessage: "\uC544\uC9C1 \uC801\uC774 \uB0A8\uC544 \uC788\uC5B4!"
   doorAnimator: {fileID: 9195909056980612432}
-  clearCheckInterval: 0.25
+  anim: {fileID: 0}
 --- !u!61 &2566693351991944510
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1407,38 +1385,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!1 &5111211529678488712
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1921264949057712914}
-  m_Layer: 0
-  m_Name: Point
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1921264949057712914
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5111211529678488712}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -4.02, y: 0.73, z: 0}
-  m_LocalScale: {x: 0.27804807, y: 0.5931488, z: 0.31680223}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 7882926911415341087}
-  m_Father: {fileID: 3394339554093203029}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5180420094758143626
 GameObject:
   m_ObjectHideFlags: 0
@@ -1904,7 +1850,7 @@ MonoBehaviour:
   requireClearRoom: 1
   blockedMessage: "\uC544\uC9C1 \uC801\uC774 \uB0A8\uC544 \uC788\uC5B4!"
   doorAnimator: {fileID: 0}
-  clearCheckInterval: 0.25
+  anim: {fileID: 0}
 --- !u!61 &5445044195743836827
 BoxCollider2D:
   m_ObjectHideFlags: 0

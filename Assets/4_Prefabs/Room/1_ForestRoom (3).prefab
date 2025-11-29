@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 5412722240740584287}
   - component: {fileID: 2136373994870600418}
   - component: {fileID: 7659907629800031074}
-  - component: {fileID: 8428649615508851636}
   - component: {fileID: 2109060160077455827}
   m_Layer: 0
   m_Name: 1_ForestRoom (3)
@@ -42,7 +41,7 @@ Transform:
   - {fileID: 5254228407679053660}
   - {fileID: 1385564226723305689}
   - {fileID: 4355858573813746659}
-  - {fileID: 6391123935756787241}
+  - {fileID: 9034822012153519507}
   - {fileID: 6355560922631602073}
   - {fileID: 8195696666611893850}
   - {fileID: 4500145859165018740}
@@ -204,27 +203,6 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 6.5578356, y: 7.571127}
   m_EdgeRadius: 0
---- !u!114 &8428649615508851636
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 50124368337975288}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 13f4bcf7202522b4b965dcbf125fc707, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  generator: {fileID: 0}
-  player: {fileID: 0}
-  activateDelay: 0.75
-  reenterCooldown: 0.4
-  exitOffset: {x: 0, y: 0.75}
-  requireClearRoom: 1
-  blockedMessage: "\uC544\uC9C1 \uC801\uC774 \uB0A8\uC544 \uC788\uC5B4!"
-  doorAnimator: {fileID: 0}
-  clearCheckInterval: 0.25
 --- !u!114 &2109060160077455827
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -881,7 +859,7 @@ MonoBehaviour:
   requireClearRoom: 1
   blockedMessage: "\uC544\uC9C1 \uC801\uC774 \uB0A8\uC544 \uC788\uC5B4!"
   doorAnimator: {fileID: 0}
-  clearCheckInterval: 0.25
+  anim: {fileID: 0}
 --- !u!61 &2777729182028569002
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -997,12 +975,12 @@ Transform:
   m_GameObject: {fileID: 3953917309695767011}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 29.993412, y: 9.471012, z: 0}
-  m_LocalScale: {x: 1, y: 1.0091999, z: 1}
+  m_LocalPosition: {x: 4.3196106, y: 6.3477197, z: 0}
+  m_LocalScale: {x: 0.2780481, y: 0.5986057, z: 0.31680223}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1307785134555094708}
-  m_Father: {fileID: 6391123935756787241}
+  m_Father: {fileID: 6395060742388792924}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4263625617858531687
 GameObject:
@@ -1582,38 +1560,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85fd48604732a4c4e87ce85d79327b22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &5974249884426807304
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 6391123935756787241}
-  m_Layer: 0
-  m_Name: Point
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &6391123935756787241
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5974249884426807304}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -4.02, y: 0.73, z: 0}
-  m_LocalScale: {x: 0.27804807, y: 0.5931488, z: 0.31680223}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 9034822012153519507}
-  m_Father: {fileID: 6395060742388792924}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6301395686018233132
 GameObject:
   m_ObjectHideFlags: 0

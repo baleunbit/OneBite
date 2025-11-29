@@ -135,20 +135,21 @@ public class Bite : MonoBehaviour
 
     void OnBiteHit()
     {
-        if (_hasDealtDamage) return; // ✅ 한 번만 허용
+        if (_hasDealtDamage) return;
         _hasDealtDamage = true;
 
         if (_pendingTarget != null && _pendingTarget.IsAlive)
         {
-            if (biteSfx) AudioSource.PlayClipAtPoint(biteSfx, _pendingTarget.transform.position, biteSfxVolume);
-            if (biteVfx) Instantiate(biteVfx, _pendingTarget.transform.position, Quaternion.identity);
+            if (biteSfx)
+                AudioSource.PlayClipAtPoint(biteSfx, _pendingTarget.transform.position, biteSfxVolume);
+            if (biteVfx)
+                Instantiate(biteVfx, _pendingTarget.transform.position, Quaternion.identity);
 
             _player?.AddExpFromBite(1);
             EatBar.Instance?.AddFromEat(5);
-            _pendingTarget.KillSilently();
 
-            if (debugLog)
-                Debug.Log("[Bite] 성공 처리 완료 (Exp+1, EatBar+10)");
+            // 🔥 몹 즉시 삭제
+            _pendingTarget.KillSilently();
         }
     }
 

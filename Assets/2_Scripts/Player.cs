@@ -170,15 +170,14 @@ public class Player : MonoBehaviour
         {
             if (!m) continue;
 
-            // ? 표시 범위 감소
+            // 파란 원 감소
             m.detectRadius = Mathf.Max(0.1f, m.detectRadius - amount);
 
-            // 발각 거리(!) 감소
+            // 노란 시야 거리 감소
             m.viewDistance = Mathf.Max(0.5f, m.viewDistance - amount);
 
-            // 시야각도 줄여서 쉽게 못 봄 (예: -5°)
+            // 시야각도 감소
             m.fovAngle = Mathf.Clamp(m.fovAngle - (amount * 0.5f), 10f, 180f);
         }
     }
-
 }

@@ -20,7 +20,8 @@ public class Door : MonoBehaviour
     [Header("애니메이션")]
     [SerializeField] Animator doorAnimator;
     bool openedOnce = false;
-    [SerializeField] float clearCheckInterval = 0.25f;
+
+    [SerializeField] Animator anim;
 
     float startTime;
     bool requireExit;
@@ -41,6 +42,7 @@ public class Door : MonoBehaviour
 
         if (!doorAnimator) doorAnimator = GetComponent<Animator>();
         ownerRoom = FindTopmostParentRoom(transform);
+        anim = GetComponent<Animator>();
     }
 
     void Update()
@@ -50,6 +52,13 @@ public class Door : MonoBehaviour
             openedOnce = true;
             doorAnimator.SetTrigger("OpenDoor");
         }
+        if (!anim || !anim.runtimeAnimatorController)
+        {
+            return; // 문이 애니메이션 없는 버전이면 동작하지 않음
+        }
+
+        // 예: 문 열리는 트리거
+        anim.SetTrigger("OpenDoor");
     }
 
     bool IsRoomCleared(Room room)

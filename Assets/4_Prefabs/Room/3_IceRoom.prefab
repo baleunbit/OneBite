@@ -25,14 +25,14 @@ Transform:
   m_GameObject: {fileID: 874396807594029444}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 29.993412, y: 9.471012, z: 0}
-  m_LocalScale: {x: 1, y: 1.0091999, z: 1}
+  m_LocalPosition: {x: 4.715277, y: 6.70972, z: 0}
+  m_LocalScale: {x: 0.27804813, y: 0.5986057, z: 0.31680223}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7748265548111573949}
   - {fileID: 7259775259872388478}
   - {fileID: 8042872410693056865}
-  m_Father: {fileID: 6374329540940772325}
+  m_Father: {fileID: 2285125702426817654}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &918776705712831102
 GameObject:
@@ -78,38 +78,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85fd48604732a4c4e87ce85d79327b22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &948616894651883483
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 6374329540940772325}
-  m_Layer: 0
-  m_Name: Point (1)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &6374329540940772325
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 948616894651883483}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -3.624333, y: 1.0919999, z: 0}
-  m_LocalScale: {x: 0.2780481, y: 0.5931488, z: 0.31680223}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 6975189321985533621}
-  m_Father: {fileID: 2285125702426817654}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1015852245701032065
 GameObject:
   m_ObjectHideFlags: 0
@@ -301,7 +269,6 @@ GameObject:
   - component: {fileID: 4883986897683666046}
   - component: {fileID: 6746214516865665243}
   - component: {fileID: 9052003974932158576}
-  - component: {fileID: 6991234587906525652}
   m_Layer: 0
   m_Name: 3_IceRoom
   m_TagString: Untagged
@@ -338,7 +305,7 @@ Transform:
   - {fileID: 7033094290197839345}
   - {fileID: 3617117639763606348}
   - {fileID: 3217570881101591222}
-  - {fileID: 6374329540940772325}
+  - {fileID: 6975189321985533621}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &8411215103406398423
@@ -502,27 +469,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   roomID: 0
---- !u!114 &6991234587906525652
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1970868626729607141}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 13f4bcf7202522b4b965dcbf125fc707, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  generator: {fileID: 0}
-  player: {fileID: 0}
-  activateDelay: 0.75
-  reenterCooldown: 0.4
-  exitOffset: {x: 0, y: 0.75}
-  requireClearRoom: 1
-  blockedMessage: "\uC544\uC9C1 \uC801\uC774 \uB0A8\uC544 \uC788\uC5B4!"
-  doorAnimator: {fileID: 0}
-  clearCheckInterval: 0.25
 --- !u!1 &1976919261482589679
 GameObject:
   m_ObjectHideFlags: 0
@@ -942,7 +888,7 @@ MonoBehaviour:
   requireClearRoom: 1
   blockedMessage: "\uC544\uC9C1 \uC801\uC774 \uB0A8\uC544 \uC788\uC5B4!"
   doorAnimator: {fileID: 0}
-  clearCheckInterval: 0.25
+  anim: {fileID: 0}
 --- !u!61 &5332261116800693492
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1498,7 +1444,7 @@ MonoBehaviour:
   requireClearRoom: 1
   blockedMessage: "\uC544\uC9C1 \uC801\uC774 \uB0A8\uC544 \uC788\uC5B4!"
   doorAnimator: {fileID: 0}
-  clearCheckInterval: 0.25
+  anim: {fileID: 0}
 --- !u!61 &4985532294303976201
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1742,7 +1688,7 @@ MonoBehaviour:
   requireClearRoom: 1
   blockedMessage: "\uC544\uC9C1 \uC801\uC774 \uB0A8\uC544 \uC788\uC5B4!"
   doorAnimator: {fileID: 0}
-  clearCheckInterval: 0.25
+  anim: {fileID: 0}
 --- !u!61 &969077296997720405
 BoxCollider2D:
   m_ObjectHideFlags: 0

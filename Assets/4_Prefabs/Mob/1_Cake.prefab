@@ -14,9 +14,9 @@ GameObject:
   - component: {fileID: 6683331436838601163}
   - component: {fileID: 1036311000123211887}
   - component: {fileID: 901908171243112950}
-  - component: {fileID: 409630937367415304}
   - component: {fileID: 2602595999400006148}
   - component: {fileID: 6776577113588359612}
+  - component: {fileID: -5680902333907842237}
   m_Layer: 0
   m_Name: 1_Cake
   m_TagString: Mob
@@ -162,6 +162,8 @@ MonoBehaviour:
   detectRadius: 15
   viewDistance: 15
   fovAngle: 80
+  rotationSpeed: 360
+  currentViewDirection: {x: 0, y: 1}
   target: {fileID: 0}
   anim: {fileID: 7848182402521066036}
   questionMarkPrefab: {fileID: 8768382743714012739, guid: cd3cf4424527366438d63bec7342f42a, type: 3}
@@ -174,6 +176,7 @@ MonoBehaviour:
   hitSfxVolume: 1
   deathSfx: {fileID: 0}
   deathSfxVolume: 1
+  isSensing: 0
 --- !u!114 &901908171243112950
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -191,27 +194,6 @@ MonoBehaviour:
   alpha: 0.35
   ringColor: {r: 0.2, g: 0.7, b: 1, a: 0.6}
   fovColor: {r: 1, g: 0.9, b: 0.1, a: 0.35}
---- !u!114 &409630937367415304
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2935279607592298187}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9d74f2498c561c840a61d629b5ac5216, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pattern: 0
-  halfSize: {x: 1.5, y: 1}
-  crossRadius: 1.5
-  patrolSpeed: 3
-  arriveDist: 0.05
-  waitAtPoint: 0.5
-  pingPong: 1
-  approachOnProximity: 1
-  suspicionSpeed: 2
 --- !u!114 &2602595999400006148
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -298,3 +280,24 @@ PolygonCollider2D:
       - {x: -0.16, y: -0.75}
       - {x: 0.34, y: -0.74}
   m_UseDelaunayMesh: 0
+--- !u!114 &-5680902333907842237
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2935279607592298187}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d74f2498c561c840a61d629b5ac5216, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pattern: 0
+  halfSize: {x: 1.5, y: 1}
+  crossRadius: 1.5
+  patrolSpeed: 3
+  arriveDist: 0.05
+  waitAtPoint: 0.4
+  pingPong: 1
+  approachOnProximity: 1
+  suspicionSpeed: 2

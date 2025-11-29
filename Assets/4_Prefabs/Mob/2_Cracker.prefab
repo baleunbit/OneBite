@@ -13,8 +13,8 @@ GameObject:
   - component: {fileID: 7966440164138284460}
   - component: {fileID: 914713878991305970}
   - component: {fileID: 3003531387995840494}
-  - component: {fileID: 5526343335363277939}
   - component: {fileID: 1090293646835280750}
+  - component: {fileID: -925661716165497226}
   m_Layer: 0
   m_Name: 2_Cracker
   m_TagString: Mob
@@ -138,6 +138,8 @@ MonoBehaviour:
   detectRadius: 15
   viewDistance: 15
   fovAngle: 80
+  rotationSpeed: 360
+  currentViewDirection: {x: 0, y: 1}
   target: {fileID: 0}
   anim: {fileID: 0}
   questionMarkPrefab: {fileID: 8768382743714012739, guid: cd3cf4424527366438d63bec7342f42a, type: 3}
@@ -150,6 +152,7 @@ MonoBehaviour:
   hitSfxVolume: 1
   deathSfx: {fileID: 0}
   deathSfxVolume: 1
+  isSensing: 0
 --- !u!114 &3003531387995840494
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -167,27 +170,6 @@ MonoBehaviour:
   alpha: 0.35
   ringColor: {r: 0.2, g: 0.7, b: 1, a: 0.6}
   fovColor: {r: 1, g: 0.9, b: 0.1, a: 0.35}
---- !u!114 &5526343335363277939
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5406168208661162779}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9d74f2498c561c840a61d629b5ac5216, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pattern: 0
-  halfSize: {x: 1.5, y: 1}
-  crossRadius: 1.5
-  patrolSpeed: 3
-  arriveDist: 0.05
-  waitAtPoint: 0.5
-  pingPong: 1
-  approachOnProximity: 1
-  suspicionSpeed: 2
 --- !u!60 &1090293646835280750
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -264,3 +246,24 @@ PolygonCollider2D:
       - {x: 0.17, y: -0.84}
       - {x: 0.11, y: -0.78999996}
   m_UseDelaunayMesh: 0
+--- !u!114 &-925661716165497226
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5406168208661162779}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d74f2498c561c840a61d629b5ac5216, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pattern: 0
+  halfSize: {x: 1.5, y: 1}
+  crossRadius: 1.5
+  patrolSpeed: 3
+  arriveDist: 0.05
+  waitAtPoint: 0.4
+  pingPong: 1
+  approachOnProximity: 1
+  suspicionSpeed: 2

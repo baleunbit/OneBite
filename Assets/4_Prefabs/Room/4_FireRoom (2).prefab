@@ -597,7 +597,7 @@ MonoBehaviour:
   requireClearRoom: 1
   blockedMessage: "\uC544\uC9C1 \uC801\uC774 \uB0A8\uC544 \uC788\uC5B4!"
   doorAnimator: {fileID: 0}
-  clearCheckInterval: 0.25
+  anim: {fileID: 0}
 --- !u!61 &5640026806114674396
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -754,7 +754,7 @@ MonoBehaviour:
   requireClearRoom: 1
   blockedMessage: "\uC544\uC9C1 \uC801\uC774 \uB0A8\uC544 \uC788\uC5B4!"
   doorAnimator: {fileID: 3193395521208938516}
-  clearCheckInterval: 0.25
+  anim: {fileID: 0}
 --- !u!61 &7312426769298348650
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -823,38 +823,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!1 &2666738376251758662
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 8676334952461488385}
-  m_Layer: 0
-  m_Name: Point
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &8676334952461488385
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2666738376251758662}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -4.02, y: 0.73, z: 0}
-  m_LocalScale: {x: 0.27804807, y: 0.5931488, z: 0.31680223}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 181249186034448804}
-  m_Father: {fileID: 5236025404465170387}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2772236251612329802
 GameObject:
   m_ObjectHideFlags: 0
@@ -1058,13 +1026,13 @@ Transform:
   m_GameObject: {fileID: 4445273959655675781}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 29.993412, y: 9.471012, z: 0}
-  m_LocalScale: {x: 1, y: 1.0091999, z: 1}
+  m_LocalPosition: {x: 4.3196087, y: 6.3477206, z: 0}
+  m_LocalScale: {x: 0.2780481, y: 0.5986057, z: 0.31680223}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3305035190762942392}
   - {fileID: 4834880014369178214}
-  m_Father: {fileID: 8676334952461488385}
+  m_Father: {fileID: 5236025404465170387}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4761359569828662359
 GameObject:
@@ -1344,7 +1312,6 @@ GameObject:
   - component: {fileID: 5323555571044076115}
   - component: {fileID: 4204919199256226044}
   - component: {fileID: 7876779630820023935}
-  - component: {fileID: 3550232207603109758}
   - component: {fileID: 1621863120191970275}
   m_Layer: 0
   m_Name: 4_FireRoom (2)
@@ -1374,7 +1341,7 @@ Transform:
   - {fileID: 4807584543252571850}
   - {fileID: 8664259729124319847}
   - {fileID: 210043108726437535}
-  - {fileID: 8676334952461488385}
+  - {fileID: 181249186034448804}
   - {fileID: 5665676458679732790}
   - {fileID: 3336998432055888591}
   - {fileID: 7633247084355473091}
@@ -1536,27 +1503,6 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 6.5578356, y: 7.571127}
   m_EdgeRadius: 0
---- !u!114 &3550232207603109758
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6008022591430521491}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 13f4bcf7202522b4b965dcbf125fc707, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  generator: {fileID: 0}
-  player: {fileID: 0}
-  activateDelay: 0.75
-  reenterCooldown: 0.4
-  exitOffset: {x: 0, y: 0.75}
-  requireClearRoom: 1
-  blockedMessage: "\uC544\uC9C1 \uC801\uC774 \uB0A8\uC544 \uC788\uC5B4!"
-  doorAnimator: {fileID: 0}
-  clearCheckInterval: 0.25
 --- !u!114 &1621863120191970275
 MonoBehaviour:
   m_ObjectHideFlags: 0

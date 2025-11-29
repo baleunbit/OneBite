@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 4382234108304551416}
   - component: {fileID: 879010949759104997}
   - component: {fileID: 895872048377467577}
-  - component: {fileID: 4425909458677046179}
   - component: {fileID: 9106010179484021035}
   m_Layer: 0
   m_Name: 4_FireRoom (1)
@@ -42,7 +41,7 @@ Transform:
   - {fileID: 8083534975576599049}
   - {fileID: 6124516756345119409}
   - {fileID: 5504112398229036584}
-  - {fileID: 6748272930837452297}
+  - {fileID: 5533955830088260367}
   - {fileID: 7147340749030794581}
   - {fileID: 1062658757316488024}
   - {fileID: 4044947142704482585}
@@ -204,27 +203,6 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 6.5578356, y: 7.571127}
   m_EdgeRadius: 0
---- !u!114 &4425909458677046179
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 966212559828144017}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 13f4bcf7202522b4b965dcbf125fc707, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  generator: {fileID: 0}
-  player: {fileID: 0}
-  activateDelay: 0.75
-  reenterCooldown: 0.4
-  exitOffset: {x: 0, y: 0.75}
-  requireClearRoom: 1
-  blockedMessage: "\uC544\uC9C1 \uC801\uC774 \uB0A8\uC544 \uC788\uC5B4!"
-  doorAnimator: {fileID: 0}
-  clearCheckInterval: 0.25
 --- !u!114 &9106010179484021035
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -282,38 +260,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85fd48604732a4c4e87ce85d79327b22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &1511434538667068225
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 6748272930837452297}
-  m_Layer: 0
-  m_Name: Point
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &6748272930837452297
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1511434538667068225}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -4.02, y: 0.73, z: 0}
-  m_LocalScale: {x: 0.27804807, y: 0.5931488, z: 0.31680223}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 5533955830088260367}
-  m_Father: {fileID: 4203086857880850446}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1536555954287742100
 GameObject:
   m_ObjectHideFlags: 0
@@ -733,7 +679,7 @@ MonoBehaviour:
   requireClearRoom: 1
   blockedMessage: "\uC544\uC9C1 \uC801\uC774 \uB0A8\uC544 \uC788\uC5B4!"
   doorAnimator: {fileID: 0}
-  clearCheckInterval: 0.25
+  anim: {fileID: 0}
 --- !u!61 &7257443475060073219
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1071,13 +1017,13 @@ Transform:
   m_GameObject: {fileID: 5827150571122008075}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 29.993412, y: 9.471012, z: 0}
-  m_LocalScale: {x: 1, y: 1.0091999, z: 1}
+  m_LocalPosition: {x: 4.3196087, y: 6.3477206, z: 0}
+  m_LocalScale: {x: 0.2780481, y: 0.5986057, z: 0.31680223}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8913471466600561608}
   - {fileID: 7886290903540347872}
-  m_Father: {fileID: 6748272930837452297}
+  m_Father: {fileID: 4203086857880850446}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6295092081582772270
 GameObject:
@@ -2125,7 +2071,7 @@ MonoBehaviour:
   requireClearRoom: 1
   blockedMessage: "\uC544\uC9C1 \uC801\uC774 \uB0A8\uC544 \uC788\uC5B4!"
   doorAnimator: {fileID: 4218606071651090282}
-  clearCheckInterval: 0.25
+  anim: {fileID: 0}
 --- !u!61 &1741255235516447813
 BoxCollider2D:
   m_ObjectHideFlags: 0
