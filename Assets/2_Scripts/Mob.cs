@@ -32,6 +32,9 @@ public class Mob : MonoBehaviour
     [Header("SFX")] public AudioClip hitSfx; [Range(0f, 1f)] public float hitSfxVolume = 0.8f;
     public AudioClip deathSfx; [Range(0f, 1f)] public float deathSfxVolume = 1f;
 
+    [Header("회전 속도")]
+    public float alertRotationSpeed = 60f;  // 의심/발각 시 플레이어 보게 하는 속도
+
     public bool IsAlerted => hasSpotted;
     public bool IsAlive => isLive;
 
@@ -89,6 +92,9 @@ public class Mob : MonoBehaviour
         // 1. 발각 여부 체크 (hasSpotted == false)
         if (!hasSpotted)
         {
+            var patrol = GetComponent<MobPatrolAuto2D>();
+            if (patrol) patrol.Tick();
+
             Vector2 toTarget = target.position - rb.position;
             float sqrDist = toTarget.sqrMagnitude;
             

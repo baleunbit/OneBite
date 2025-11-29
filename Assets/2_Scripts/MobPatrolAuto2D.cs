@@ -119,11 +119,13 @@ public class MobPatrolAuto2D : MonoBehaviour
         else
         {
             Vector2 step = (target - cur).normalized * patrolSpeed * Time.fixedDeltaTime;
+            mob.currentViewDirection = step.normalized;
             rb.MovePosition(cur + step);
             rb.linearVelocity = Vector2.zero;
 
-            if (sr && Mathf.Abs(step.x) > 0.001f)
-                sr.flipX = step.x < 0f;
+            // 수정된 sprite 방향 동기화 (시야 기준)
+            if (sr && Mathf.Abs(mob.currentViewDirection.x) > 0.001f)
+                sr.flipX = mob.currentViewDirection.x < 0f;
         }
     }
 
