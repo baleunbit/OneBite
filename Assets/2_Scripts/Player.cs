@@ -156,7 +156,7 @@ public class Player : MonoBehaviour
                 biteRangeBonus += 1f;
                 var bite = GetComponent<Bite>();
                 if (bite) bite.biteRange += 1f;
-                Debug.Log("한입 범위 +1");
+                Debug.Log("한입 범위 -1");
                 break;
         }
         UIManager.Instance?.HideLevelUpPanel();

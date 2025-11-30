@@ -11,7 +11,7 @@ public class MobPatrolAuto2D : MonoBehaviour
     public float crossRadius = 1.5f;
 
     [Header("이동/대기")]
-    public float patrolSpeed = 3f;
+    public float patrolSpeed = 10f;
     public float arriveDist = 0.05f;
     public float waitAtPoint = 0.4f;
     public bool pingPong = true;

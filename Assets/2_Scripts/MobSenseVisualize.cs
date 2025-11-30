@@ -48,43 +48,39 @@ public class MobSenseVisualize : MonoBehaviour
 
     void UpdateForwardDirection()
     {
-        if (!mob || !mob.target)
-        {
-            currentForward = Vector2.up;
-            mob.currentViewDirection = currentForward;
-            return;
-        }
-
         Vector2 mobPos2D = transform.position;
         Vector2 target2D = mob.target.position;
 
         Vector2 targetDirection;
+        float rotationToUse;
 
-        // 1) 발각된 상태 → 플레이어 방향 강제
+        // 1) 발각 상태
         if (mob.IsAlerted)
         {
             targetDirection = (target2D - mobPos2D).normalized;
+            rotationToUse = mob.alertRotationSpeed;
         }
-        // 2) 의심 상태 → 플레이어 방향으로 회전
+        // 2) 의심 상태
         else if (mob.isSensing)
         {
             targetDirection = (target2D - mobPos2D).normalized;
+            rotationToUse = mob.alertRotationSpeed;
         }
-        // 3) 순찰 상태 → 순찰 이동 방향 사용
+        // 3) 순찰 상태
         else
         {
-            targetDirection = mob.currentViewDirection;   // ★ 핵심 수정!
+            targetDirection = mob.currentViewDirection;
+            currentForward = targetDirection;
+            mob.currentViewDirection = currentForward;
+            return; // ★ 순찰은 여기서 끝!
         }
 
-        // 회전 처리
+        // 4) 회전 처리 (발각/의심 전용)
         float angle = Vector2.SignedAngle(currentForward, targetDirection);
-        angle = Mathf.MoveTowards(0f, angle, mob.rotationSpeed * Time.deltaTime);
-
+        angle = Mathf.MoveTowards(0f, angle, rotationToUse * Time.deltaTime);
         currentForward = Quaternion.Euler(0, 0, angle) * currentForward;
-
         mob.currentViewDirection = currentForward;
     }
-
 
     void DrawRing()
     {

@@ -9,6 +9,7 @@ TagManager:
   - Bullet
   - GameObject
   - Crosshair
+  - Boss
   layers:
   - Default
   - TransparentFX
