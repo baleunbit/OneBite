@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 [ExecuteAlways]
 [RequireComponent(typeof(RectTransform))]
-public class UIFollowTarget : MonoBehaviour
+public class UIFollow : MonoBehaviour
 {
     public Transform target;                // 따라갈 대상(플레이어)
     public Vector3 worldOffset = new Vector3(0, 1.2f, 0); // 월드 기준 오프셋(월드 스페이스용)

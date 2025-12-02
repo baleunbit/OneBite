@@ -17,6 +17,9 @@ public class Player : MonoBehaviour
     public float biteRangeBonus = 0f;      // 한입 범위 증가
     public float quietStepBonus = 0f;      // 조용한 발걸음(적 ? 범위 감소)
 
+    [Header("HP Follow")]
+    public Image whiteHealthBar;
+    public float whiteBarFollowSpeed = 4f;
 
     // Player 쪽에 상태 플래그
     public bool IsBusyWithBite { get; private set; }
@@ -86,6 +89,22 @@ public class Player : MonoBehaviour
     {
         ani?.SetFloat("Speed", input.sqrMagnitude);
         if (input.x > 0) spriter.flipX = false; else if (input.x < 0) spriter.flipX = true;
+
+        // === White HP bar delayed follow ===
+        if (whiteHealthBar && healthBarImage)
+        {
+            float target = healthBarImage.fillAmount;
+
+            if (whiteHealthBar.fillAmount > target)
+            {
+                whiteHealthBar.fillAmount =
+                    Mathf.Lerp(whiteHealthBar.fillAmount, target, Time.deltaTime * whiteBarFollowSpeed);
+            }
+            else
+            {
+                whiteHealthBar.fillAmount = target;
+            }
+        }
     }
 
     // ===== 체력 =====
@@ -97,7 +116,12 @@ public class Player : MonoBehaviour
         if (health <= 0) Die();
     }
     public void DieFromHunger() { if (isDead) return; health = 0; UpdateHealthBar(); Die(); }
-    void UpdateHealthBar() { if (healthBarImage) healthBarImage.fillAmount = (float)health / maxHealth; }
+    void UpdateHealthBar()
+    {
+        if (healthBarImage)
+            healthBarImage.fillAmount = (float)health / maxHealth;
+    }
+
     void Die()
     {
         if (isDead) return;
