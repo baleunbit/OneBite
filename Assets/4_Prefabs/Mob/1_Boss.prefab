@@ -132,6 +132,7 @@ GameObject:
   - component: {fileID: 2052418854219560871}
   - component: {fileID: 6561448481377686469}
   - component: {fileID: 8038146395796853626}
+  - component: {fileID: 6675464911916485133}
   m_Layer: 0
   m_Name: 1_Boss
   m_TagString: Boss
@@ -351,6 +352,9 @@ MonoBehaviour:
   firePoints: []
   shootInterval: 4
   projectileSpeed: 6
+  bossBar: {fileID: 0}
+  bossName: "\uCD08\uCF5C\uB9BF \uBCF4\uC2A4"
+  canAct: 0
 --- !u!114 &8038146395796853626
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -365,7 +369,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   visual: {fileID: 2840022674508221377}
   rotateSpeed: 90
-  shakeAmount: 0.2
-  shakeSpeed: 10
+  rotateEnabled: 0
   appearHeight: 5
   appearSpeed: 1
+  bossAI: {fileID: 0}
+--- !u!114 &6675464911916485133
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6352310027842234872}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9766939b6a1aa8e439a8ef8e2d6600c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

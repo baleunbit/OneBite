@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 2102460730286926081}
   - component: {fileID: 6394178160487167325}
   - component: {fileID: -1556318345951593342}
+  - component: {fileID: 8692370142950494290}
   m_Layer: 0
   m_Name: 1_Pudding
   m_TagString: Mob
@@ -152,6 +153,7 @@ MonoBehaviour:
   hitSfxVolume: 1
   deathSfx: {fileID: 0}
   deathSfxVolume: 1
+  alertRotationSpeed: 60
   isSensing: 0
 --- !u!114 &2102460730286926081
 MonoBehaviour:
@@ -256,3 +258,15 @@ MonoBehaviour:
   pingPong: 1
   approachOnProximity: 1
   suspicionSpeed: 2
+--- !u!114 &8692370142950494290
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2080935063134399234}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9766939b6a1aa8e439a8ef8e2d6600c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

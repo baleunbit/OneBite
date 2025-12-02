@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 417816985343646310}
   - component: {fileID: 6065965925056092247}
   - component: {fileID: -2102641532646969050}
+  - component: {fileID: 4764277353933852587}
   m_Layer: 0
   m_Name: 3_IceCream
   m_TagString: Mob
@@ -152,6 +153,7 @@ MonoBehaviour:
   hitSfxVolume: 1
   deathSfx: {fileID: 0}
   deathSfxVolume: 1
+  alertRotationSpeed: 60
   isSensing: 0
 --- !u!114 &417816985343646310
 MonoBehaviour:
@@ -254,3 +256,15 @@ MonoBehaviour:
   pingPong: 1
   approachOnProximity: 1
   suspicionSpeed: 2
+--- !u!114 &4764277353933852587
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5047303742285198552}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9766939b6a1aa8e439a8ef8e2d6600c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

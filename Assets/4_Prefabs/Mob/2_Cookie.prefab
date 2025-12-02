@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 9200602578933991893}
   - component: {fileID: 5059809411453635881}
   - component: {fileID: -6703456464813041660}
+  - component: {fileID: 2035897314172777122}
   m_Layer: 0
   m_Name: 2_Cookie
   m_TagString: Mob
@@ -152,6 +153,7 @@ MonoBehaviour:
   hitSfxVolume: 1
   deathSfx: {fileID: 0}
   deathSfxVolume: 1
+  alertRotationSpeed: 60
   isSensing: 0
 --- !u!114 &9200602578933991893
 MonoBehaviour:
@@ -269,3 +271,15 @@ MonoBehaviour:
   pingPong: 1
   approachOnProximity: 1
   suspicionSpeed: 2
+--- !u!114 &2035897314172777122
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 469530305846388889}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9766939b6a1aa8e439a8ef8e2d6600c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

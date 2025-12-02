@@ -176,6 +176,7 @@ MonoBehaviour:
   hitSfxVolume: 1
   deathSfx: {fileID: 0}
   deathSfxVolume: 1
+  alertRotationSpeed: 60
   isSensing: 0
 --- !u!114 &901908171243112950
 MonoBehaviour:

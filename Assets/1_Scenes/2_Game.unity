@@ -2173,7 +2173,8 @@ MonoBehaviour:
     - {fileID: 1871627119834843751, guid: 1ceadff805f88b34095a2cab706a44eb, type: 3}
   - stage: 3
     enemies:
-    - {fileID: 6595793593659005269, guid: 210b388a0856e584cb2422ab1d6d4359, type: 3}
+    - {fileID: 2784705160554889716, guid: b6f78d47ef0477842923ffa3a13c3dee, type: 3}
+    - {fileID: 5047303742285198552, guid: 787b7eb8792a2af4cbfe862923b789c8, type: 3}
     - {fileID: 5047303742285198552, guid: 787b7eb8792a2af4cbfe862923b789c8, type: 3}
   - stage: 4
     enemies:

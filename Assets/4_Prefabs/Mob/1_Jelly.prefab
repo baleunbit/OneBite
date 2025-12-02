@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 9064681499742167542}
   - component: {fileID: 2483776494360354565}
   - component: {fileID: -1037034260484899570}
+  - component: {fileID: -7957132436108219544}
   m_Layer: 0
   m_Name: 1_Jelly
   m_TagString: Mob
@@ -152,6 +153,7 @@ MonoBehaviour:
   hitSfxVolume: 1
   deathSfx: {fileID: 0}
   deathSfxVolume: 1
+  alertRotationSpeed: 60
   isSensing: 0
 --- !u!60 &9064681499742167542
 PolygonCollider2D:
@@ -256,3 +258,15 @@ MonoBehaviour:
   pingPong: 1
   approachOnProximity: 1
   suspicionSpeed: 2
+--- !u!114 &-7957132436108219544
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4138351207376759854}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9766939b6a1aa8e439a8ef8e2d6600c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

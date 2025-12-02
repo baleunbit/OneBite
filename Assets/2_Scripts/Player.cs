@@ -12,10 +12,10 @@ public class Player : MonoBehaviour
     [SerializeField] private int exp = 0;
 
     [Header("강화 스탯")]
-    public int weaponDamageBonus = 0;      // 무기 공격력 +X
-    public float moveSpeedBonus = 0f;      // 이동속도 +X%
-    public float biteRangeBonus = 0f;      // 한입 범위 증가
-    public float quietStepBonus = 0f;      // 조용한 발걸음(적 ? 범위 감소)
+    public int weaponDamageBonus = 1;      // 무기 공격력 +X
+    public float moveSpeedBonus = 1f;      // 이동속도 +X%
+    public float biteRangeBonus = 0.5f;      // 한입 범위 증가
+    public float quietStepBonus = 1f;      // 조용한 발걸음(적 ? 범위 감소)
 
     [Header("HP Follow")]
     public Image whiteHealthBar;
