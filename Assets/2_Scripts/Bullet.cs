@@ -6,7 +6,7 @@ public class Bullet : MonoBehaviour
     public float speed = 15f;
     public float lifeTime = 1.0f;
 
-    float damage;
+    [SerializeField] public float damage;
     int pierce;                 // 남은 관통 횟수
     Rigidbody2D rb;
 
@@ -47,6 +47,13 @@ public class Bullet : MonoBehaviour
             mob.TakeDamage(Mathf.RoundToInt(damage));
             pierce--;
             if (pierce <= 0) Destroy(gameObject);
+            return;
+        }
+
+        if (col.CompareTag("Boss"))
+        {
+            col.GetComponent<Boss>()?.TakeDamage((int)damage);
+            Destroy(gameObject);
             return;
         }
 

@@ -47,27 +47,40 @@ public class Boss : MonoBehaviour
 
     void Shoot()
     {
-        if (firePoints.Length == 0) return;
+        // 1) 투사체 생성
+        GameObject proj = Instantiate(projectile, firePoint.position, firePoint.rotation);
 
-        foreach (var p in firePoints)
+        // 2) Rigidbody2D 로 속도 부여
+        Rigidbody2D rb = proj.GetComponent<Rigidbody2D>();
+        if (rb != null)
         {
-            GameObject proj = Instantiate(projectilePrefab, p.position, p.rotation);
-            Rigidbody2D rb = proj.GetComponent<Rigidbody2D>();
+            rb.linearVelocity = firePoint.right * projectileSpeed;   // Unity 6 기준
+        }
 
-            if (rb)
-                rb.linearVelocity = p.right * projectileSpeed;
+        // 3) Bullet.cs에 데미지 전달
+        Bullet b = proj.GetComponent<Bullet>();
+        if (b != null)
+        {
+            b.damage = projectileDamage;   // public damage 이어야 함
         }
     }
 
     public void TakeDamage(int dmg)
     {
+        Debug.Log($"[Boss] 피격됨! dmg={dmg}, hpBefore={hp}");
+
         hp -= dmg;
+
+        Debug.Log($"[Boss] hpAfter={hp}");
 
         if (bossBar != null)
             bossBar.UpdateHP(hp, maxHP);
 
         if (hp <= 0)
+        {
+            Debug.Log("[Boss] 사망 함수 호출");
             Die();
+        }
     }
 
     void Die()

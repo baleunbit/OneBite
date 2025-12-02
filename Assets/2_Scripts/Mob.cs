@@ -56,8 +56,9 @@ public class Mob : MonoBehaviour
         sr = GetComponent<SpriteRenderer>();
         mobSenseVisualize = GetComponent<MobSenseVisualize>();
         currentHP = Mathf.Max(1, maxHP);
-        
-        currentViewDirection = Vector2.up;
+
+        float a = Random.Range(0f, 360f);
+        currentViewDirection = new Vector2(Mathf.Cos(a * Mathf.Deg2Rad), Mathf.Sin(a * Mathf.Deg2Rad)).normalized;
 
         if (!target)
         {
