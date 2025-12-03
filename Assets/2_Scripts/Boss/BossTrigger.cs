@@ -8,10 +8,25 @@ public class BossTrigger : MonoBehaviour
     public BossBar bossBar;     // 체력바 UI
 
     private bool triggered = false;
+    bool entered = false;
 
-    private void OnTriggerEnter2D(Collider2D other)
+    void OnTriggerEnter2D(Collider2D col)
     {
-        TryTrigger(other);
+        if (entered) return;
+        if (!col.CompareTag("Player")) return;
+
+        entered = true;
+
+        Debug.Log("[BossTrigger] 플레이어 보스 방 입장 → 보스 시작");
+
+        // 1) 보스 바 켜기
+        bossBar.Show(bossAI.bossName, bossAI.maxHP);
+
+        // 2) 등장 연출 시작
+        bossRoot.StartAppear();
+
+        // 3) 보스 패턴 시작
+        bossAI.StartPattern();
     }
 
     private void OnTriggerStay2D(Collider2D other)

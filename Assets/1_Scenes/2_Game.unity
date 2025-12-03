@@ -603,7 +603,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0.12593721, y: 86.84155}
+  m_AnchoredPosition: {x: 0.12595905, y: 86.84158}
   m_SizeDelta: {x: 22.535, y: 4.678}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &88877569
@@ -1124,7 +1124,7 @@ Transform:
   m_GameObject: {fileID: 315458525}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -146.7, y: -142, z: -1}
+  m_LocalPosition: {x: 87.9, y: -147, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1628,6 +1628,18 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 757568938}
     - target: {fileID: 2290631933291188543, guid: 445610f1592ae7c428f912c592a17b9f, type: 3}
+      propertyPath: bossName
+      value: BOSS
+      objectReference: {fileID: 0}
+    - target: {fileID: 2290631933291188543, guid: 445610f1592ae7c428f912c592a17b9f, type: 3}
+      propertyPath: firePoint
+      value: 
+      objectReference: {fileID: 2109892225}
+    - target: {fileID: 2290631933291188543, guid: 445610f1592ae7c428f912c592a17b9f, type: 3}
+      propertyPath: bossBullet
+      value: 
+      objectReference: {fileID: 6578160224776761967, guid: 61594293acbfe4948b922872aaca9c6a, type: 3}
+    - target: {fileID: 2290631933291188543, guid: 445610f1592ae7c428f912c592a17b9f, type: 3}
       propertyPath: firePoints.Array.size
       value: 1
       objectReference: {fileID: 0}
@@ -1647,6 +1659,14 @@ PrefabInstance:
       propertyPath: bossBar
       value: 
       objectReference: {fileID: 757568938}
+    - target: {fileID: 7182905681256237371, guid: 445610f1592ae7c428f912c592a17b9f, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.101
+      objectReference: {fileID: 0}
+    - target: {fileID: 7182905681256237371, guid: 445610f1592ae7c428f912c592a17b9f, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.124
+      objectReference: {fileID: 0}
     - target: {fileID: 7749397074239670649, guid: 445610f1592ae7c428f912c592a17b9f, type: 3}
       propertyPath: m_Name
       value: 1_BossRoom
@@ -1774,10 +1794,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 757568935}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.91800123, y: 0}
-  m_AnchorMax: {x: 0.91800123, y: 1}
-  m_AnchoredPosition: {x: -56.66, y: -3}
-  m_SizeDelta: {x: 136.861, y: -19.128}
+  m_AnchorMin: {x: 1, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -42.93, y: -1.9020004}
+  m_SizeDelta: {x: 110.9, y: -8.979}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &436979740
 MonoBehaviour:
@@ -2400,7 +2420,7 @@ Transform:
   m_GameObject: {fileID: 546217742}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -146.7, y: -142, z: 0}
+  m_LocalPosition: {x: 87.9, y: -147, z: 0}
   m_LocalScale: {x: 3.5, y: 3.5, z: 3.5}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2426,10 +2446,10 @@ MonoBehaviour:
   healthBarImage: {fileID: 1108112211}
   level: 1
   exp: 0
-  weaponDamageBonus: 0
-  moveSpeedBonus: 0
-  biteRangeBonus: 0
-  quietStepBonus: 0
+  weaponDamageBonus: 1
+  moveSpeedBonus: 1
+  biteRangeBonus: 0.5
+  quietStepBonus: 1
   whiteHealthBar: {fileID: 1517460740}
   whiteBarFollowSpeed: 4
 --- !u!50 &546217747
@@ -2921,7 +2941,7 @@ Transform:
   m_GameObject: {fileID: 718230527}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -146.7, y: -142, z: -1}
+  m_LocalPosition: {x: 87.9, y: -147, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2958,15 +2978,15 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 436979739}
   - {fileID: 863208231}
+  - {fileID: 436979739}
   - {fileID: 1212075611}
   m_Father: {fileID: 951296536}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: -791.2, y: 216.29999}
-  m_SizeDelta: {x: 163.458, y: 33.931}
+  m_AnchoredPosition: {x: 0.00001812, y: 133.19}
+  m_SizeDelta: {x: 100, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &757568936
 MonoBehaviour:
@@ -3308,10 +3328,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 757568935}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.91800004, y: 0}
-  m_AnchorMax: {x: 0.91800004, y: 1}
-  m_AnchoredPosition: {x: -56.977, y: -3}
-  m_SizeDelta: {x: 136.227, y: -17.581}
+  m_AnchorMin: {x: 1, y: 1}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -43.006, y: -11.863}
+  m_SizeDelta: {x: 82.981, y: 8.031}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &863208232
 MonoBehaviour:
@@ -4629,8 +4649,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -50.447014, y: -24.707996}
-  m_SizeDelta: {x: 62.564, y: 24.708}
+  m_AnchoredPosition: {x: -37.499996, y: -10}
+  m_SizeDelta: {x: 25, y: 10}
   m_Pivot: {x: 1, y: 0}
 --- !u!114 &1212075612
 MonoBehaviour:
@@ -4679,8 +4699,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 30
-  m_fontSizeBase: 30
+  m_fontSize: 10
+  m_fontSizeBase: 10
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
