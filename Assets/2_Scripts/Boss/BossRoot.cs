@@ -32,8 +32,8 @@ public class BossRoot : MonoBehaviour
         bossAI.canAct = false;
         rotateEnabled = false;
 
-        Vector3 startPos = transform.position + Vector3.up * appearHeight;
-        Vector3 endPos = transform.position;
+        Vector3 originalPos = transform.position;       // 보스 배치된 위치
+        Vector3 startPos = originalPos + Vector3.up * 3f;  // Y+3 에서 시작
 
         transform.position = startPos;
 
@@ -41,7 +41,7 @@ public class BossRoot : MonoBehaviour
         while (t < 1f)
         {
             t += Time.deltaTime * appearSpeed;
-            transform.position = Vector3.Lerp(startPos, endPos, t);
+            transform.position = Vector3.Lerp(startPos, originalPos, t);
             yield return null;
         }
 

@@ -8,57 +8,60 @@ public class Mob : MonoBehaviour
     [Header("공격")] public int minDamage = 3; public int maxDamage = 5; public float attackCooldown = 1f;
 
     [Header("탐지")]
-    public float detectRadius = 4f;       // 경계 시작 범위 (부채꼴 회전 시작)
-    public float viewDistance = 6f;       // 부채꼴 길이
+    public float detectRadius = 4f;
+    public float viewDistance = 6f;
     [Range(0, 180)] public float fovAngle = 80f;
 
-    [Header("시야 회전")]
-    public float rotationSpeed = 360f; // 초당 회전 각도 (도/초)
-    [HideInInspector] public Vector2 currentViewDirection = Vector2.up; // 현재 부채꼴이 바라보는 방향
+    [Header("회전 속도")]
+    public float rotationSpeed = 360f;
+    public float alertRotationSpeed = 60f;
 
-    [Header("참조")] public Rigidbody2D target; [SerializeField] Animator anim;
+    [Header("참조")]
+    public Rigidbody2D target;
+    [SerializeField] Animator anim;
 
-    [Header("표식 프리팹(자식 오브젝트는 안 씀)")]
+    [Header("표식 프리팹")]
     public GameObject questionMarkPrefab;
     public GameObject exclamationMarkPrefab;
 
-    [Header("마커 표시 옵션")]
+    [Header("마커 옵션")]
     public Vector2 markerOffset = new Vector2(0f, 0.9f);
     public float markerScale = 0.8f;
     public bool keepUpright = true;
 
     [Header("체력")] public int maxHP = 30;
 
-    [Header("SFX")] public AudioClip hitSfx; [Range(0f, 1f)] public float hitSfxVolume = 0.8f;
-    public AudioClip deathSfx; [Range(0f, 1f)] public float deathSfxVolume = 1f;
-
-    [Header("회전 속도")]
-    public float alertRotationSpeed = 60f;  // 의심/발각 시 플레이어 보게 하는 속도
-
     public bool IsAlerted => hasSpotted;
     public bool IsAlive => isLive;
 
-    int currentHP; bool isLive = true; bool hasSpotted = false;
-    float nextAttackTime = 0f; bool dealtThisFixed = false;
-    public bool isSensing = false; // 경계 상태 변수 추가
+    public Vector2 currentViewDirection = Vector2.up;
+    public bool isSensing = false;
 
     Rigidbody2D rb; SpriteRenderer sr;
+    GameObject _qm, _em;
+    int currentHP;
+    bool isLive = true;
+    bool hasSpotted = false;
+    float nextAttackTime = 0f;
+    bool dealtThisFixed = false;
+
     int hashIsWalk, Attack;
 
-    // 내부에서만 관리하는 마커 인스턴스
-    GameObject _qm, _em;
-
-    MobSenseVisualize mobSenseVisualize;
+    MobSenseVisualize sense;
 
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         sr = GetComponent<SpriteRenderer>();
-        mobSenseVisualize = GetComponent<MobSenseVisualize>();
-        currentHP = Mathf.Max(1, maxHP);
+        currentHP = maxHP;
+        sense = GetComponent<MobSenseVisualize>();
 
-        float a = Random.Range(0f, 360f);
-        currentViewDirection = new Vector2(Mathf.Cos(a * Mathf.Deg2Rad), Mathf.Sin(a * Mathf.Deg2Rad)).normalized;
+        // ★ 랜덤 시야 방향 (4방향 중 하나)
+        Vector2[] dirs = { Vector2.left, Vector2.right, Vector2.up, Vector2.down };
+        currentViewDirection = dirs[Random.Range(0, dirs.Length)];
+
+        // 시각화 시스템에도 초기 방향 전달
+        if (sense) sense.currentForward = currentViewDirection;
 
         if (!target)
         {
@@ -67,7 +70,11 @@ public class Mob : MonoBehaviour
         }
 
         if (!anim) anim = GetComponentInChildren<Animator>(true);
-        if (anim) { hashIsWalk = Animator.StringToHash("isWalk"); Attack = Animator.StringToHash("doAttack"); }
+        if (anim)
+        {
+            hashIsWalk = Animator.StringToHash("isWalk");
+            Attack = Animator.StringToHash("doAttack");
+        }
 
         if (questionMarkPrefab) _qm = Instantiate(questionMarkPrefab, transform);
         if (exclamationMarkPrefab) _em = Instantiate(exclamationMarkPrefab, transform);
@@ -77,6 +84,11 @@ public class Mob : MonoBehaviour
 
         ShowQuestion(false);
         ShowAlert(false);
+    }
+
+    public void RefreshSense()
+    {
+        if (sense != null) sense.ForceRedraw();
     }
 
     void FixedUpdate()
@@ -90,7 +102,6 @@ public class Mob : MonoBehaviour
             return;
         }
 
-        // 1. 발각 여부 체크 (hasSpotted == false)
         if (!hasSpotted)
         {
             var patrol = GetComponent<MobPatrolAuto2D>();
@@ -98,32 +109,29 @@ public class Mob : MonoBehaviour
 
             Vector2 toTarget = target.position - rb.position;
             float sqrDist = toTarget.sqrMagnitude;
-            
-            bool inDetectRange = sqrDist <= detectRadius * detectRadius;
-            bool inViewRange = CanSeePlayerInFOV(sqrDist); // 회전 중인 부채꼴에 닿았는지 체크
 
-            // 1-1. FOV에 닿으면 최종 발각 (Alerted)
-            if (inViewRange) 
+            bool inDetectRange = sqrDist <= detectRadius * detectRadius;
+            bool inViewRange = CanSeePlayerInFOV(sqrDist);
+
+            if (inViewRange)
             {
-                SetAlerted(); // hasSpotted = true, '!' 마커 표시
+                SetAlerted();
             }
-            // 1-2. detectRadius 안에 들어왔으면 경계 (Sensing) 시작
-            else if (inDetectRange) 
+            else if (inDetectRange)
             {
                 if (!isSensing)
                 {
-                    isSensing = true; // 경계 상태로 전환: MobSenseVisualize가 회전 시작
-                    ShowQuestion(true); // '?' 마커 표시
+                    isSensing = true;
+                    ShowQuestion(true);
                 }
-                // 경계 상태일 때: 정지 상태 유지 (바라보지 않음, 추격 안 함)
+
                 rb.linearVelocity = Vector2.zero;
                 if (anim) anim.SetBool(hashIsWalk, false);
                 return;
             }
-            // 1-3. 모든 범위 밖이면 대기 (Idle)
             else
             {
-                isSensing = false; // 경계 상태 해제: MobSenseVisualize가 고정 방향(위)으로 돌아옴
+                isSensing = false;
                 ShowQuestion(false);
                 ShowAlert(false);
                 rb.linearVelocity = Vector2.zero;
@@ -131,13 +139,10 @@ public class Mob : MonoBehaviour
                 return;
             }
         }
-        
-        // 2. 발각된 상태 (hasSpotted == true) 일 때만 추격 로직 실행
 
-        // 플레이어 위치로 자연스럽게 바라보기 (좌우만) 
+        // 추격
         sr.flipX = target.position.x < rb.position.x;
 
-        // 추격 이동
         Vector2 cur = rb.position;
         Vector2 dir = ((Vector2)target.position - cur).normalized;
         rb.MovePosition(cur + dir * Speed * Time.fixedDeltaTime);
@@ -152,10 +157,10 @@ public class Mob : MonoBehaviour
         UpdateMarkerTransform(_em);
     }
 
-    void OnCollisionEnter2D(Collision2D c) { TryAttack(c.collider); }
-    void OnCollisionStay2D(Collision2D c) { TryAttack(c.collider); }
-    void OnTriggerEnter2D(Collider2D c) { TryAttack(c); }
-    void OnTriggerStay2D(Collider2D c) { TryAttack(c); }
+    void OnCollisionEnter2D(Collision2D c) => TryAttack(c.collider);
+    void OnCollisionStay2D(Collision2D c) => TryAttack(c.collider);
+    void OnTriggerEnter2D(Collider2D c) => TryAttack(c);
+    void OnTriggerStay2D(Collider2D c) => TryAttack(c);
 
     void TryAttack(Collider2D col)
     {
@@ -176,30 +181,17 @@ public class Mob : MonoBehaviour
         dealtThisFixed = true;
     }
 
-    // ────────────────────────── FOV 감지 ──────────────────────────
     bool CanSeePlayerInFOV(float sqrDist)
     {
-        // 1. 거리 체크: viewDistance (6m) 내에 들어왔는지 확인
         if (sqrDist > viewDistance * viewDistance)
             return false;
 
-        // 2. 각도 체크: 시야 부채꼴 안에 들어왔는지 확인
         Vector2 toTarget = (Vector2)target.position - rb.position;
-        Vector2 directionToTarget = toTarget.normalized;
-        
-        // MobSenseVisualize에서 부드럽게 회전 중인 시야 방향 사용
-        Vector2 viewDir = currentViewDirection; 
-        
-        float angleToTarget = Vector2.Angle(viewDir, directionToTarget);
+        Vector2 dir = toTarget.normalized;
 
-        if (angleToTarget <= fovAngle * 0.5f)
-        {
-            return true;
-        }
-
-        return false;
+        float angle = Vector2.Angle(currentViewDirection, dir);
+        return angle <= fovAngle * 0.5f;
     }
-    // ───────────────────────────────────────────────────────────────────────
 
     void SetAlerted()
     {
@@ -209,67 +201,57 @@ public class Mob : MonoBehaviour
         ShowAlert(true);
     }
 
+    void ShowQuestion(bool on) { if (_qm) _qm.SetActive(on); }
+    void ShowAlert(bool on) { if (_em) _em.SetActive(on); }
+
+    void Die()
+    {
+        isLive = false;
+        ShowAlert(false); ShowQuestion(false);
+        foreach (var c in GetComponentsInChildren<Collider2D>()) c.enabled = false;
+        rb.simulated = false;
+        Destroy(gameObject);
+    }
+
     public void TakeDamage(int damage)
     {
         if (!isLive) return;
-        if (hitSfx) AudioSource.PlayClipAtPoint(hitSfx, transform.position, hitSfxVolume);
+
         currentHP -= Mathf.Max(1, damage);
+
+        // 병아리 → 의심/발각 전환
         SetAlerted();
-        if (currentHP <= 0) Die();
+
+        if (currentHP <= 0)
+            Die();
     }
 
     public void KillSilently()
     {
         if (!isLive) return;
         isLive = false;
-        foreach (var c in GetComponentsInChildren<Collider2D>(true)) if (c) c.enabled = false;
+
+        foreach (var c in GetComponentsInChildren<Collider2D>(true))
+            if (c) c.enabled = false;
+
         if (rb) rb.simulated = false;
+
         Destroy(gameObject);
     }
-
-    void Die()
-    {
-        if (!isLive) return;
-        isLive = false;
-
-        // EatBar.Instance?.AddFromEat(1); 
-        if (deathSfx) AudioSource.PlayClipAtPoint(deathSfx, transform.position, deathSfxVolume);
-        ShowQuestion(false); ShowAlert(false);
-        foreach (var c in GetComponentsInChildren<Collider2D>(true)) if (c) c.enabled = false;
-        if (rb) rb.simulated = false;
-        Destroy(gameObject);
-    }
-
-    // ── 마커 유틸 ─────────────────────────
-    void ShowQuestion(bool on) { if (_qm && _qm.activeSelf != on) _qm.SetActive(on); }
-    void ShowAlert(bool on) { if (_em && _em.activeSelf != on) _em.SetActive(on); }
 
     void SetupMarker(GameObject go)
     {
         if (!go) return;
-        go.transform.SetParent(transform, worldPositionStays: true);
-        go.transform.localPosition = (Vector3)markerOffset;
-        go.transform.localScale = Vector3.one * Mathf.Abs(markerScale);
+        go.transform.localPosition = markerOffset;
+        go.transform.localScale = Vector3.one * markerScale;
         if (keepUpright) go.transform.localRotation = Quaternion.identity;
-
-        var mSr = go.GetComponent<SpriteRenderer>();
-        var meSr = GetComponent<SpriteRenderer>() ?? GetComponentInChildren<SpriteRenderer>(true);
-        if (mSr && meSr) { mSr.sortingLayerID = meSr.sortingLayerID; mSr.sortingOrder = meSr.sortingOrder + 1; }
     }
 
     void UpdateMarkerTransform(GameObject go)
     {
         if (!go) return;
-        go.transform.localPosition = (Vector3)markerOffset;
-        go.transform.localScale = Vector3.one * Mathf.Abs(markerScale);
+        go.transform.localPosition = markerOffset;
+        go.transform.localScale = Vector3.one * markerScale;
         if (keepUpright) go.transform.localRotation = Quaternion.identity;
     }
-
-#if UNITY_EDITOR
-    void OnDrawGizmosSelected()
-    {
-        Gizmos.color = new Color(0.2f, 0.7f, 1f, 0.25f);
-        Gizmos.DrawWireSphere(transform.position, detectRadius);
-    }
-#endif
 }

@@ -7,14 +7,14 @@ public class MobSenseVisualize : MonoBehaviour
     public float lineWidth = 0.035f;
     [Range(0f, 1f)] public float alpha = 0.35f;
 
-    public Color ringColor = new(0.2f, 0.7f, 1f, 0.6f); // 근접(원)
-    public Color fovColor = new(1f, 0.9f, 0.1f, 0.6f); // 시야(부채꼴)
+    public Color ringColor = new(0.2f, 0.7f, 1f, 0.6f);
+    public Color fovColor = new(1f, 0.9f, 0.1f, 0.6f);
 
     Mob mob;
-    LineRenderer ring;    // 근접 원
-    LineRenderer fan;     // 시야 부채꼴 (중심 포함)
+    LineRenderer ring;
+    LineRenderer fan;
 
-    Vector2 currentForward = Vector2.up; // 현재 시야 부채꼴의 방향 (회전 중인 방향)
+    public Vector2 currentForward = Vector2.up;
 
     void Awake()
     {
@@ -22,8 +22,8 @@ public class MobSenseVisualize : MonoBehaviour
         ring = MakeLR("SenseRing");
         fan = MakeLR("SenseFOV");
 
-        currentForward = Vector2.up;
-        if (mob) mob.currentViewDirection = currentForward;
+        // Mob.cs가 넣어준 랜덤 시야를 그대로 따른다.
+        currentForward = mob.currentViewDirection;
     }
 
     LineRenderer MakeLR(string n)
@@ -41,62 +41,66 @@ public class MobSenseVisualize : MonoBehaviour
 
     void LateUpdate()
     {
-        UpdateForwardDirection(); // 회전 로직 실행
+        UpdateForward();
         DrawRing();
         DrawFan();
     }
 
-    void UpdateForwardDirection()
+    void UpdateForward()
     {
-        Vector2 mobPos2D = transform.position;
-        Vector2 target2D = mob.target.position;
+        Vector2 mobPos = transform.position;
+        Vector2 player = mob.target.position;
 
+        // 1) 현재 목표 방향 계산
         Vector2 targetDirection;
-        float rotationToUse;
 
-        // 1) 발각 상태
-        if (mob.IsAlerted)
+        if (mob.IsAlerted || mob.isSensing)
         {
-            targetDirection = (target2D - mobPos2D).normalized;
-            rotationToUse = mob.alertRotationSpeed;
+            targetDirection = (player - mobPos).normalized;
         }
-        // 2) 의심 상태
-        else if (mob.isSensing)
-        {
-            targetDirection = (target2D - mobPos2D).normalized;
-            rotationToUse = mob.alertRotationSpeed;
-        }
-        // 3) 순찰 상태
         else
         {
-            targetDirection = mob.currentViewDirection;
-            currentForward = targetDirection;
-            mob.currentViewDirection = currentForward;
-            return; // ★ 순찰은 여기서 끝!
+            // 순찰 상태 → Mob.cs가 정해둔 방향을 그대로 사용
+            targetDirection = mob.currentViewDirection.normalized;
         }
 
-        // 4) 회전 처리 (발각/의심 전용)
-        float angle = Vector2.SignedAngle(currentForward, targetDirection);
-        angle = Mathf.MoveTowards(0f, angle, rotationToUse * Time.deltaTime);
-        currentForward = Quaternion.Euler(0, 0, angle) * currentForward;
+        // 2) forward가 0이면 기본값 보정
+        if (currentForward == Vector2.zero)
+            currentForward = Vector2.up;
+
+        // 3) 서서히 회전
+        float maxStep = mob.alertRotationSpeed * Time.deltaTime;
+        currentForward = Vector2.MoveTowards(currentForward, targetDirection, maxStep);
+
+        // 4) Mob.cs가 참조하는 방향에도 전달
         mob.currentViewDirection = currentForward;
     }
 
+
     void DrawRing()
     {
-        float r = Mathf.Max(0.01f, mob.detectRadius);
-        int N = Mathf.Max(12, segments);
+        float r = mob.detectRadius;
+        int N = segments;
+
         ring.positionCount = N + 1;
+
         var c = ringColor; c.a = alpha;
         ring.startColor = ring.endColor = c;
 
         Vector3 center = transform.position;
+
         for (int i = 0; i <= N; i++)
         {
-            float t = (float)i / N * Mathf.PI * 2f;
-            Vector3 p = new Vector3(Mathf.Cos(t), Mathf.Sin(t), 0f) * r + center;
-            ring.SetPosition(i, p);
+            float t = i / (float)N * Mathf.PI * 2f;
+            Vector3 p = new(Mathf.Cos(t), Mathf.Sin(t), 0f);
+            ring.SetPosition(i, center + p * r);
         }
+    }
+
+    public void ForceRedraw()
+    {
+        DrawRing();
+        DrawFan();
     }
 
     public void DrawFan()
@@ -107,24 +111,33 @@ public class MobSenseVisualize : MonoBehaviour
         float half = Mathf.Clamp(mob.fovAngle * 0.5f, 0f, 180f);
         int N = Mathf.Max(12, segments / 2);
 
-        fan.positionCount = N + 3;
+        // 중심 1 + 경계 N+1
+        fan.positionCount = N + 2;
+
+        // 색상
         var c = fovColor; c.a = alpha;
         fan.startColor = fan.endColor = c;
 
         Vector3 center = transform.position;
-
         Vector2 forward = currentForward;
 
+        // ★ forward가 0벡터면 기본값 보정
+        if (forward == Vector2.zero)
+            forward = Vector2.up;
+
+        // 중심
         fan.SetPosition(0, center);
 
+        // 경계선들
         float start = -half;
         for (int i = 0; i <= N; i++)
         {
-            float a = start + (half * 2f) * (i / (float)N);
-            Vector2 dir = Quaternion.Euler(0, 0, a) * forward;
-            fan.SetPosition(1 + i, center + (Vector3)(dir.normalized * dist));
-        }
+            float t = i / (float)N;
+            float a = start + (half * 2f) * t;
 
-        fan.SetPosition(N + 2, center);
+            Vector2 dir = Quaternion.Euler(0, 0, a) * forward;
+            fan.SetPosition(1 + i, center + (Vector3)(dir * dist));
+        }
     }
+
 }

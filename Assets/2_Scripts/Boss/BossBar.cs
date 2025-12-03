@@ -1,12 +1,16 @@
 using UnityEngine;
-using TMPro;
 using UnityEngine.UI;
+using TMPro;
+using System.Collections;
 
 public class BossBar : MonoBehaviour
 {
     [Header("UI")]
-    public Image hpFill;             // 채워질 HP 바 이미지
-    public TextMeshProUGUI nameText; // 보스 이름
+    public Image bossFill;          // 실제 HP바
+    public Image bossWhiteFill;     // 딜레이 필
+    public TextMeshProUGUI bossText;
+
+    float whiteDelaySpeed = 3f;
 
     void Start()
     {
@@ -15,18 +19,38 @@ public class BossBar : MonoBehaviour
 
     public void Show(string bossName, int maxHP)
     {
-        nameText.text = bossName;
-        hpFill.fillAmount = 1f;
         gameObject.SetActive(true);
-    }
+        bossText.text = bossName;
 
-    public void UpdateHP(int currentHP, int maxHP)
-    {
-        hpFill.fillAmount = (float)currentHP / maxHP;
+        bossFill.fillAmount = 1;
+        bossWhiteFill.fillAmount = 1;
     }
 
     public void Hide()
     {
         gameObject.SetActive(false);
+    }
+
+    public void UpdateHP(int curHP, int maxHP)
+    {
+        float target = (float)curHP / maxHP;
+
+        bossFill.fillAmount = target;
+
+        StopAllCoroutines();
+        StartCoroutine(WhiteFollow(target));
+    }
+
+    IEnumerator WhiteFollow(float target)
+    {
+        yield return new WaitForSeconds(0.1f);
+
+        while (bossWhiteFill.fillAmount > target)
+        {
+            bossWhiteFill.fillAmount -= Time.deltaTime * whiteDelaySpeed;
+            yield return null;
+        }
+
+        bossWhiteFill.fillAmount = target;
     }
 }
