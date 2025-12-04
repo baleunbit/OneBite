@@ -21,7 +21,7 @@ public class MobPatrolAuto2D : MonoBehaviour
 
     public void Tick()
     {
-        if (mob.isSensing || mob.hasSpotted) return;
+        if (mob.isSensing || mob.IsAlerted) return;
 
         timer -= Time.deltaTime;
         
@@ -33,7 +33,7 @@ public class MobPatrolAuto2D : MonoBehaviour
         
         if (isMoving)
         {
-            transform.position += (Vector3)(mob.patrolDir * patrolSpeed * Time.deltaTime);
+            transform.position += (Vector3)(mob.currentViewDirection * patrolSpeed * Time.deltaTime);
         }
     }
 }

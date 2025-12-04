@@ -194,17 +194,14 @@ public class Player : MonoBehaviour
         {
             if (!m) continue;
 
-            // 감지 반경 감소
-            m.detectRadius = Mathf.Max(0.5f, m.detectRadius - amount);
+            // 파란 원 감소
+            m.detectRadius = Mathf.Max(0.1f, m.detectRadius - amount);
 
-            // 시야 거리 감소
+            // 노란 시야 거리 감소
             m.viewDistance = Mathf.Max(0.5f, m.viewDistance - amount);
 
-            // 시야각 감소 (너무 줄어들지 않게 제한)
-            m.fovAngle = Mathf.Clamp(m.fovAngle - amount * 0.5f, 20f, 180f);
-
-            // ★ 몹 시야 즉시 업데이트
-            m.RefreshSense();
+            // 시야각도 감소
+            m.fovAngle = Mathf.Clamp(m.fovAngle - (amount * 0.5f), 10f, 180f);
         }
     }
 }
