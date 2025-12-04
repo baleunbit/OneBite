@@ -23,10 +23,16 @@ public class WeaponManager : MonoBehaviour
     public int stage1Index = 0;
     public int stage2Index = 0;
     public int stage3Index = 0;
+    
+    [Header("스테이지별 무기별 데미지 (0=Fork, 1=Spoon, 2=ChopStick)")]
+    public float[] stage1WeaponDamage = { 10f, 5f, 7f };   // 1스테이지: 포크, 스푼, 젓가락
+    public float[] stage2WeaponDamage = { 8f, 12f, 10f };  // 2스테이지
+    public float[] stage3WeaponDamage = { 12f, 15f, 18f }; // 3스테이지
 
     int currentIndex = -1;
     GameObject currentGO;
     float nextSwitchTime;
+    int currentStage = 1;
 
     void Start()
     {
@@ -57,6 +63,11 @@ public class WeaponManager : MonoBehaviour
 
     public void ApplyStageRules(int stage)
     {
+        currentStage = stage;
+        
+        // 현재 장착된 무기에 데미지 적용
+        ApplyDamageToCurrentWeapon();
+        
         if (!useStageRules) return;
 
         int idx = defaultIndex;
@@ -69,6 +80,32 @@ public class WeaponManager : MonoBehaviour
         }
 
         Equip(Mathf.Clamp(idx, 0, (weaponPrefabs?.Count ?? 1) - 1));
+    }
+    
+    void ApplyDamageToCurrentWeapon()
+    {
+        if (!currentGO || currentIndex < 0) return;
+        
+        float damage = GetWeaponDamageForStage(currentStage, currentIndex);
+        var gun = currentGO.GetComponent<Gun>();
+        if (gun) gun.SetStageDamage(damage);
+    }
+    
+    float GetWeaponDamageForStage(int stage, int weaponIndex)
+    {
+        float[] damages;
+        switch (stage)
+        {
+            case 1: damages = stage1WeaponDamage; break;
+            case 2: damages = stage2WeaponDamage; break;
+            case 3: damages = stage3WeaponDamage; break;
+            default: damages = stage1WeaponDamage; break;
+        }
+        
+        if (damages == null || weaponIndex < 0 || weaponIndex >= damages.Length)
+            return 5f; // 기본값
+        
+        return damages[weaponIndex];
     }
 
     public void Next()
@@ -117,6 +154,11 @@ public class WeaponManager : MonoBehaviour
         {
             if (crosshair) gun.Crosshair = crosshair;
             if (sharedAmmo) gun.sharedAmmo = sharedAmmo;
+            
+            // 스테이지별 무기별 데미지 적용
+            float damage = GetWeaponDamageForStage(currentStage, idx);
+            gun.SetStageDamage(damage);
+            
             UIManager.Instance?.RegisterGun(gun);
         }
 

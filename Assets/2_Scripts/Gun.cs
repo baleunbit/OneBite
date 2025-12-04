@@ -15,6 +15,7 @@ public class Gun : MonoBehaviour
     [Header("데미지/관통")]
     [SerializeField] float Damage = 5f;
     [SerializeField] int Pierce = 1;
+    float stageDamageOverride = -1f;  // 스테이지별 데미지 오버라이드
 
     [Header("발사체")]
     [SerializeField] GameObject bulletPrefab;
@@ -167,8 +168,8 @@ public class Gun : MonoBehaviour
         float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
         Quaternion rot = Quaternion.AngleAxis(angle + 270f, Vector3.forward);
 
-        // 🔥 강화 적용된 공격력 계산
-        float finalDamage = Damage + (player ? player.weaponDamageBonus : 0f);
+        // 🔥 강화 적용된 공격력 계산 (스테이지 데미지 + 플레이어 보너스)
+        float finalDamage = GetBaseDamage() + (player ? player.weaponDamageBonus : 0f);
 
         var go = Instantiate(bulletPrefab, spawnPos, rot);
         var b = go.GetComponent<Bullet>();
@@ -224,5 +225,17 @@ public class Gun : MonoBehaviour
         sharedAmmo = sa;
         useSharedAmmo = (sa != null);
         UIManager.Instance?.UpdateAmmoText(GetCurrentAmmo(), GetMaxAmmo());
+    }
+    
+    // 스테이지별 데미지 설정
+    public void SetStageDamage(float damage)
+    {
+        stageDamageOverride = damage;
+    }
+    
+    // 현재 적용되는 기본 데미지 반환
+    float GetBaseDamage()
+    {
+        return stageDamageOverride > 0 ? stageDamageOverride : Damage;
     }
 }

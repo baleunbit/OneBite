@@ -85,20 +85,34 @@ public class Boss : MonoBehaviour
         // 투사체 생성 (플레이어 방향으로 회전)
         GameObject b = Instantiate(bossBullet, firePoint.position, Quaternion.Euler(0, 0, angle));
 
+        // Rigidbody2D 확인/추가
         Rigidbody2D rb = b.GetComponent<Rigidbody2D>();
-        if (rb != null)
+        if (rb == null)
         {
-            rb.linearVelocity = direction * bulletSpeed;
+            rb = b.AddComponent<Rigidbody2D>();
+            Debug.Log("[Boss] 투사체에 Rigidbody2D 자동 추가됨");
+        }
+        rb.gravityScale = 0f;
+        rb.linearVelocity = direction * bulletSpeed;
+
+        // Collider2D 확인/추가
+        Collider2D col = b.GetComponent<Collider2D>();
+        if (col == null)
+        {
+            col = b.AddComponent<CircleCollider2D>();
+            col.isTrigger = true;
+            Debug.Log("[Boss] 투사체에 CircleCollider2D 자동 추가됨");
         }
 
+        // Bullet 컴포넌트 확인/추가
         Bullet bullet = b.GetComponent<Bullet>();
-        if (bullet != null)
+        if (bullet == null)
         {
-            bullet.damage = bulletDamage;
-            bullet.isPlayerBullet = false;  // 보스 총알 = 플레이어에게 데미지
+            bullet = b.AddComponent<Bullet>();
+            Debug.Log("[Boss] 투사체에 Bullet 컴포넌트 자동 추가됨");
         }
-        
-        Debug.Log($"[Boss] 투사체 발사! 방향: {direction}");
+        bullet.damage = bulletDamage;
+        bullet.isPlayerBullet = false;  // 보스 총알 = 플레이어에게 데미지
     }
 
     public void TakeDamage(int dmg)
