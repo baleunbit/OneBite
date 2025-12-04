@@ -178,7 +178,7 @@ public class Player : MonoBehaviour
 
             case 4:
                 biteRangeBonus += 1f;
-                var bite = GetComponent<Bite>();
+                var bite = GetComponent<NewMoboBehaviour>();
                 if (bite) bite.biteRange += 1f;
                 Debug.Log("한입 범위 -1");
                 break;

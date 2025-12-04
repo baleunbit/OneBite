@@ -151,7 +151,7 @@ public class MobSpawner : MonoBehaviour
         {
             var mob = enemy.GetComponent<Mob>();
             if (mob != null && mob.target == null)
-                mob.target = playerRigidbody;
+                mob.target = playerRigidbody.transform;
         }
     }
 
