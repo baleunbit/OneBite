@@ -12,8 +12,6 @@ public class Mob : MonoBehaviour
     public float viewDistance = 6f;       // 부채꼴 길이
     [Range(0, 180)] public float fovAngle = 80f;
 
-    [Header("시야 회전")]
-    public float rotationSpeed = 360f; // 초당 회전 각도 (도/초)
     [HideInInspector] public Vector2 currentViewDirection = Vector2.up; // 현재 부채꼴이 바라보는 방향
 
     [Header("참조")] public Rigidbody2D target; [SerializeField] Animator anim;
@@ -33,14 +31,17 @@ public class Mob : MonoBehaviour
     public AudioClip deathSfx; [Range(0f, 1f)] public float deathSfxVolume = 1f;
 
     [Header("회전 속도")]
-    public float alertRotationSpeed = 120f;  // 의심/발각 시 플레이어 보게 하는 속도
+    public float sensingRotationSpeed = 120f;  // 의심 시 (detectRadius 진입) 플레이어 쪽으로 돌아보는 속도
+    public float alertRotationSpeed = 280f;    // 발각 시 (FOV 진입) 플레이어 쪽으로 돌아보는 속도 (의심의 2배)
 
     public bool IsAlerted => hasSpotted;
     public bool IsAlive => isLive;
+    public bool IsActivated => isActivated;
 
     int currentHP; bool isLive = true; bool hasSpotted = false;
     float nextAttackTime = 0f; bool dealtThisFixed = false;
     public bool isSensing = false; // 경계 상태 변수 추가
+    bool isActivated = false; // 플레이어가 방에 들어오면 활성화
 
     Rigidbody2D rb; SpriteRenderer sr;
     int hashIsWalk, Attack;
@@ -84,6 +85,14 @@ public class Mob : MonoBehaviour
         dealtThisFixed = false;
 
         if (!isLive || !target)
+        {
+            rb.linearVelocity = Vector2.zero;
+            if (anim) anim.SetBool(hashIsWalk, false);
+            return;
+        }
+
+        // 활성화되지 않으면 움직이지 않음
+        if (!isActivated)
         {
             rb.linearVelocity = Vector2.zero;
             if (anim) anim.SetBool(hashIsWalk, false);
@@ -225,6 +234,12 @@ public class Mob : MonoBehaviour
         foreach (var c in GetComponentsInChildren<Collider2D>(true)) if (c) c.enabled = false;
         if (rb) rb.simulated = false;
         Destroy(gameObject);
+    }
+
+    // 플레이어가 방에 들어오면 호출
+    public void Activate()
+    {
+        isActivated = true;
     }
 
     void Die()

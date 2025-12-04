@@ -50,34 +50,29 @@ public class Door : MonoBehaviour
         if (!openedOnce && IsRoomCleared(ownerRoom))
         {
             openedOnce = true;
-            doorAnimator.SetTrigger("OpenDoor");
+            if (doorAnimator) doorAnimator.SetTrigger("OpenDoor");
         }
-        if (!anim || !anim.runtimeAnimatorController)
-        {
-            return; // 문이 애니메이션 없는 버전이면 동작하지 않음
-        }
-
-        // 예: 문 열리는 트리거
-        anim.SetTrigger("OpenDoor");
     }
 
     bool IsRoomCleared(Room room)
     {
         if (!room) return false;
 
-        var mobs = room.GetComponentsInChildren<Mob>(true);
+        // 방 안의 모든 자식 오브젝트 중 "Mob" 태그가 있는 것 찾기
+        var children = room.GetComponentsInChildren<Transform>(true);
+        int mobCount = 0;
 
-        Debug.Log("[DoorCheck] Mob Count = " + mobs.Length);
-
-        foreach (var m in mobs)
+        foreach (var child in children)
         {
-            Debug.Log("[DoorCheck] Mob: " + m.name + " / IsAlive = " + m.IsAlive);
-
-            if (m && m.IsAlive)
-                return false;
+            if (child.CompareTag("Mob"))
+            {
+                mobCount++;
+            }
         }
 
-        return true;
+        Debug.Log("[DoorCheck] Mob Tag Count = " + mobCount);
+
+        return mobCount == 0;
     }
 
     void OnTriggerEnter2D(Collider2D other)

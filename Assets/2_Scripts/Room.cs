@@ -9,6 +9,7 @@ public class Room : MonoBehaviour
     Collider2D[] solidColliders;
     Bounds aabb;
     Transform[] spawnPoints;
+    bool mobsActivated = false;  // 방의 몹들이 이미 활성화되었는지
 
     void Awake() => Init();
 #if UNITY_EDITOR
@@ -67,5 +68,28 @@ public class Room : MonoBehaviour
             if (d < best) { best = d; bestPt = cp; }
         }
         return bestPt;
+    }
+
+    // 플레이어가 방에 들어오면 몹들 활성화
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (mobsActivated) return;
+        if (!other.CompareTag("Player")) return;
+
+        ActivateMobs();
+    }
+
+    void ActivateMobs()
+    {
+        mobsActivated = true;
+        
+        var mobs = GetComponentsInChildren<Mob>(true);
+        foreach (var mob in mobs)
+        {
+            if (mob && mob.IsAlive)
+            {
+                mob.Activate();
+            }
+        }
     }
 }

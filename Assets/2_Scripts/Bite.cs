@@ -101,6 +101,12 @@ public class NewMoboBehaviour : MonoBehaviour
         float remain = Mathf.Max(0f, earlyRelease);
         yield return new WaitForSeconds(remain);
 
+        // ⭐ 애니메이션 이벤트가 호출되지 않았어도 확실하게 처리
+        if (!_hasDealtDamage && _pendingTarget != null)
+        {
+            OnBiteHit();
+        }
+
         _pendingTarget = null;
         _hasDealtDamage = false;
     }

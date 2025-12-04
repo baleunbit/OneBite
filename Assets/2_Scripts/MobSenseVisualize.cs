@@ -54,17 +54,17 @@ public class MobSenseVisualize : MonoBehaviour
         Vector2 targetDirection;
         float rotationToUse;
 
-        // 1) 발각 상태
+        // 1) 발각 상태 (FOV 진입) - 빠른 회전
         if (mob.IsAlerted)
         {
             targetDirection = (target2D - mobPos2D).normalized;
             rotationToUse = mob.alertRotationSpeed;
         }
-        // 2) 의심 상태
+        // 2) 의심 상태 (detectRadius 진입) - 느린 회전
         else if (mob.isSensing)
         {
             targetDirection = (target2D - mobPos2D).normalized;
-            rotationToUse = mob.alertRotationSpeed;
+            rotationToUse = mob.sensingRotationSpeed;
         }
         // 3) 순찰 상태
         else
