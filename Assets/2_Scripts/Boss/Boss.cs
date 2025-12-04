@@ -13,7 +13,7 @@ public class Boss : MonoBehaviour
     [Header("Projectile Settings")]
     public GameObject bossBullet;
     public Transform firePoint;
-    public float bulletSpeed = 6f;
+    public float bulletSpeed = 12f;  // 속도 증가
     public float shootInterval = 4f;
 
     [Header("Boss UI")]
@@ -41,13 +41,19 @@ public class Boss : MonoBehaviour
         while (hp > 0)
         {
             // 1) Idle(상하) 모드
-            bossRoot.isInfinity = false;
-            bossRoot.rotateEnabled = false;
+            if (bossRoot)
+            {
+                bossRoot.isInfinity = false;
+                bossRoot.rotateEnabled = false;
+            }
             yield return new WaitForSeconds(1.5f);
 
             // 2) 공격 준비 (팔자 + 회전)
-            bossRoot.isInfinity = true;
-            bossRoot.rotateEnabled = true;
+            if (bossRoot)
+            {
+                bossRoot.isInfinity = true;
+                bossRoot.rotateEnabled = true;
+            }
             yield return new WaitForSeconds(1.2f);
 
             // 3) 공격
@@ -55,8 +61,11 @@ public class Boss : MonoBehaviour
             yield return new WaitForSeconds(0.2f);
 
             // 4) 공격 후 팔자 유지
-            bossRoot.isInfinity = true;
-            bossRoot.rotateEnabled = false;
+            if (bossRoot)
+            {
+                bossRoot.isInfinity = true;
+                bossRoot.rotateEnabled = false;
+            }
             yield return new WaitForSeconds(1.5f);
         }
     }
@@ -78,11 +87,18 @@ public class Boss : MonoBehaviour
 
         Rigidbody2D rb = b.GetComponent<Rigidbody2D>();
         if (rb != null)
+        {
             rb.linearVelocity = direction * bulletSpeed;
+        }
 
         Bullet bullet = b.GetComponent<Bullet>();
         if (bullet != null)
+        {
             bullet.damage = bulletDamage;
+            bullet.isPlayerBullet = false;  // 보스 총알 = 플레이어에게 데미지
+        }
+        
+        Debug.Log($"[Boss] 투사체 발사! 방향: {direction}");
     }
 
     public void TakeDamage(int dmg)

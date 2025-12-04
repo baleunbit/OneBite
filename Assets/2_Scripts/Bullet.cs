@@ -9,6 +9,9 @@ public class Bullet : MonoBehaviour
     [SerializeField] public float damage;
     int pierce;                 // 남은 관통 횟수
     Rigidbody2D rb;
+    
+    // 발사자 구분 (true = 플레이어 총알, false = 적/보스 총알)
+    public bool isPlayerBullet = true;
 
     void Awake()
     {
@@ -37,24 +40,47 @@ public class Bullet : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D col)
     {
-        // 플레이어/룸은 무시
-        if (col.CompareTag("Player") || col.CompareTag("Room")) return;
-
-        // 몹이면 데미지 + 관통 처리
-        var mob = col.GetComponentInParent<Mob>() ?? col.GetComponent<Mob>();
-        if (mob != null)
+        // Room은 항상 무시
+        if (col.CompareTag("Room")) return;
+        
+        // 플레이어 총알: 플레이어 무시, 몹/보스에게 데미지
+        if (isPlayerBullet)
         {
-            mob.TakeDamage(Mathf.RoundToInt(damage));
-            pierce--;
-            if (pierce <= 0) Destroy(gameObject);
-            return;
+            if (col.CompareTag("Player")) return;
+            
+            // 몹이면 데미지 + 관통 처리
+            var mob = col.GetComponentInParent<Mob>() ?? col.GetComponent<Mob>();
+            if (mob != null)
+            {
+                mob.TakeDamage(Mathf.RoundToInt(damage));
+                pierce--;
+                if (pierce <= 0) Destroy(gameObject);
+                return;
+            }
+
+            if (col.CompareTag("Boss"))
+            {
+                col.GetComponent<Boss>()?.TakeDamage((int)damage);
+                Destroy(gameObject);
+                return;
+            }
         }
-
-        if (col.CompareTag("Boss"))
+        // 적/보스 총알: 플레이어에게 데미지
+        else
         {
-            col.GetComponent<Boss>()?.TakeDamage((int)damage);
-            Destroy(gameObject);
-            return;
+            if (col.CompareTag("Player"))
+            {
+                var player = col.GetComponent<Player>() ?? col.GetComponentInParent<Player>();
+                if (player != null)
+                {
+                    player.TakeDamage(Mathf.RoundToInt(damage));
+                }
+                Destroy(gameObject);
+                return;
+            }
+            
+            // 몹/보스는 무시
+            if (col.CompareTag("Mob") || col.CompareTag("Boss")) return;
         }
 
         // 🔽 환경 오브젝트(총알 막는 용) 태그로 처리
@@ -64,8 +90,5 @@ public class Bullet : MonoBehaviour
             Destroy(gameObject);
             return;
         }
-
-        // 필요하면 여기서 기본 처리(전부 제거)도 가능
-        // Destroy(gameObject);
     }
 }

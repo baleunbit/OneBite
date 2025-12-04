@@ -1389,6 +1389,7 @@ MonoBehaviour:
   blockedMessage: "\uC544\uC9C1 \uC801\uC774 \uB0A8\uC544 \uC788\uC5B4!"
   doorAnimator: {fileID: 6272833967714821456}
   anim: {fileID: 0}
+  doorCheckDelay: 1
 --- !u!61 &3544159241457451330
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1556,7 +1557,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 7440103725005154512, guid: 628edd86e2a1d4c4a832057cebafd309, type: 3}
+  m_Sprite: {fileID: 1924708092609652498, guid: d14cae2aa388ce9408d48aa3aa4b5bfa, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -1652,7 +1653,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 10.24, y: 10.24}
+    oldSize: {x: 5.12, y: 5.12}
     newSize: {x: 5.12, y: 5.12}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
