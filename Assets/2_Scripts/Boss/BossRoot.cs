@@ -3,24 +3,34 @@ using System.Collections;
 
 public class BossRoot : MonoBehaviour
 {
-    [Header("½ºÇÁ¶óÀÌÆ® ÀÚ½Ä ¿ÀºêÁ§Æ®")]
+    [Header("ìŠ¤í”„ë¼ì´íŠ¸ ìì‹ ì˜¤ë¸Œì íŠ¸")]
     public Transform visual;
 
-    [Header("È¸Àü ¿¬Ãâ")]
+    [Header("íšŒì „ ì„¤ì •")]
     public float rotateSpeed = 90f;
     public bool rotateEnabled = false;
 
-    [Header("µîÀå ¿¬Ãâ")]
+    [Header("ë“±ì¥ ì„¤ì •")]
     public float appearHeight = 5f;
     public float appearSpeed = 1.0f;
     public Boss bossAI;
 
-    [Header("ÀÌµ¿ ÆĞÅÏ")]
+    [Header("ì´ë™ ì„¤ì •")]
     public bool isInfinity = false;       // false = Idle, true = Infinity
-    public float idleHeight = 0.5f;       // Idle À§/¾Æ·¡ ÀÌµ¿ ¹üÀ§
-    public float idleSpeed = 2f;          // Idle ÀÌµ¿ ¼Óµµ
-    public float infinitySize = 1.0f;     // ÆÈÀÚ ÀÌµ¿ Å©±â
-    public float infinitySpeed = 2.0f;    // ÆÈÀÚ ¼Óµµ
+    public float idleHeight = 0.5f;       // Idle ìƒí•˜ ì´ë™ ë²”ìœ„
+    public float idleSpeed = 2f;          // Idle ì´ë™ ì†ë„
+    public float infinitySize = 1.0f;     // ë¬´í•œ ì´ë™ í¬ê¸°
+    public float infinitySpeed = 2.0f;    // ë¬´í•œ ì†ë„
+
+    Vector3 basePosition;  // ê¸°ì¤€ ìœ„ì¹˜ ì €ì¥
+    bool initialized = false;
+
+    void Awake()
+    {
+        // í˜„ì¬ ìœ„ì¹˜ë¥¼ ê¸°ì¤€ì ìœ¼ë¡œ ì €ì¥
+        basePosition = transform.position;
+        initialized = true;
+    }
 
     public void StartAppear()
     {
@@ -29,11 +39,11 @@ public class BossRoot : MonoBehaviour
 
     public IEnumerator AppearRoutine()
     {
-        bossAI.canAct = false;
+        if (bossAI) bossAI.canAct = false;
         rotateEnabled = false;
 
-        Vector3 startPos = transform.position + Vector3.up * appearHeight;
-        Vector3 endPos = transform.position;
+        Vector3 startPos = basePosition + Vector3.up * appearHeight;
+        Vector3 endPos = basePosition;
 
         transform.position = startPos;
 
@@ -45,14 +55,17 @@ public class BossRoot : MonoBehaviour
             yield return null;
         }
 
+        transform.position = endPos;
         rotateEnabled = true;
-        bossAI.canAct = true;
+        if (bossAI) bossAI.canAct = true;
     }
 
     void Update()
     {
+        if (!initialized) return;
+        
         // ===========================
-        // 1) ÀÌµ¿ Ã³¸®
+        // 1) ì´ë™ ì²˜ë¦¬ (ê¸°ì¤€ ìœ„ì¹˜ + ì˜¤í”„ì…‹)
         // ===========================
         if (!isInfinity)
             MoveIdle();
@@ -60,20 +73,20 @@ public class BossRoot : MonoBehaviour
             MoveInfinity();
 
         // ===========================
-        // 2) È¸Àü Ã³¸® (½ºÇÁ¶óÀÌÆ®¸¸)
+        // 2) íšŒì „ ì²˜ë¦¬ (ìŠ¤í”„ë¼ì´íŠ¸ë§Œ)
         // ===========================
         if (rotateEnabled && visual != null)
             visual.Rotate(0, 0, rotateSpeed * Time.deltaTime);
     }
 
-    // ---- Idle »óÇÏ ÀÌµ¿ ----
+    // ---- Idle ìƒí•˜ ì´ë™ ----
     void MoveIdle()
     {
         float y = Mathf.Sin(Time.time * idleSpeed) * idleHeight;
-        transform.localPosition = new Vector3(transform.localPosition.x, y, 0);
+        transform.position = basePosition + new Vector3(0, y, 0);
     }
 
-    // ---- Infinity ÆÈÀÚ ÀÌµ¿ ----
+    // ---- Infinity ë¬´í•œ ì´ë™ ----
     void MoveInfinity()
     {
         float t = Time.time * infinitySpeed;
@@ -81,6 +94,6 @@ public class BossRoot : MonoBehaviour
         float x = Mathf.Sin(t) * infinitySize;
         float y = Mathf.Sin(t * 2f) * (infinitySize * 0.5f);
 
-        transform.localPosition = new Vector3(x, y, 0);
+        transform.position = basePosition + new Vector3(x, y, 0);
     }
 }

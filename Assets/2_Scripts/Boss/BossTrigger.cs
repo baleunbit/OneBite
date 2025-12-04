@@ -3,9 +3,9 @@ using System.Collections;
 
 public class BossTrigger : MonoBehaviour
 {
-    public BossRoot bossRoot;   // º¸½º ¿¬Ãâ ½ºÅ©¸³Æ®
-    public Boss bossAI;         // º¸½º AI (Boss.cs)
-    public BossBar bossBar;     // Ã¼·Â¹Ù UI
+    public BossRoot bossRoot;   // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å©ï¿½ï¿½Æ®
+    public Boss bossAI;         // ï¿½ï¿½ï¿½ï¿½ AI (Boss.cs)
+    public BossBar bossBar;     // Ã¼ï¿½Â¹ï¿½ UI
 
     private bool triggered = false;
     bool entered = false;
@@ -17,16 +17,16 @@ public class BossTrigger : MonoBehaviour
 
         entered = true;
 
-        Debug.Log("[BossTrigger] ÇÃ·¹ÀÌ¾î º¸½º ¹æ ÀÔÀå ¡æ º¸½º ½ÃÀÛ");
+        Debug.Log("[BossTrigger] í”Œë ˆì´ì–´ ì§„ì… - ë³´ìŠ¤ ì‹œì‘");
 
-        // 1) º¸½º ¹Ù ÄÑ±â
-        bossBar.Show(bossAI.bossName, bossAI.maxHP);
+        // 1) ë³´ìŠ¤ ë°” ì¼œê¸°
+        if (bossBar && bossAI) bossBar.Show(bossAI.bossName, bossAI.maxHP);
 
-        // 2) µîÀå ¿¬Ãâ ½ÃÀÛ
-        bossRoot.StartAppear();
+        // 2) ë³´ìŠ¤ ë“±ì¥ ì‹œì‘
+        if (bossRoot) bossRoot.StartAppear();
 
-        // 3) º¸½º ÆĞÅÏ ½ÃÀÛ
-        bossAI.StartPattern();
+        // 3) ë³´ìŠ¤ íŒ¨í„´ ì‹œì‘
+        if (bossAI) bossAI.StartPattern();
     }
 
     private void OnTriggerStay2D(Collider2D other)
@@ -36,26 +36,26 @@ public class BossTrigger : MonoBehaviour
 
     void TryTrigger(Collider2D other)
     {
-        if (triggered) return;                    // ÀÌ¹Ì ¹ßµ¿ÇßÀ¸¸é ¹«½Ã
-        if (!other.CompareTag("Player")) return;  // ÇÃ·¹ÀÌ¾î ¾Æ´Ï¸é ¹«½Ã
+        if (triggered) return;
+        if (!other.CompareTag("Player")) return;
 
         triggered = true;
 
-        Debug.Log("[BossTrigger] ÇÃ·¹ÀÌ¾î º¸½º·ë °¨Áö ¡æ º¸½º ½ÃÀÛ");
+        Debug.Log("[BossTrigger] í”Œë ˆì´ì–´ ê°ì§€ - ë³´ìŠ¤ ì‹œì‘");
 
-        // Ã¼·Â¹Ù Ç¥½Ã
-        bossBar.Show(bossAI.bossName, bossAI.maxHP);
+        // ì²´ë ¥ë°” í‘œì‹œ
+        if (bossBar && bossAI) bossBar.Show(bossAI.bossName, bossAI.maxHP);
 
-        // º¸½º µîÀå ¿¬Ãâ
-        bossRoot.StartAppear();
+        // ë³´ìŠ¤ ë“±ì¥ ì‹œì‘
+        if (bossRoot) bossRoot.StartAppear();
 
-        // µîÀå ¿¬Ãâ ÀÌÈÄ ÆĞÅÏ ½ÃÀÛ
+        // ë³´ìŠ¤ íŒ¨í„´ ì‹œì‘ (ë”œë ˆì´)
         StartCoroutine(StartBossAfterDelay());
     }
 
     IEnumerator StartBossAfterDelay()
     {
         yield return new WaitForSeconds(0.5f);
-        bossAI.StartPattern();
+        if (bossAI) bossAI.StartPattern();
     }
 }

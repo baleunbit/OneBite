@@ -124,9 +124,15 @@ public class Mob : MonoBehaviour
                     isSensing = true; // 경계 상태로 전환: MobSenseVisualize가 회전 시작
                     ShowQuestion(true); // '?' 마커 표시
                 }
-                // 경계 상태일 때: 정지 상태 유지 (바라보지 않음, 추격 안 함)
+                
+                // 부채꼴 방향에 따라 플립 (자연스러운 방향 전환)
+                sr.flipX = currentViewDirection.x < 0;
+                
+                // 플레이어 쪽으로 천천히 이동 (원래 속도의 30%)
+                Vector2 dirToPlayer = ((Vector2)target.position - rb.position).normalized;
+                rb.MovePosition(rb.position + dirToPlayer * Speed * 0.3f * Time.fixedDeltaTime);
+                
                 rb.linearVelocity = Vector2.zero;
-                if (anim) anim.SetBool(hashIsWalk, false);
                 return;
             }
             // 1-3. 모든 범위 밖이면 대기 (Idle)

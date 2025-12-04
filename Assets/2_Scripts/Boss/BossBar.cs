@@ -5,8 +5,8 @@ using UnityEngine.UI;
 public class BossBar : MonoBehaviour
 {
     [Header("UI")]
-    public Image hpFill;             // Ã¤¿öÁú HP ¹Ù ÀÌ¹ÌÁö
-    public TextMeshProUGUI nameText; // º¸½º ÀÌ¸§
+    public Image hpFill;             // Ã¤ï¿½ï¿½ï¿½ï¿½ HP ï¿½ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½
+    public TextMeshProUGUI nameText; // ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½
 
     void Start()
     {
@@ -15,14 +15,15 @@ public class BossBar : MonoBehaviour
 
     public void Show(string bossName, int maxHP)
     {
-        nameText.text = bossName;
-        hpFill.fillAmount = 1f;
+        if (nameText) nameText.text = bossName;
+        if (hpFill) hpFill.fillAmount = 1f;
         gameObject.SetActive(true);
     }
 
     public void UpdateHP(int currentHP, int maxHP)
     {
-        hpFill.fillAmount = (float)currentHP / maxHP;
+        if (hpFill && maxHP > 0)
+            hpFill.fillAmount = (float)currentHP / maxHP;
     }
 
     public void Hide()

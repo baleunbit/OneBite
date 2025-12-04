@@ -11,11 +11,17 @@ public class Player : MonoBehaviour
     [SerializeField] private int level = 1;
     [SerializeField] private int exp = 0;
 
-    [Header("강화 스탯")]
+    [Header("강화 스탯 (현재 값)")]
     public int weaponDamageBonus = 1;      // 무기 공격력 +X
     public float moveSpeedBonus = 1f;      // 이동속도 +X%
-    public float biteRangeBonus = 0.5f;      // 한입 범위 증가
+    public float biteRangeBonus = 0.5f;    // 한입 범위 증가
     public float quietStepBonus = 1f;      // 조용한 발걸음(적 ? 범위 감소)
+    
+    [Header("강화 시 증가량 (Inspector에서 조절)")]
+    public int weaponDamageUpgrade = 1;        // 무기 공격력 증가량
+    public float biteRangeUpgrade = 1f;        // 한입 범위 증가량
+    public float moveSpeedUpgradePercent = 0.05f;  // 이동속도 증가 비율 (5% = 0.05)
+    public float quietStepUpgrade = 1f;        // 조용한 발걸음 증가량
 
     [Header("HP Follow")]
     public Image whiteHealthBar;
@@ -160,27 +166,28 @@ public class Player : MonoBehaviour
         switch (choiceIndex)
         {
             case 1:
-                weaponDamageBonus += 2;
-                Debug.Log("기본 무기 강화 (+2 damage)");
+                weaponDamageBonus += weaponDamageUpgrade;
+                Debug.Log($"기본 무기 강화 (+{weaponDamageUpgrade} damage)");
                 break;
 
             case 2:
-                biteRangeBonus += 1f;
+                biteRangeBonus += biteRangeUpgrade;
                 var bite = GetComponent<Bite>();
-                if (bite) bite.biteRange += 1f;
-                Debug.Log("한입 범위 +1");
+                if (bite) bite.biteRange += biteRangeUpgrade;
+                Debug.Log($"한입 범위 +{biteRangeUpgrade}");
                 break;
 
             case 3:
-                moveSpeedBonus += moveSpeed * 0.05f;
-                moveSpeed += moveSpeed * 0.05f;
-                Debug.Log("이동속도 +5%");
+                float speedIncrease = moveSpeed * moveSpeedUpgradePercent;
+                moveSpeedBonus += speedIncrease;
+                moveSpeed += speedIncrease;
+                Debug.Log($"이동속도 +{moveSpeedUpgradePercent * 100}%");
                 break;
 
             case 4:
-                quietStepBonus += 2f;
-                ReduceMobDetectRadius(2f);
-                Debug.Log("조용한 발걸음 (detectRadius -2)");
+                quietStepBonus += quietStepUpgrade;
+                ReduceMobDetectRadius(quietStepUpgrade);
+                Debug.Log($"조용한 발걸음 (detectRadius -{quietStepUpgrade})");
                 break;
         }
         UIManager.Instance?.HideLevelUpPanel();

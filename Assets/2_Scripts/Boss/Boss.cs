@@ -63,11 +63,22 @@ public class Boss : MonoBehaviour
 
     void Shoot()
     {
-        GameObject b = Instantiate(bossBullet, firePoint.position, firePoint.rotation);
+        if (!bossBullet || !firePoint) return;
+        
+        // 플레이어 찾기
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        if (!player) return;
+        
+        // 플레이어 방향 계산
+        Vector2 direction = (player.transform.position - firePoint.position).normalized;
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        
+        // 투사체 생성 (플레이어 방향으로 회전)
+        GameObject b = Instantiate(bossBullet, firePoint.position, Quaternion.Euler(0, 0, angle));
 
         Rigidbody2D rb = b.GetComponent<Rigidbody2D>();
         if (rb != null)
-            rb.linearVelocity = firePoint.right * bulletSpeed;
+            rb.linearVelocity = direction * bulletSpeed;
 
         Bullet bullet = b.GetComponent<Bullet>();
         if (bullet != null)

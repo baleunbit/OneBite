@@ -66,6 +66,8 @@ public class SceneMgr : MonoBehaviour
     public void GoToEndScene()
     {
         Time.timeScale = 1f;
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
         SoundManager.I?.PlayMenu(); // 엔딩 BGM 없으면 메뉴용으로 재생
 
         if (SceneFader.I)
