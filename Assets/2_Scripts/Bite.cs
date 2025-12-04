@@ -2,7 +2,7 @@
 using System.Collections;
 
 [RequireComponent(typeof(Animator))]
-public class NewMoboBehaviour : MonoBehaviour
+public class Bite : MonoBehaviour
 {
     [Header("Bite 키/범위/태그")]
     public KeyCode biteKey = KeyCode.E;

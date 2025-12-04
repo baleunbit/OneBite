@@ -165,9 +165,10 @@ public class Player : MonoBehaviour
                 break;
 
             case 2:
-                quietStepBonus += 2f;
-                ReduceMobDetectRadius(2f);
-                Debug.Log("조용한 발걸음 (detectRadius -2)");
+                biteRangeBonus += 1f;
+                var bite = GetComponent<Bite>();
+                if (bite) bite.biteRange += 1f;
+                Debug.Log("한입 범위 +1");
                 break;
 
             case 3:
@@ -177,10 +178,9 @@ public class Player : MonoBehaviour
                 break;
 
             case 4:
-                biteRangeBonus += 1f;
-                var bite = GetComponent<NewMoboBehaviour>();
-                if (bite) bite.biteRange += 1f;
-                Debug.Log("한입 범위 -1");
+                quietStepBonus += 2f;
+                ReduceMobDetectRadius(2f);
+                Debug.Log("조용한 발걸음 (detectRadius -2)");
                 break;
         }
         UIManager.Instance?.HideLevelUpPanel();
