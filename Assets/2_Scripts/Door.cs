@@ -27,6 +27,10 @@ public class Door : MonoBehaviour
     bool requireExit;
     static float nextGlobalAllowedTime = 0f;
     Room ownerRoom;
+    
+    [Header("문 열림 체크 딜레이")]
+    [SerializeField] float doorCheckDelay = 1f;  // 몹 스폰 대기 시간
+    bool canCheckDoor = false;
 
     void Awake()
     {
@@ -47,6 +51,15 @@ public class Door : MonoBehaviour
 
     void Update()
     {
+        // 시작 후 딜레이가 지나야 문 열림 체크 시작 (몹 스폰 대기)
+        if (!canCheckDoor)
+        {
+            if (Time.time - startTime >= doorCheckDelay)
+                canCheckDoor = true;
+            else
+                return;
+        }
+        
         if (!openedOnce && IsRoomCleared(ownerRoom))
         {
             openedOnce = true;
@@ -69,8 +82,6 @@ public class Door : MonoBehaviour
                 mobCount++;
             }
         }
-
-        Debug.Log("[DoorCheck] Mob Tag Count = " + mobCount);
 
         return mobCount == 0;
     }

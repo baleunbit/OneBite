@@ -139,7 +139,6 @@ MonoBehaviour:
   detectRadius: 15
   viewDistance: 15
   fovAngle: 80
-  rotationSpeed: 360
   currentViewDirection: {x: 0, y: 1}
   target: {fileID: 0}
   anim: {fileID: 0}
@@ -153,7 +152,8 @@ MonoBehaviour:
   hitSfxVolume: 1
   deathSfx: {fileID: 0}
   deathSfxVolume: 1
-  alertRotationSpeed: 60
+  sensingRotationSpeed: 100
+  alertRotationSpeed: 180
   isSensing: 0
 --- !u!114 &9200602578933991893
 MonoBehaviour:
@@ -262,15 +262,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d74f2498c561c840a61d629b5ac5216, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pattern: 0
-  halfSize: {x: 1.5, y: 1}
-  crossRadius: 1.5
   patrolSpeed: 3
-  arriveDist: 0.05
-  waitAtPoint: 0.4
-  pingPong: 1
-  approachOnProximity: 1
-  suspicionSpeed: 2
+  moveTime: 1.5
+  stopTime: 1
+  turnSpeed: 90
 --- !u!114 &2035897314172777122
 MonoBehaviour:
   m_ObjectHideFlags: 0

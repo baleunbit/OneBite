@@ -147,12 +147,26 @@ public class MobSpawner : MonoBehaviour
         enemy.transform.SetParent(roomGO.transform, true);
 
         // 4) 타깃 바인딩(선택)
-        if (bindPlayerTargetIfPossible && playerRigidbody != null)
+        var mob = enemy.GetComponent<Mob>();
+        if (mob != null)
         {
-            var mob = enemy.GetComponent<Mob>();
-            if (mob != null && mob.target == null)
+            if (bindPlayerTargetIfPossible && playerRigidbody != null && mob.target == null)
                 mob.target = playerRigidbody;
+            
+            // 5) 플레이어가 이미 방 안에 있으면 바로 활성화
+            var room = roomGO.GetComponent<Room>();
+            if (room != null && IsPlayerInRoom(room))
+            {
+                mob.Activate();
+            }
         }
+    }
+    
+    bool IsPlayerInRoom(Room room)
+    {
+        if (playerRigidbody == null) return false;
+        Vector2 playerPos = playerRigidbody.position;
+        return room.AABB.Contains(playerPos);
     }
 
     bool Blocked(Vector2 p)

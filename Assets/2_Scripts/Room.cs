@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Collections;
 using UnityEngine;
 
 [DisallowMultipleComponent]
@@ -12,6 +13,20 @@ public class Room : MonoBehaviour
     bool mobsActivated = false;  // 방의 몹들이 이미 활성화되었는지
 
     void Awake() => Init();
+    
+    void Start()
+    {
+        // 몹 스폰 후에 체크하도록 딜레이
+        StartCoroutine(DelayedCheckPlayer());
+    }
+    
+    IEnumerator DelayedCheckPlayer()
+    {
+        // 몹 스폰 대기 (MobSpawner가 스폰할 시간)
+        yield return new WaitForSeconds(0.5f);
+        CheckPlayerAlreadyInRoom();
+    }
+    
 #if UNITY_EDITOR
     void OnValidate() { if (!Application.isPlaying) Init(); }
 #endif
@@ -70,6 +85,36 @@ public class Room : MonoBehaviour
         return bestPt;
     }
 
+    // 게임 시작 시 플레이어가 이미 방 안에 있는지 체크
+    void CheckPlayerAlreadyInRoom()
+    {
+        if (mobsActivated) return;
+        
+        var player = GameObject.FindGameObjectWithTag("Player");
+        if (!player) return;
+        
+        Vector2 playerPos = player.transform.position;
+        
+        // 1. 트리거 콜라이더로 체크
+        if (triggerInners != null && triggerInners.Length > 0)
+        {
+            foreach (var trigger in triggerInners)
+            {
+                if (trigger && trigger.OverlapPoint(playerPos))
+                {
+                    ActivateMobs();
+                    return;
+                }
+            }
+        }
+        
+        // 2. 트리거가 없으면 AABB bounds로 체크
+        if (aabb.Contains(playerPos))
+        {
+            ActivateMobs();
+        }
+    }
+    
     // 플레이어가 방에 들어오면 몹들 활성화
     void OnTriggerEnter2D(Collider2D other)
     {
@@ -84,6 +129,8 @@ public class Room : MonoBehaviour
         mobsActivated = true;
         
         var mobs = GetComponentsInChildren<Mob>(true);
+        Debug.Log($"[Room] {gameObject.name} 몹 활성화! 몹 수: {mobs.Length}");
+        
         foreach (var mob in mobs)
         {
             if (mob && mob.IsAlive)

@@ -31,8 +31,8 @@ public class Mob : MonoBehaviour
     public AudioClip deathSfx; [Range(0f, 1f)] public float deathSfxVolume = 1f;
 
     [Header("회전 속도")]
-    public float sensingRotationSpeed = 120f;  // 의심 시 (detectRadius 진입) 플레이어 쪽으로 돌아보는 속도
-    public float alertRotationSpeed = 280f;    // 발각 시 (FOV 진입) 플레이어 쪽으로 돌아보는 속도 (의심의 2배)
+    public float sensingRotationSpeed = 60f;  // 의심 시 (detectRadius 진입) 플레이어 쪽으로 돌아보는 속도
+    public float alertRotationSpeed = 120f;    // 발각 시 (FOV 진입) 플레이어 쪽으로 돌아보는 속도 (의심의 2배)
 
     public bool IsAlerted => hasSpotted;
     public bool IsAlive => isLive;

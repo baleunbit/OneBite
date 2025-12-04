@@ -162,7 +162,6 @@ MonoBehaviour:
   detectRadius: 15
   viewDistance: 15
   fovAngle: 80
-  rotationSpeed: 10
   currentViewDirection: {x: 0, y: 1}
   target: {fileID: 0}
   anim: {fileID: 7848182402521066036}
@@ -176,7 +175,8 @@ MonoBehaviour:
   hitSfxVolume: 1
   deathSfx: {fileID: 0}
   deathSfxVolume: 1
-  alertRotationSpeed: 60
+  sensingRotationSpeed: 100
+  alertRotationSpeed: 180
   isSensing: 0
 --- !u!114 &901908171243112950
 MonoBehaviour:
