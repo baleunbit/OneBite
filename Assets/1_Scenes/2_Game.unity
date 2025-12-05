@@ -3216,7 +3216,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   biteKey: 101
-  biteRange: 4
+  biteRange: 3.5
   enemyTag: Mob
   requireStealth: 1
   requireBackAngle: 0
