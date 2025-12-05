@@ -1,25 +1,28 @@
 fileFormatVersion: 2
-guid: 01417b1ad29bd4244914e694fe309437
+guid: 84e1df6357e0e94499eaa915d4228402
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -3149270455587678691
-    second: CakeWalk_0
+      213: -7829437584619792371
+    second: 2_Door_Ss_0
   - first:
-      213: 4027053483714173555
-    second: CakeWalk_1
+      213: -5511588212880013032
+    second: 2_Door_Ss_1
   - first:
-      213: -4563383734005983228
-    second: CakeWalk_2
+      213: 4835554538580200433
+    second: 2_Door_Ss_2
   - first:
-      213: 3969146140617267865
-    second: CakeWalk_3
+      213: -5263424527562662318
+    second: 2_Door_Ss_3
   - first:
-      213: -4363809188414454290
-    second: CakeWalk_4
+      213: 5712706525533674819
+    second: 2_Door_Ss_4
   - first:
-      213: 7019409486789699024
-    second: CakeWalk_5
+      213: 4404760444722089939
+    second: 2_Door_Ss_5
+  - first:
+      213: 5250109556216236650
+    second: 2_Door_Ss_6
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -128,13 +131,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: CakeWalk_0
+      name: 2_Door_Ss_0
       rect:
         serializedVersion: 2
-        x: 31
-        y: 311
-        width: 186
-        height: 178
+        x: 23
+        y: 0
+        width: 210
+        height: 256
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -143,20 +146,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: d165019c43b8b44d0800000000000000
-      internalID: -3149270455587678691
+      spriteID: d0815a9bfff385390800000000000000
+      internalID: -7829437584619792371
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: CakeWalk_1
+      name: 2_Door_Ss_1
       rect:
         serializedVersion: 2
-        x: 287
-        y: 311
-        width: 194
-        height: 178
+        x: 279
+        y: 0
+        width: 210
+        height: 256
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -165,20 +168,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 37a5844aec7f2e730800000000000000
-      internalID: 4027053483714173555
+      spriteID: 8198e07d8b7e283b0800000000000000
+      internalID: -5511588212880013032
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: CakeWalk_2
+      name: 2_Door_Ss_2
       rect:
         serializedVersion: 2
-        x: 543
-        y: 311
-        width: 186
-        height: 178
+        x: 535
+        y: 0
+        width: 210
+        height: 256
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -187,20 +190,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 40817c8fbaa9ba0c0800000000000000
-      internalID: -4563383734005983228
+      spriteID: 1fbc914ab375b1340800000000000000
+      internalID: 4835554538580200433
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: CakeWalk_3
+      name: 2_Door_Ss_3
       rect:
         serializedVersion: 2
-        x: 799
-        y: 311
-        width: 186
-        height: 178
+        x: 791
+        y: 0
+        width: 210
+        height: 256
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -209,20 +212,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 99ada1da26d351730800000000000000
-      internalID: 3969146140617267865
+      spriteID: 25e9c8c674f84f6b0800000000000000
+      internalID: -5263424527562662318
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: CakeWalk_4
+      name: 2_Door_Ss_4
       rect:
         serializedVersion: 2
-        x: 1055
-        y: 311
-        width: 186
-        height: 178
+        x: 1047
+        y: 0
+        width: 210
+        height: 256
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -231,20 +234,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: ee588f0e9a2a073c0800000000000000
-      internalID: -4363809188414454290
+      spriteID: 34d9d78515c974f40800000000000000
+      internalID: 5712706525533674819
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: CakeWalk_5
+      name: 2_Door_Ss_5
       rect:
         serializedVersion: 2
-        x: 1055
-        y: 55
-        width: 186
-        height: 178
+        x: 1303
+        y: 0
+        width: 210
+        height: 256
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -253,8 +256,30 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 0d56b11ecb3f96160800000000000000
-      internalID: 7019409486789699024
+      spriteID: 3df0a5c794ad02d30800000000000000
+      internalID: 4404760444722089939
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 2_Door_Ss_6
+      rect:
+        serializedVersion: 2
+        x: 1559
+        y: 0
+        width: 210
+        height: 256
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a6a072a33d22cd840800000000000000
+      internalID: 5250109556216236650
       vertices: []
       indices: 
       edges: []
@@ -272,13 +297,7 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable:
-      CakeWalk_0: -3149270455587678691
-      CakeWalk_1: 4027053483714173555
-      CakeWalk_2: -4563383734005983228
-      CakeWalk_3: 3969146140617267865
-      CakeWalk_4: -4363809188414454290
-      CakeWalk_5: 7019409486789699024
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
