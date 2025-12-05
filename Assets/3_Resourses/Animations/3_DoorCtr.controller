@@ -21,7 +21,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 35649c5eee609244b8bf8e74f89c5b4c, type: 2}
+  m_Motion: {fileID: 7400000, guid: 9e95b00c83c8a3c4db045ce58f5e482b, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -58,7 +58,7 @@ AnimatorController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: DoorCtr
+  m_Name: 3_DoorCtr
   serializedVersion: 5
   m_AnimatorParameters:
   - m_Name: OpenDoor
@@ -125,7 +125,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 484eaa33e6add4b4196422ef0224dddb, type: 2}
+  m_Motion: {fileID: 7400000, guid: 637f1bb98c92be04da0e5aa87999893a, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 

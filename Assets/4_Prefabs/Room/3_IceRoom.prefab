@@ -791,6 +791,7 @@ GameObject:
   - component: {fileID: 6187043950806407208}
   - component: {fileID: 9089637357296890512}
   - component: {fileID: 5332261116800693492}
+  - component: {fileID: 8758547736813325437}
   m_Layer: 0
   m_Name: Door (1)
   m_TagString: Untagged
@@ -889,6 +890,7 @@ MonoBehaviour:
   blockedMessage: "\uC544\uC9C1 \uC801\uC774 \uB0A8\uC544 \uC788\uC5B4!"
   doorAnimator: {fileID: 0}
   anim: {fileID: 0}
+  doorCheckDelay: 1
 --- !u!61 &5332261116800693492
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -935,6 +937,28 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 2.031618, y: 2.9043822}
   m_EdgeRadius: 0
+--- !u!95 &8758547736813325437
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3849097853300636184}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 44e9778d35f7eca429c2094ec21a3be2, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &4962768287643263124
 GameObject:
   m_ObjectHideFlags: 0
@@ -1347,6 +1371,7 @@ GameObject:
   - component: {fileID: 4176530887282705767}
   - component: {fileID: 2482507657624835498}
   - component: {fileID: 4985532294303976201}
+  - component: {fileID: 3852647690411024674}
   m_Layer: 0
   m_Name: Door (2)
   m_TagString: Untagged
@@ -1445,6 +1470,7 @@ MonoBehaviour:
   blockedMessage: "\uC544\uC9C1 \uC801\uC774 \uB0A8\uC544 \uC788\uC5B4!"
   doorAnimator: {fileID: 0}
   anim: {fileID: 0}
+  doorCheckDelay: 1
 --- !u!61 &4985532294303976201
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1491,6 +1517,28 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 2.031618, y: 2.8563051}
   m_EdgeRadius: 0
+--- !u!95 &3852647690411024674
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6992438863527003681}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 44e9778d35f7eca429c2094ec21a3be2, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &7508298024796195033
 GameObject:
   m_ObjectHideFlags: 0
@@ -1591,6 +1639,7 @@ GameObject:
   - component: {fileID: 5253601145273494442}
   - component: {fileID: 8518899275361794848}
   - component: {fileID: 969077296997720405}
+  - component: {fileID: 4091734557808014499}
   m_Layer: 0
   m_Name: Door1 (1)
   m_TagString: Untagged
@@ -1689,6 +1738,7 @@ MonoBehaviour:
   blockedMessage: "\uC544\uC9C1 \uC801\uC774 \uB0A8\uC544 \uC788\uC5B4!"
   doorAnimator: {fileID: 0}
   anim: {fileID: 0}
+  doorCheckDelay: 1
 --- !u!61 &969077296997720405
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1735,6 +1785,28 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 2.0382986, y: 2.6851058}
   m_EdgeRadius: 0
+--- !u!95 &4091734557808014499
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7920762834248549244}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 44e9778d35f7eca429c2094ec21a3be2, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &9206501008810161282
 GameObject:
   m_ObjectHideFlags: 0
