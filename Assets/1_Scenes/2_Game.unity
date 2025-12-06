@@ -2250,14 +2250,6 @@ PrefabInstance:
       propertyPath: bossBar
       value: 
       objectReference: {fileID: 757568938}
-    - target: {fileID: 5950916918738921901, guid: 445610f1592ae7c428f912c592a17b9f, type: 3}
-      propertyPath: bossBar
-      value: 
-      objectReference: {fileID: 757568938}
-    - target: {fileID: 5950916918738921901, guid: 445610f1592ae7c428f912c592a17b9f, type: 3}
-      propertyPath: cinemachineCamera
-      value: 
-      objectReference: {fileID: 718230529}
     - target: {fileID: 7749397074239670649, guid: 445610f1592ae7c428f912c592a17b9f, type: 3}
       propertyPath: m_Name
       value: 1_BossRoom
