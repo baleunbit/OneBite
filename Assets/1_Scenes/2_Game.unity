@@ -883,7 +883,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0.12593721, y: 86.84155}
+  m_AnchoredPosition: {x: 0.12595905, y: 86.84155}
   m_SizeDelta: {x: 22.535, y: 4.678}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &88877569
@@ -1492,7 +1492,7 @@ Transform:
   m_GameObject: {fileID: 315458525}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 89.2, y: -143.9, z: -1}
+  m_LocalPosition: {x: 90, y: -135, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3039,7 +3039,7 @@ Transform:
   m_GameObject: {fileID: 546217742}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 89.2, y: -143.9, z: 0}
+  m_LocalPosition: {x: 90, y: -135, z: 0}
   m_LocalScale: {x: 3.5, y: 3.5, z: 3.5}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3070,9 +3070,9 @@ MonoBehaviour:
   biteRangeBonus: 0.5
   quietStepBonus: 0.5
   weaponDamageUpgrade: 1
-  biteRangeUpgrade: 0.5
+  biteRangeUpgrade: 0.3
   moveSpeedUpgradePercent: 0.05
-  quietStepUpgrade: 0.5
+  quietStepUpgrade: 0.3
   whiteHealthBar: {fileID: 1517460740}
   whiteBarFollowSpeed: 4
 --- !u!50 &546217747
@@ -3620,7 +3620,7 @@ Transform:
   m_GameObject: {fileID: 718230527}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 89.2, y: -143.9, z: -1}
+  m_LocalPosition: {x: 90, y: -135, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -7579,9 +7579,9 @@ MonoBehaviour:
   roomPrefabs:
   - {fileID: 7749397074239670649, guid: 445610f1592ae7c428f912c592a17b9f, type: 3}
   - {fileID: 7243121961036264803, guid: d068cc554ee379642a2c15dc8515b61c, type: 3}
-  - {fileID: 8708093768385117061, guid: 3915303f94d3e3d42b4a46090f734c30, type: 3}
-  - {fileID: 5444103890773471666, guid: 4c292306ca652e149acc8ee3d04525bd, type: 3}
-  - {fileID: 50124368337975288, guid: e03a94ea95aa8fc4a976a44e22018bfc, type: 3}
+  - {fileID: 2656172468851877294, guid: 4c292306ca652e149acc8ee3d04525bd, type: 3}
+  - {fileID: 6425614248885609382, guid: e03a94ea95aa8fc4a976a44e22018bfc, type: 3}
+  - {fileID: 6368621812921442924, guid: 0fb4c70c36792e24981045cf95ab64b3, type: 3}
   - {fileID: 6116839090215016894, guid: 83fba7b3b77768443aa4bdc2f9815730, type: 3}
   - {fileID: 9137992438560709480, guid: 4e7fdd33fa349464da5ae625e8ffaaac, type: 3}
   - {fileID: 6135580199641302902, guid: 8b9381addf923bc4b8a484285fc6cd64, type: 3}
@@ -7590,6 +7590,10 @@ MonoBehaviour:
   - {fileID: 4129889658523466314, guid: 04f06816f1adb6343821e76590cc2f1e, type: 3}
   - {fileID: 7851459239002024756, guid: ee17cf9525538d1408ddef21b4160693, type: 3}
   - {fileID: 7917406753758472655, guid: 207870641dff6134aa1fbf61276a9419, type: 3}
+  - {fileID: 8758399994387530538, guid: f5c77fd97785d21478eb71439eac9518, type: 3}
+  - {fileID: 5221954046370286341, guid: 9baf9f9ef87edb5498e5f3bd9ea0a8d7, type: 3}
+  - {fileID: 83586932259401649, guid: f9ccaf860db58d248b1a6c5848215e13, type: 3}
+  - {fileID: 7893730465530876472, guid: eaf9ed0ecca022249ae3786137679c0d, type: 3}
   startStage: 1
   endStage: 4
   roomsPerStage: 2
