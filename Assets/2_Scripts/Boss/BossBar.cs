@@ -14,11 +14,6 @@ public class BossBar : MonoBehaviour
     
     float targetFillAmount = 1f;
 
-    void Start()
-    {
-        gameObject.SetActive(false);
-    }
-    
     void Update()
     {
         // 화이트 바가 빨간 바를 천천히 따라감

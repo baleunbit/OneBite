@@ -28,6 +28,9 @@ public class Boss : MonoBehaviour
     void Start()
     {
         hp = maxHP;
+
+        if (!bossBar)
+            bossBar = FindFirstObjectByType<BossBar>();
     }
 
     public void StartPattern()
