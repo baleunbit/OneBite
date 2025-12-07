@@ -45,8 +45,6 @@ public class BossTrigger : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D col)
     {
-        Debug.Log("BossTrigger ENTER");
-
         if (!col.CompareTag("Player")) return;
 
         if (!entered)
@@ -83,8 +81,6 @@ public class BossTrigger : MonoBehaviour
 
     void TryTrigger(Collider2D other)
     {
-        Debug.Log("BossTrigger TRIGGER");
-
         if (triggered) return;
         if (!other.CompareTag("Player")) return;
 

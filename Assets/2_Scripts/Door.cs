@@ -77,7 +77,7 @@ public class Door : MonoBehaviour
 
         foreach (var child in children)
         {
-            if (child.CompareTag("Mob"))
+            if (child.CompareTag("Mob") || child.CompareTag("Boss"))
             {
                 mobCount++;
             }

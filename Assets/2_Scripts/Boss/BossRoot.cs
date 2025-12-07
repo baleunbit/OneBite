@@ -71,12 +71,6 @@ public class BossRoot : MonoBehaviour
             MoveIdle();
         else
             MoveInfinity();
-
-        // ===========================
-        // 2) 회전 처리 (스프라이트만)
-        // ===========================
-        if (rotateEnabled && visual != null)
-            visual.Rotate(0, 0, rotateSpeed * Time.deltaTime);
     }
 
     // ---- Idle 상하 이동 ----

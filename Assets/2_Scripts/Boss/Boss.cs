@@ -61,7 +61,6 @@ public class Boss : MonoBehaviour
             if (bossRoot)
             {
                 bossRoot.isInfinity = false;
-                bossRoot.rotateEnabled = false;
             }
 
             yield return new WaitForSeconds(1.5f);
@@ -71,7 +70,6 @@ public class Boss : MonoBehaviour
             if (bossRoot)
             {
                 bossRoot.isInfinity = true;
-                bossRoot.rotateEnabled = true;
             }
 
             yield return new WaitForSeconds(0.3f);
@@ -91,7 +89,6 @@ public class Boss : MonoBehaviour
             if (bossRoot)
             {
                 bossRoot.isInfinity = true;
-                bossRoot.rotateEnabled = false;
             }
 
             yield return new WaitForSeconds(1.2f);
