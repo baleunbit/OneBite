@@ -13,7 +13,7 @@ public class Boss : MonoBehaviour
     [Header("Projectile Settings")]
     public GameObject bossBullet;
     public Transform firePoint;
-    public float bulletSpeed = 12f;  // 속도 증가
+    public float bulletSpeed = 12f;
     public float shootInterval = 4f;
 
     [Header("Boss UI")]
@@ -22,8 +22,13 @@ public class Boss : MonoBehaviour
 
     public bool canAct = false;
 
-    // BossRoot(이동, 회전 담당)
+    [Header("Boss Root (movement/pattern)")]
     public BossRoot bossRoot;
+
+    [Header("Animation")]
+    public Animator anim;
+    // Animator에 반드시 Bool/Trigger:
+    // Trigger : BossAttack
 
     void Start()
     {
@@ -31,93 +36,107 @@ public class Boss : MonoBehaviour
 
         if (!bossBar)
             bossBar = FindFirstObjectByType<BossBar>();
+
+        if (!anim)
+            anim = GetComponentInChildren<Animator>();
     }
 
     public void StartPattern()
     {
-        canAct = true;
-        StartCoroutine(PatternRoutine());
+        if (!canAct)
+        {
+            canAct = true;
+            StartCoroutine(PatternRoutine());
+        }
     }
 
     IEnumerator PatternRoutine()
     {
         while (hp > 0)
         {
-            // 1) Idle(상하) 모드
+            // 1) Idle 상태 --------------------------------------------------
+            anim.ResetTrigger("BossAttack");   // 혹시 남은 trigger 제거
+            anim.Play("1_BossIdle");
+
             if (bossRoot)
             {
                 bossRoot.isInfinity = false;
                 bossRoot.rotateEnabled = false;
             }
+
             yield return new WaitForSeconds(1.5f);
 
-            // 2) 공격 준비 (팔자 + 회전)
+
+            // 2) Attack 준비 --------------------------------------------------
             if (bossRoot)
             {
                 bossRoot.isInfinity = true;
                 bossRoot.rotateEnabled = true;
             }
-            yield return new WaitForSeconds(1.2f);
 
-            // 3) 공격
-            Shoot();
-            yield return new WaitForSeconds(0.2f);
+            yield return new WaitForSeconds(0.3f);
 
-            // 4) 공격 후 팔자 유지
+
+            // 3) Attack 모션 실행 ---------------------------------------------
+            anim.SetTrigger("BossAttack");
+
+            yield return new WaitForSeconds(0.1f);
+            Shoot();                            // 공격 타이밍에 따라 조절 가능
+
+            // Attack 애니메이션 끝날 시간 기다리기
+            yield return new WaitForSeconds(0.6f);
+
+
+            // 4) 다시 Idle로 돌아가는 구간 ------------------------------------
             if (bossRoot)
             {
                 bossRoot.isInfinity = true;
                 bossRoot.rotateEnabled = false;
             }
-            yield return new WaitForSeconds(1.5f);
+
+            yield return new WaitForSeconds(1.2f);
         }
     }
 
+    //-------------------------------------------------------------------
+    //  🔥 보스 총알 발사 방식
+    //-------------------------------------------------------------------
     void Shoot()
     {
         if (!bossBullet || !firePoint) return;
-        
-        // 플레이어 찾기
+
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         if (!player) return;
-        
-        // 플레이어 방향 계산
+
         Vector2 direction = (player.transform.position - firePoint.position).normalized;
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        
-        // 투사체 생성 (플레이어 방향으로 회전)
+
         GameObject b = Instantiate(bossBullet, firePoint.position, Quaternion.Euler(0, 0, angle));
 
-        // Rigidbody2D 확인/추가
         Rigidbody2D rb = b.GetComponent<Rigidbody2D>();
-        if (rb == null)
-        {
-            rb = b.AddComponent<Rigidbody2D>();
-            Debug.Log("[Boss] 투사체에 Rigidbody2D 자동 추가됨");
-        }
+        if (rb == null) rb = b.AddComponent<Rigidbody2D>();
+
         rb.gravityScale = 0f;
         rb.linearVelocity = direction * bulletSpeed;
 
-        // Collider2D 확인/추가
         Collider2D col = b.GetComponent<Collider2D>();
         if (col == null)
         {
             col = b.AddComponent<CircleCollider2D>();
             col.isTrigger = true;
-            Debug.Log("[Boss] 투사체에 CircleCollider2D 자동 추가됨");
         }
 
-        // Bullet 컴포넌트 확인/추가
         Bullet bullet = b.GetComponent<Bullet>();
         if (bullet == null)
-        {
             bullet = b.AddComponent<Bullet>();
-            Debug.Log("[Boss] 투사체에 Bullet 컴포넌트 자동 추가됨");
-        }
+
         bullet.damage = bulletDamage;
-        bullet.isPlayerBullet = false;  // 보스 총알 = 플레이어에게 데미지
+        bullet.isPlayerBullet = false;
     }
 
+    //-------------------------------------------------------------------
+    //  🔥 데미지 처리
+    //-------------------------------------------------------------------
     public void TakeDamage(int dmg)
     {
         hp -= dmg;
@@ -131,6 +150,8 @@ public class Boss : MonoBehaviour
 
     void Die()
     {
+        canAct = false;
+        StopAllCoroutines();
         Destroy(gameObject);
     }
 }
