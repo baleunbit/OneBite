@@ -1276,7 +1276,7 @@ PrefabInstance:
       objectReference: {fileID: 757568938}
     - target: {fileID: 3119372441075913088, guid: 445610f1592ae7c428f912c592a17b9f, type: 3}
       propertyPath: appearHeight
-      value: 10
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 5950916918738921901, guid: 445610f1592ae7c428f912c592a17b9f, type: 3}
       propertyPath: bossBar
