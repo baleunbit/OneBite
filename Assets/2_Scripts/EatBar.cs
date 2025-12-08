@@ -10,7 +10,7 @@ public class EatBar : MonoBehaviour
     [SerializeField] Image fillImage;
     [SerializeField] int maxFullness = 100;
     [SerializeField] int startFullness = 50;
-    [SerializeField] float drainPerSecond = 2f;
+    [SerializeField] float drainPerSecond = 1f;
     [SerializeField] float minSpoilFactor = 0.3f;
     [SerializeField] float spoilFullSeconds = 180f;
 

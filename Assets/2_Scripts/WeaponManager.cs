@@ -38,9 +38,6 @@ public class WeaponManager : MonoBehaviour
             Debug.LogError("[WeaponManager] weaponSocket 지정 필요");
             enabled = false; return;
         }
-        if (!crosshair)
-            crosshair = GameObject.FindWithTag("Crosshair")?.transform
-                     ?? GameObject.Find("Crosshair")?.transform;
 
         Equip(Mathf.Clamp(defaultIndex, 0, (weaponPrefabs?.Count ?? 1) - 1));
     }
@@ -96,6 +93,7 @@ public class WeaponManager : MonoBehaviour
             case 1: damages = stage1WeaponDamage; break;
             case 2: damages = stage2WeaponDamage; break;
             case 3: damages = stage3WeaponDamage; break;
+            case 4: damages = stage4WeaponDamage; break;
             default: damages = stage1WeaponDamage; break;
         }
         
@@ -149,9 +147,6 @@ public class WeaponManager : MonoBehaviour
         var gun = currentGO.GetComponent<Gun>();
         if (gun)
         {
-            if (crosshair) gun.Crosshair = crosshair;
-            if (sharedAmmo) gun.sharedAmmo = sharedAmmo;
-            
             // 스테이지별 무기별 데미지 적용
             float damage = GetWeaponDamageForStage(currentStage, idx);
             gun.SetStageDamage(damage);

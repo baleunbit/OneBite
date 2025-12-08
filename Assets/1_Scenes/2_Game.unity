@@ -1623,9 +1623,17 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2290631933291188543, guid: 445610f1592ae7c428f912c592a17b9f, type: 3}
+      propertyPath: maxHP
+      value: 500
+      objectReference: {fileID: 0}
+    - target: {fileID: 2290631933291188543, guid: 445610f1592ae7c428f912c592a17b9f, type: 3}
       propertyPath: bossBar
       value: 
       objectReference: {fileID: 757568938}
+    - target: {fileID: 3119372441075913088, guid: 445610f1592ae7c428f912c592a17b9f, type: 3}
+      propertyPath: appearHeight
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 5950916918738921901, guid: 445610f1592ae7c428f912c592a17b9f, type: 3}
       propertyPath: bossBar
       value: 
@@ -3221,7 +3229,6 @@ MonoBehaviour:
   requireStealth: 1
   requireBackAngle: 0
   backAngle: 120
-  biteVfx: {fileID: 0}
   biteSfx: {fileID: 8300000, guid: d16429b64b3be6a42beb5639001e2bd5, type: 3}
   biteSfxVolume: 1
   biteCooldown: 0.35
@@ -3241,7 +3248,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fillImage: {fileID: 436746305}
-  valueText: {fileID: 0}
   maxFullness: 150
   startFullness: 50
   drainPerSecond: 1
@@ -3293,8 +3299,6 @@ MonoBehaviour:
   wrapAround: 1
   switchCooldown: 0.2
   defaultIndex: 0
-  crosshair: {fileID: 0}
-  sharedAmmo: {fileID: 0}
   useStageRules: 0
   stage1Index: 0
   stage2Index: 0

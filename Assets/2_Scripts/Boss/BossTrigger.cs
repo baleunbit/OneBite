@@ -61,7 +61,15 @@ public class BossTrigger : MonoBehaviour
                     weaponManager.stage1WeaponDamage[2] = 6f;
                     weaponManager.ApplyStageRules(1);
                 }
-                if (stage == 4) {
+                else if (stage == 2) {
+                    // Stage 2 보스룸: 일반 스테이지 규칙 적용 (포크만 12)
+                    weaponManager.ApplyStageRules(2);
+                }
+                else if (stage == 3) {
+                    // Stage 3 보스룸: 일반 스테이지 규칙 적용 (숟가락만 12)
+                    weaponManager.ApplyStageRules(3);
+                }
+                else if (stage == 4) {
                     weaponManager.stage4WeaponDamage[0] = 6f;
                     weaponManager.stage4WeaponDamage[1] = 6f;
                     weaponManager.stage4WeaponDamage[2] = 12f;

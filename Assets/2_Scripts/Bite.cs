@@ -149,7 +149,7 @@ public class Bite : MonoBehaviour
                 AudioSource.PlayClipAtPoint(biteSfx, _pendingTarget.transform.position, biteSfxVolume);
 
             _player?.AddExpFromBite(1);
-            EatBar.Instance?.AddFromEat(5);
+            EatBar.Instance?.AddFromEat(10);
 
             // 🔥 몹 즉시 삭제
             _pendingTarget.KillSilently();

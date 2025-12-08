@@ -6,10 +6,6 @@ public class BossRoot : MonoBehaviour
     [Header("스프라이트 자식 오브젝트")]
     public Transform visual;
 
-    [Header("회전 설정")]
-    public float rotateSpeed = 90f;
-    public bool rotateEnabled = false;
-
     [Header("등장 설정")]
     public float appearHeight = 5f;
     public float appearSpeed = 1.0f;
@@ -40,7 +36,6 @@ public class BossRoot : MonoBehaviour
     public IEnumerator AppearRoutine()
     {
         if (bossAI) bossAI.canAct = false;
-        rotateEnabled = false;
 
         Vector3 startPos = basePosition + Vector3.up * appearHeight;
         Vector3 endPos = basePosition;
@@ -56,7 +51,6 @@ public class BossRoot : MonoBehaviour
         }
 
         transform.position = endPos;
-        rotateEnabled = true;
         if (bossAI) bossAI.canAct = true;
     }
 
