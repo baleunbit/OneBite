@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 [RequireComponent(typeof(Animator))]
@@ -15,7 +15,6 @@ public class Bite : MonoBehaviour
     [Range(0, 180)] public float backAngle = 120f;
 
     [Header("VFX/SFX (옵션)")]
-    public GameObject biteVfx;
     public AudioClip biteSfx;
     [Range(0f, 1f)] public float biteSfxVolume = 0.9f;
 
@@ -148,8 +147,6 @@ public class Bite : MonoBehaviour
         {
             if (biteSfx)
                 AudioSource.PlayClipAtPoint(biteSfx, _pendingTarget.transform.position, biteSfxVolume);
-            if (biteVfx)
-                Instantiate(biteVfx, _pendingTarget.transform.position, Quaternion.identity);
 
             _player?.AddExpFromBite(1);
             EatBar.Instance?.AddFromEat(5);

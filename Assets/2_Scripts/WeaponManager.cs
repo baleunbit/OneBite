@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class WeaponManager : MonoBehaviour
@@ -14,10 +14,6 @@ public class WeaponManager : MonoBehaviour
     public float switchCooldown = 0.2f;
     public int defaultIndex = 0;
 
-    [Header("참조(선택)")]
-    public Transform crosshair;        // 없으면 자동으로 찾음
-    public SharedAmmo sharedAmmo;      // 공용 탄약 쓰면 지정
-
     [Header("Stage Rules (optional)")]
     public bool useStageRules = false;
     public int stage1Index = 0;
@@ -25,9 +21,10 @@ public class WeaponManager : MonoBehaviour
     public int stage3Index = 0;
     
     [Header("스테이지별 무기별 데미지 (0=Fork, 1=Spoon, 2=ChopStick)")]
-    public float[] stage1WeaponDamage = { 10f, 5f, 7f };   // 1스테이지: 포크, 스푼, 젓가락
-    public float[] stage2WeaponDamage = { 8f, 12f, 10f };  // 2스테이지
-    public float[] stage3WeaponDamage = { 12f, 15f, 18f }; // 3스테이지
+    public float[] stage1WeaponDamage = { 12f, 6f, 6f };   // 1스테이지: 포크, 스푼, 젓가락
+    public float[] stage2WeaponDamage = { 12f, 6f, 6f };  // 2스테이지
+    public float[] stage3WeaponDamage = { 6f, 12f, 6f }; // 3스테이지
+    public float[] stage4WeaponDamage = { 12f, 6f, 6f }; // 4스테이지
 
     int currentIndex = -1;
     GameObject currentGO;

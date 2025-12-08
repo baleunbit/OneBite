@@ -1,4 +1,4 @@
-﻿// EatBar.cs (핵심 변경만)
+// EatBar.cs (핵심 변경만)
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -8,8 +8,6 @@ public class EatBar : MonoBehaviour
     public static EatBar Instance { get; private set; }
 
     [SerializeField] Image fillImage;
-    [SerializeField] TextMeshProUGUI valueText;
-
     [SerializeField] int maxFullness = 100;
     [SerializeField] int startFullness = 50;
     [SerializeField] float drainPerSecond = 2f;
@@ -61,7 +59,6 @@ public class EatBar : MonoBehaviour
     {
         float f = Mathf.Clamp01((float)current / maxFullness);
         if (fillImage) fillImage.fillAmount = f;
-        if (valueText) valueText.text = $"{current} / {maxFullness}";
     }
 
     public void AddFromEat(int baseGain)
