@@ -15,8 +15,8 @@ GameObject:
   - component: {fileID: 1036311000123211887}
   - component: {fileID: 901908171243112950}
   - component: {fileID: 2602595999400006148}
-  - component: {fileID: 6776577113588359612}
   - component: {fileID: -5680902333907842237}
+  - component: {fileID: 6979692217469821773}
   m_Layer: 0
   m_Name: 1_Cake
   m_TagString: Mob
@@ -85,7 +85,7 @@ SpriteRenderer:
   m_SortingOrder: 1
   m_Sprite: {fileID: -6794305457321429515, guid: c0ff8a828b08e4546b9b58f2033a9da5, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
+  m_FlipX: 1
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 1.86, y: 1.78}
@@ -207,7 +207,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9766939b6a1aa8e439a8ef8e2d6600c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!60 &6776577113588359612
+--- !u!114 &-5680902333907842237
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2935279607592298187}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d74f2498c561c840a61d629b5ac5216, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  patrolSpeed: 3
+  moveTime: 1.5
+  stopTime: 1
+  turnSpeed: 90
+--- !u!60 &6979692217469821773
 PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -281,19 +297,3 @@ PolygonCollider2D:
       - {x: -0.16, y: -0.75}
       - {x: 0.34, y: -0.74}
   m_UseDelaunayMesh: 0
---- !u!114 &-5680902333907842237
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2935279607592298187}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9d74f2498c561c840a61d629b5ac5216, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  patrolSpeed: 3
-  moveTime: 1.5
-  stopTime: 1
-  turnSpeed: 90

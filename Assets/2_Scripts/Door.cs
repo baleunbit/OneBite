@@ -1,4 +1,4 @@
-﻿// Door.cs
+// Door.cs
 using UnityEngine;
 
 [RequireComponent(typeof(Collider2D))]
@@ -64,6 +64,13 @@ public class Door : MonoBehaviour
         {
             openedOnce = true;
             if (doorAnimator) doorAnimator.SetTrigger("OpenDoor");
+            
+            // 보스 방이 클리어되면 보스 바 숨기기
+            if (ownerRoom && ownerRoom.gameObject.name.Contains("BossRoom"))
+            {
+                var bossBar = FindFirstObjectByType<BossBar>();
+                if (bossBar) bossBar.Hide();
+            }
         }
     }
 

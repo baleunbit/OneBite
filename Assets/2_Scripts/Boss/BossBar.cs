@@ -14,6 +14,12 @@ public class BossBar : MonoBehaviour
     
     float targetFillAmount = 1f;
 
+    void Awake()
+    {
+        // 게임 시작 시 보스 바는 기본적으로 숨김
+        gameObject.SetActive(false);
+    }
+
     void Update()
     {
         // 화이트 바가 빨간 바를 천천히 따라감

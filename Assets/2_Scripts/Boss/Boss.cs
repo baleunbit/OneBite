@@ -149,6 +149,11 @@ public class Boss : MonoBehaviour
     {
         canAct = false;
         StopAllCoroutines();
+        
+        // 보스 바 숨기기
+        if (bossBar != null)
+            bossBar.Hide();
+        
         Destroy(gameObject);
     }
 }

@@ -4,23 +4,21 @@ using Unity.Cinemachine;
 
 public class BossTrigger : MonoBehaviour
 {
-    public BossRoot bossRoot;   // 보스 루트 스크립트
-    public Boss bossAI;         // 보스 AI (Boss.cs)
-    public BossBar bossBar;     // 체력바 UI
+    public BossRoot bossRoot;
+    public Boss bossAI;
+    public BossBar bossBar;
 
     [Header("카메라 줌 설정")]
-    public CinemachineCamera cinemachineCamera;  // 시네머신 카메라
-    public float bossRoomZoom = 50f;    // 보스 방 줌 (크게)
-    public float normalZoom = 25f;       // 일반 줌
-    public float zoomSpeed = 2f;         // 줌 전환 속도
+    public CinemachineCamera cinemachineCamera;
+    public float bossRoomZoom = 70f;
+    public float normalZoom = 25f;
+    public float zoomSpeed = 2f;
 
-    private bool triggered = false;
     bool entered = false;
     float targetZoom;
 
     void Start()
     {
-        // 시네머신 카메라 자동 찾기
         if (!cinemachineCamera)
             cinemachineCamera = FindFirstObjectByType<CinemachineCamera>();
 
@@ -32,13 +30,13 @@ public class BossTrigger : MonoBehaviour
 
     void Update()
     {
-        // 부드러운 줌 전환
         if (cinemachineCamera)
         {
             float currentSize = cinemachineCamera.Lens.OrthographicSize;
             if (Mathf.Abs(currentSize - targetZoom) > 0.1f)
             {
-                cinemachineCamera.Lens.OrthographicSize = Mathf.Lerp(currentSize, targetZoom, zoomSpeed * Time.deltaTime);
+                cinemachineCamera.Lens.OrthographicSize =
+                    Mathf.Lerp(currentSize, targetZoom, zoomSpeed * Time.deltaTime);
             }
         }
     }
@@ -47,29 +45,37 @@ public class BossTrigger : MonoBehaviour
     {
         if (!col.CompareTag("Player")) return;
 
-        // ======= 스테이지별 무기 데미지 처리 =======
+        // ===============================
+        // 🔥 스테이지별 무기 대미지 처리 (복구됨)
+        // ===============================
         var weaponManager = FindFirstObjectByType<WeaponManager>();
-        if (weaponManager != null) {
+        if (weaponManager != null)
+        {
             int stage = 1;
             string roomName = gameObject.name;
+
             if (!string.IsNullOrEmpty(roomName) && roomName.Length > 0)
                 int.TryParse(roomName.Substring(0, 1), out stage);
-            if (roomName.Contains("BossRoom")) {
-                if (stage == 1) {
+
+            if (roomName.Contains("BossRoom"))
+            {
+                if (stage == 1)
+                {
                     weaponManager.stage1WeaponDamage[0] = 12f;
                     weaponManager.stage1WeaponDamage[1] = 6f;
                     weaponManager.stage1WeaponDamage[2] = 6f;
                     weaponManager.ApplyStageRules(1);
                 }
-                else if (stage == 2) {
-                    // Stage 2 보스룸: 일반 스테이지 규칙 적용 (포크만 12)
+                else if (stage == 2)
+                {
                     weaponManager.ApplyStageRules(2);
                 }
-                else if (stage == 3) {
-                    // Stage 3 보스룸: 일반 스테이지 규칙 적용 (숟가락만 12)
+                else if (stage == 3)
+                {
                     weaponManager.ApplyStageRules(3);
                 }
-                else if (stage == 4) {
+                else if (stage == 4)
+                {
                     weaponManager.stage4WeaponDamage[0] = 6f;
                     weaponManager.stage4WeaponDamage[1] = 6f;
                     weaponManager.stage4WeaponDamage[2] = 12f;
@@ -77,24 +83,27 @@ public class BossTrigger : MonoBehaviour
                 }
             }
         }
-        // ==========================================
+        // ===============================
 
         if (!entered)
         {
             entered = true;
-            Debug.Log("[BossTrigger] 플레이어 진입 - 보스 시작");
 
-            // 1) 보스 바 켜기
-            if (bossBar && bossAI) bossBar.Show(bossAI.bossName, bossAI.maxHP);
+            // 🔥 보스 바 활성화
+            if (bossBar)
+            {
+                string bossName = bossAI ? bossAI.bossName : "BOSS";
+                int maxHP = bossAI ? bossAI.maxHP : 500;
+                bossBar.Show(bossName, maxHP);
+            }
 
-            // 2) 보스 등장 시작
+            // 🔥 등장
             if (bossRoot) bossRoot.StartAppear();
 
-            // 3) 보스 패턴 시작
+            // 🔥 패턴 시작
             if (bossAI) bossAI.StartPattern();
         }
 
-        // 카메라 줌 아웃 (보스 방)
         targetZoom = bossRoomZoom;
     }
 
@@ -102,37 +111,6 @@ public class BossTrigger : MonoBehaviour
     {
         if (!col.CompareTag("Player")) return;
 
-        // 카메라 줌 인 (일반)
         targetZoom = normalZoom;
-    }
-
-    private void OnTriggerStay2D(Collider2D other)
-    {
-        TryTrigger(other);
-    }
-
-    void TryTrigger(Collider2D other)
-    {
-        if (triggered) return;
-        if (!other.CompareTag("Player")) return;
-
-        triggered = true;
-
-        Debug.Log("[BossTrigger] 플레이어 감지 - 보스 시작");
-
-        // 체력바 표시
-        if (bossBar && bossAI) bossBar.Show(bossAI.bossName, bossAI.maxHP);
-
-        // 보스 등장 시작
-        if (bossRoot) bossRoot.StartAppear();
-
-        // 보스 패턴 시작 (딜레이)
-        StartCoroutine(StartBossAfterDelay());
-    }
-
-    IEnumerator StartBossAfterDelay()
-    {
-        yield return new WaitForSeconds(0.5f);
-        if (bossAI) bossAI.StartPattern();
     }
 }
