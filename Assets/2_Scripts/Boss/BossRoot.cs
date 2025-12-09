@@ -7,7 +7,7 @@ public class BossRoot : MonoBehaviour
     public Transform visual;
 
     [Header("등장 설정")]
-    public float appearHeight = 5f;
+    public float appearHeight = 15f;  // 더 위에서 등장
     public float appearSpeed = 1.0f;
     public Boss bossAI;
 

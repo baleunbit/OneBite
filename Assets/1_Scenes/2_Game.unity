@@ -5825,9 +5825,9 @@ MonoBehaviour:
   - {fileID: 7851459239002024756, guid: ee17cf9525538d1408ddef21b4160693, type: 3}
   - {fileID: 7917406753758472655, guid: 207870641dff6134aa1fbf61276a9419, type: 3}
   - {fileID: 8758399994387530538, guid: f5c77fd97785d21478eb71439eac9518, type: 3}
-  - {fileID: 5221954046370286341, guid: 9baf9f9ef87edb5498e5f3bd9ea0a8d7, type: 3}
-  - {fileID: 83586932259401649, guid: f9ccaf860db58d248b1a6c5848215e13, type: 3}
-  - {fileID: 7893730465530876472, guid: eaf9ed0ecca022249ae3786137679c0d, type: 3}
+  - {fileID: 8758399994387530538, guid: 9baf9f9ef87edb5498e5f3bd9ea0a8d7, type: 3}
+  - {fileID: 8758399994387530538, guid: f9ccaf860db58d248b1a6c5848215e13, type: 3}
+  - {fileID: 8758399994387530538, guid: eaf9ed0ecca022249ae3786137679c0d, type: 3}
   startStage: 1
   endStage: 4
   roomsPerStage: 2

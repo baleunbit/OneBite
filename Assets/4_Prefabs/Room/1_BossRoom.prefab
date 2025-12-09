@@ -752,7 +752,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 332261d8a4add5a4da304f47eace4e44, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHP: 300
+  maxHP: 500
   contactDamage: 3
   bulletDamage: 5
   bossBullet: {fileID: 6578160224776761967, guid: 61594293acbfe4948b922872aaca9c6a, type: 3}
@@ -777,8 +777,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   visual: {fileID: 2182794683749425970}
-  rotateSpeed: 90
-  rotateEnabled: 0
   appearHeight: 5
   appearSpeed: 1
   bossAI: {fileID: 2290631933291188543}
