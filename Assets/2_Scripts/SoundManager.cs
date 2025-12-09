@@ -1,4 +1,4 @@
-// SoundManager.cs (기존 파일 대체)
+// SoundManager.cs (수정 완료 버전)
 using UnityEngine;
 
 public class SoundManager : MonoBehaviour
@@ -10,42 +10,86 @@ public class SoundManager : MonoBehaviour
     public AudioClip bgmGameOver;
 
     [Header("스테이지별 BGM (index = stage-1)")]
-    public AudioClip[] stageBgms;   // 0: 1스테, 1: 2스테, 2: 3스테, ...
+    public AudioClip[] stageBgms;
 
-    [Range(0f, 1f)] public float bgmVolume = 0.8f;
-    public bool dontDestroyOnLoad = true;
+    [Header("볼륨 설정")]
+    [Range(0f, 1f)] public float menuVolume = 1f;     // 메뉴 볼륨
+    [Range(0f, 1f)] public float musicVolume = 1f;    // 인게임 음악 볼륨
 
-    AudioSource _src;
+    AudioSource src;
 
     void Awake()
     {
         if (I && I != this) { Destroy(gameObject); return; }
         I = this;
-        _src = gameObject.AddComponent<AudioSource>();
-        _src.loop = true; _src.playOnAwake = false; _src.volume = bgmVolume;
-        if (dontDestroyOnLoad) DontDestroyOnLoad(gameObject);
+
+        src = gameObject.AddComponent<AudioSource>();
+        src.loop = true;
+        DontDestroyOnLoad(gameObject);
     }
 
-    public void PlayMenu() => Play(bgmMenu);
-    public void PlayGameOver() => Play(bgmGameOver);
+    // -------------------------------------------------------
+    // BGM 재생
+    // -------------------------------------------------------
+
+    public void PlayMenu()
+    {
+        Play(bgmMenu);
+        src.volume = menuVolume;
+    }
+
+    public void PlayGameOver()
+    {
+        Play(bgmGameOver);
+        src.volume = musicVolume;
+    }
 
     public void PlayStageBgm(int stage)
     {
         if (stage <= 0) { Stop(); return; }
+
         int idx = stage - 1;
-        if (stageBgms != null && idx < stageBgms.Length && stageBgms[idx])
+        if (idx < stageBgms.Length && stageBgms[idx])
+        {
             Play(stageBgms[idx]);
+            src.volume = musicVolume;
+        }
     }
 
     void Play(AudioClip clip)
     {
         if (!clip) return;
-        if (_src.clip == clip && _src.isPlaying) return;
-        _src.clip = clip; _src.volume = bgmVolume; _src.Play();
+        if (src.clip == clip && src.isPlaying) return;
+
+        src.clip = clip;
+        src.Play();
     }
 
-    public void Stop() { _src.Stop(); _src.clip = null; }
+    public void Stop()
+    {
+        src.Stop();
+        src.clip = null;
+    }
 
-    public void SetVolume(float v)
-    { bgmVolume = Mathf.Clamp01(v); if (_src) _src.volume = bgmVolume; }
+    // -------------------------------------------------------
+    // 설정 메뉴에서 호출되는 부분
+    // -------------------------------------------------------
+
+    public void SetMusicVolume(float v)
+    {
+        musicVolume = Mathf.Clamp01(v);
+
+        // 인게임 BGM 재생 중일 경우 반영
+        if (src.clip != bgmMenu)
+            src.volume = musicVolume;
+    }
+
+    public void SetMenuVolume(float v)
+    {
+        menuVolume = Mathf.Clamp01(v);
+
+        // 메뉴 BGM 재생 중일 경우 반영
+        if (src.clip == bgmMenu)
+            src.volume = menuVolume;
+    }
 }

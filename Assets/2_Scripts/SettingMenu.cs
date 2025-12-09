@@ -2,231 +2,218 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.Audio;
 using UnityEngine.UI;
-#if TMP_PRESENT || UNITY_TEXTMESHPRO
 using TMPro;
-#endif
 
-public class SettingsMenu : MonoBehaviour
+public class SettingMenu : MonoBehaviour
 {
-    [Header("Roots/Pages")]
-    [SerializeField] GameObject settingsRoot;
-    [SerializeField] GameObject pageGraphics;
-    [SerializeField] GameObject pageAudio;
-    [SerializeField] GameObject pageSystem;
-
     [Header("Graphics UI")]
-#if TMP_PRESENT || UNITY_TEXTMESHPRO
-    [SerializeField] TMP_Dropdown ddResolution;
-    [SerializeField] TMP_Dropdown ddDisplayMode;
-    [SerializeField] TMP_Dropdown ddTargetFps;
-#else
-    [SerializeField] Dropdown ddResolution;
-    [SerializeField] Dropdown ddDisplayMode;
-    [SerializeField] Dropdown ddTargetFps;
-#endif
+    public TMP_Dropdown ddResolution;
+    public TMP_Dropdown ddDisplayMode;
+    public TMP_Dropdown ddRefreshRate;
 
     [Header("Audio UI")]
-    [SerializeField] Slider slMaster;
-    [SerializeField] Slider slMusic;
-    [SerializeField] Slider slUI;
-    [SerializeField] Slider slSFX;
+    public Slider slMaster;
+    public Slider slMusic;
+    public Slider slMenu;
 
-    [Header("Audio Mixer (optional but recommended)")]
-    [SerializeField] AudioMixer mixer; // Master/Music/UI/SFX
-    [SerializeField] string pMaster = "MasterVol";
-    [SerializeField] string pMusic = "MusicVol";
-    [SerializeField] string pUI = "UIVol";
-    [SerializeField] string pSFX = "SFXVol";
+    [Header("Text UI")]
+    public TMP_Text txtMaster;
+    public TMP_Text txtMusic;
+    public TMP_Text txtMenu;
 
-    // 저장 키
-    const string K_RES_W = "SET_RES_W";
-    const string K_RES_H = "SET_RES_H";
+    // 기본값
+    const int DEFAULT_W = 1920;
+    const int DEFAULT_H = 1080;
+    const int DEFAULT_MODE = (int)FullScreenMode.ExclusiveFullScreen;
+    const int DEFAULT_REFRESH = 240;
+    const float DEFAULT_MASTER = 0.5f;
+    const float DEFAULT_MUSIC = 1f;
+    const float DEFAULT_MENU = 1f;
+
+    // PlayerPrefs Keys
+    const string K_W = "SET_W";
+    const string K_H = "SET_H";
     const string K_MODE = "SET_MODE";
-    const string K_FPS = "SET_FPS";
-    const string K_VOL_M = "SET_VOL_MASTER";
-    const string K_VOL_B = "SET_VOL_MUSIC";
-    const string K_VOL_U = "SET_VOL_UI";
-    const string K_VOL_S = "SET_VOL_SFX";
+    const string K_RR = "SET_RR";
+    const string K_VM = "SET_VOL_MASTER";
+    const string K_VB = "SET_VOL_MUSIC";
+    const string K_VMENU = "SET_VOL_MENU";
 
-    // 내부 상태
-    Resolution[] _resList;
-    readonly int[] _fpsList = { 60, 90, 120, 144, 165, 240, -1 }; // -1 = 무제한
+    Resolution[] resList;
+    readonly int[] refreshRates = { 60, 90, 120, 144, 165, 240 };
 
-    void Awake()
+    void Start()
     {
-        if (!settingsRoot) settingsRoot = gameObject;
-        BuildResolutions();
-        BuildDisplayModes();
-        BuildFps();
-        LoadAndApplyAll(applyGraphics: true, applyAudio: true, applyUi: true);
+        BuildResolutionList();
+        BuildDisplayModeList();
+        BuildRefreshRateList();
+        LoadSettings();
+        ApplyGraphics();
+        ApplyAudio();
     }
 
-    void OnEnable()
-    {
-        // 페이지 기본: 그래픽
-        ShowPage("graphics");
-    }
+    // ======================================================
+    // UI 구성
+    // ======================================================
 
-    // ---------- UI 채우기 ----------
-
-    void BuildResolutions()
+    void BuildResolutionList()
     {
-        // 중복 해상도 제거(리프레시레이트 무시)
-        _resList = Screen.resolutions
+        resList = Screen.resolutions
             .Select(r => new Resolution { width = r.width, height = r.height })
             .Distinct(new ResComparer())
             .OrderBy(r => r.width * r.height)
             .ToArray();
 
-        var labels = _resList.Select(r => $"{r.width}x{r.height}").ToList();
-        SetOptions(ddResolution, labels);
+        ddResolution.ClearOptions();
+        ddResolution.AddOptions(resList.Select(r => $"{r.width} x {r.height}").ToList());
     }
 
-    void BuildDisplayModes()
+    void BuildDisplayModeList()
     {
-        // 순서 유지: FullScreenWindow(테두리없음), ExclusiveFullScreen(전체화면), Windowed(창모드)
-        SetOptions(ddDisplayMode, new List<string> { "테두리 없음", "전체 화면", "창 모드" });
+        ddDisplayMode.ClearOptions();
+        ddDisplayMode.AddOptions(new List<string> { "전체 화면", "창 모드", "전체 창 모드" });
     }
 
-    void BuildFps()
+    void BuildRefreshRateList()
     {
-        var labels = _fpsList.Select(v => v > 0 ? v.ToString() : "무제한").ToList();
-        SetOptions(ddTargetFps, labels);
+        ddRefreshRate.ClearOptions();
+        ddRefreshRate.AddOptions(refreshRates.Select(r => $"{r}hz").ToList());
     }
 
-    void SetOptions(object dropdown, List<string> labels)
-    {
-#if TMP_PRESENT || UNITY_TEXTMESHPRO
-        var dd = dropdown as TMP_Dropdown;
-        dd.ClearOptions();
-        dd.AddOptions(labels);
-#else
-        var dd = dropdown as Dropdown;
-        dd.ClearOptions();
-        dd.AddOptions(labels);
-#endif
-    }
+    // ======================================================
+    // 설정 적용
+    // ======================================================
 
-    // ---------- 적용/저장/로드 ----------
-
-    public void OnApplyGraphics()
+    public void ApplyGraphics()
     {
         // 해상도
-        int ridx = GetIndex(ddResolution);
-        if (ridx < 0 || ridx >= _resList.Length) ridx = _resList.Length - 1;
-        var res = _resList[ridx];
+        int iRes = ddResolution.value;
+        var r = resList[Mathf.Clamp(iRes, 0, resList.Length - 1)];
 
         // 화면 모드
-        int midx = GetIndex(ddDisplayMode);
-        var mode = FullScreenMode.FullScreenWindow; // 테두리없음
-        if (midx == 1) mode = FullScreenMode.ExclusiveFullScreen; // 전체화면
-        else if (midx == 2) mode = FullScreenMode.Windowed;       // 창 모드
+        FullScreenMode mode = FullScreenMode.ExclusiveFullScreen;
+        switch (ddDisplayMode.value)
+        {
+            case 1: mode = FullScreenMode.Windowed; break;
+            case 2: mode = FullScreenMode.FullScreenWindow; break;
+        }
 
-        Screen.SetResolution(res.width, res.height, mode);
+        Screen.SetResolution(r.width, r.height, mode);
 
-        // FPS (무제한은 -1)
-        int fidx = GetIndex(ddTargetFps);
-        int fps = _fpsList[Mathf.Clamp(fidx, 0, _fpsList.Length - 1)];
-        QualitySettings.vSyncCount = 0;                     // 명시적으로 vsync 끄고
-        Application.targetFrameRate = fps < 0 ? -1 : fps;   // 설정
+        // FPS = 주사율 동기화
+        int rr = refreshRates[Mathf.Clamp(ddRefreshRate.value, 0, refreshRates.Length - 1)];
+        Application.targetFrameRate = rr;
+        QualitySettings.vSyncCount = 0;
 
         // 저장
-        PlayerPrefs.SetInt(K_RES_W, res.width);
-        PlayerPrefs.SetInt(K_RES_H, res.height);
+        PlayerPrefs.SetInt(K_W, r.width);
+        PlayerPrefs.SetInt(K_H, r.height);
         PlayerPrefs.SetInt(K_MODE, (int)mode);
-        PlayerPrefs.SetInt(K_FPS, fps);
+        PlayerPrefs.SetInt(K_RR, rr);
         PlayerPrefs.Save();
     }
 
-    public void OnApplyAudio()
+    public void ApplyAudio()
     {
-        // 슬라이더 범위는 [0..1] 권장
-        SetMixerLinear(mixer, pMaster, slMaster ? slMaster.value : 1f);
-        SetMixerLinear(mixer, pMusic, slMusic ? slMusic.value : 1f);
-        SetMixerLinear(mixer, pUI, slUI ? slUI.value : 1f);
-        SetMixerLinear(mixer, pSFX, slSFX ? slSFX.value : 1f);
+        float vMaster = slMaster.value;
+        float vMusic = slMusic.value;
+        float vMenu = slMenu.value;
 
-        PlayerPrefs.SetFloat(K_VOL_M, slMaster ? slMaster.value : 1f);
-        PlayerPrefs.SetFloat(K_VOL_B, slMusic ? slMusic.value : 1f);
-        PlayerPrefs.SetFloat(K_VOL_U, slUI ? slUI.value : 1f);
-        PlayerPrefs.SetFloat(K_VOL_S, slSFX ? slSFX.value : 1f);
+        AudioListener.volume = vMaster;  // 전체 볼륨 기본 시스템 반영
+
+        SoundManager.I?.SetMusicVolume(vMusic);
+        SoundManager.I?.SetMenuVolume(vMenu);
+
+        PlayerPrefs.SetFloat(K_VM, vMaster);
+        PlayerPrefs.SetFloat(K_VB, vMusic);
+        PlayerPrefs.SetFloat(K_VMENU, vMenu);
         PlayerPrefs.Save();
     }
 
-    public void LoadAndApplyAll(bool applyGraphics, bool applyAudio, bool applyUi)
+    // ======================================================
+    // 불러오기
+    // ======================================================
+
+    void LoadSettings()
     {
-        // 그래픽 로드
-        int w = PlayerPrefs.GetInt(K_RES_W, Screen.currentResolution.width);
-        int h = PlayerPrefs.GetInt(K_RES_H, Screen.currentResolution.height);
-        int m = PlayerPrefs.GetInt(K_MODE, (int)Screen.fullScreenMode);
-        int fps = PlayerPrefs.GetInt(K_FPS, Application.targetFrameRate <= 0 ? -1 : Application.targetFrameRate);
+        int w = PlayerPrefs.GetInt(K_W, DEFAULT_W);
+        int h = PlayerPrefs.GetInt(K_H, DEFAULT_H);
+        int m = PlayerPrefs.GetInt(K_MODE, DEFAULT_MODE);
+        int rr = PlayerPrefs.GetInt(K_RR, DEFAULT_REFRESH);
 
-        // 드롭다운 선택값 동기화
-        int ridx = Array.FindIndex(_resList, r => r.width == w && r.height == h);
-        if (ridx < 0) ridx = _resList.Length - 1;
-        SetIndex(ddResolution, ridx);
+        // 해상도 선택
+        int iRes = Array.FindIndex(resList, r => r.width == w && r.height == h);
+        ddResolution.value = (iRes >= 0 ? iRes : 0);
 
-        int midx = 0; // 테두리없음
-        if ((FullScreenMode)m == FullScreenMode.ExclusiveFullScreen) midx = 1;
-        else if ((FullScreenMode)m == FullScreenMode.Windowed) midx = 2;
-        SetIndex(ddDisplayMode, midx);
+        // 모드 선택
+        FullScreenMode fm = (FullScreenMode)m;
+        ddDisplayMode.value = fm switch
+        {
+            FullScreenMode.Windowed => 1,
+            FullScreenMode.FullScreenWindow => 2,
+            _ => 0,
+        };
 
-        int fidx = Array.IndexOf(_fpsList, fps);
-        if (fidx < 0) fidx = _fpsList.Length - 1;
-        SetIndex(ddTargetFps, fidx);
+        // 주사율 선택
+        int iRR = Array.IndexOf(refreshRates, rr);
+        ddRefreshRate.value = (iRR >= 0 ? iRR : 0);
 
-        if (applyGraphics) OnApplyGraphics();
-
-        // 오디오 로드
-        float vM = PlayerPrefs.GetFloat(K_VOL_M, 1f);
-        float vB = PlayerPrefs.GetFloat(K_VOL_B, 1f);
-        float vU = PlayerPrefs.GetFloat(K_VOL_U, 1f);
-        float vS = PlayerPrefs.GetFloat(K_VOL_S, 1f);
-
-        if (slMaster) slMaster.value = vM;
-        if (slMusic) slMusic.value = vB;
-        if (slUI) slUI.value = vU;
-        if (slSFX) slSFX.value = vS;
-
-        if (applyAudio) OnApplyAudio();
-
-        // UI 페이지 표시 갱신
-        if (applyUi) ShowPage("graphics");
+        // 오디오
+        slMaster.value = PlayerPrefs.GetFloat(K_VM, DEFAULT_MASTER);
+        slMusic.value = PlayerPrefs.GetFloat(K_VB, DEFAULT_MUSIC);
+        slMenu.value = PlayerPrefs.GetFloat(K_VMENU, DEFAULT_MENU);
     }
 
-    // 선형(0..1) -> dB 맵핑 (0은 -80dB로 뮤트)
-    void SetMixerLinear(AudioMixer mix, string param, float linear)
+    // ======================================================
+    // 초기화 버튼
+    // ======================================================
+
+    public void ResetToDefault()
     {
-        if (!mix || string.IsNullOrEmpty(param)) return;
-        float dB = (linear <= 0.0001f) ? -80f : Mathf.Lerp(-30f, 0f, Mathf.Clamp01(linear)); // 취향대로 범위 조절
-        mix.SetFloat(param, dB);
+        PlayerPrefs.DeleteKey(K_W);
+        PlayerPrefs.DeleteKey(K_H);
+        PlayerPrefs.DeleteKey(K_MODE);
+        PlayerPrefs.DeleteKey(K_RR);
+        PlayerPrefs.DeleteKey(K_VM);
+        PlayerPrefs.DeleteKey(K_VB);
+        PlayerPrefs.DeleteKey(K_VMENU);
+        PlayerPrefs.Save();
+
+        LoadSettings();
+        ApplyGraphics();
+        ApplyAudio();
     }
 
-    // ---------- 탭/페이지 ----------
-
-    public void ShowPage(string key)
+    public void UpdateMasterText(float v)
     {
-        key = key.ToLowerInvariant();
-        if (pageGraphics) pageGraphics.SetActive(key.Contains("g"));
-        if (pageAudio) pageAudio.SetActive(key.Contains("a"));
-        if (pageSystem) pageSystem.SetActive(key.Contains("s"));
+        if (txtMaster) txtMaster.text = Mathf.RoundToInt(v * 100).ToString();
     }
 
-    // ---------- 유틸 ----------
+    public void UpdateMusicText(float v)
+    {
+        if (txtMusic) txtMusic.text = Mathf.RoundToInt(v * 100).ToString();
+    }
 
-#if TMP_PRESENT || UNITY_TEXTMESHPRO
-    int GetIndex(TMP_Dropdown dd) => dd ? dd.value : 0;
-    void SetIndex(TMP_Dropdown dd, int i) { if (dd) dd.SetValueWithoutNotify(Mathf.Clamp(i, 0, dd.options.Count - 1)); }
-#else
-    int GetIndex(Dropdown dd) => dd ? dd.value : 0;
-    void SetIndex(Dropdown dd, int i) { if (dd) dd.value = Mathf.Clamp(i, 0, dd.options.Count - 1); dd.RefreshShownValue(); }
-#endif
+    public void UpdateMenuText(float v)
+    {
+        if (txtMenu) txtMenu.text = Mathf.RoundToInt(v * 100).ToString();
+    }
 
+    public void OpenSettings()
+    {
+        gameObject.SetActive(true);
+    }
+
+    public void CloseSettings()
+    {
+        gameObject.SetActive(false);
+    }
+
+    // ======================================================
     class ResComparer : IEqualityComparer<Resolution>
     {
         public bool Equals(Resolution a, Resolution b) => a.width == b.width && a.height == b.height;
-        public int GetHashCode(Resolution r) => (r.width * 73856093) ^ (r.height * 19349663);
+        public int GetHashCode(Resolution r) => r.width ^ r.height;
     }
 }
