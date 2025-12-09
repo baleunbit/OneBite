@@ -88,6 +88,7 @@ public class BossTrigger : MonoBehaviour
         if (!entered)
         {
             entered = true;
+            Debug.Log("[BossTrigger] 플레이어 진입! 보스 시작");
 
             // 🔥 보스 바 활성화
             if (bossBar)
@@ -95,6 +96,10 @@ public class BossTrigger : MonoBehaviour
                 string bossName = bossAI ? bossAI.bossName : "BOSS";
                 int maxHP = bossAI ? bossAI.maxHP : 500;
                 bossBar.Show(bossName, maxHP);
+            }
+            else
+            {
+                Debug.LogWarning("[BossTrigger] bossBar가 null입니다!");
             }
 
             // 🔥 등장

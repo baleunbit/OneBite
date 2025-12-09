@@ -23,7 +23,7 @@ public class Room : MonoBehaviour
     IEnumerator DelayedCheckPlayer()
     {
         // 몹 스폰 대기 (MobSpawner가 스폰할 시간)
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(1f);
         CheckPlayerAlreadyInRoom();
     }
     
@@ -129,7 +129,6 @@ public class Room : MonoBehaviour
         mobsActivated = true;
         
         var mobs = GetComponentsInChildren<Mob>(true);
-        Debug.Log($"[Room] {gameObject.name} 몹 활성화! 몹 수: {mobs.Length}");
         
         foreach (var mob in mobs)
         {

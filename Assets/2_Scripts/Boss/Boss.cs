@@ -110,46 +110,73 @@ public class Boss : MonoBehaviour
     {
         if (!bossBullet || firePoints == null || firePoints.Length == 0) return;
 
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
-        if (!player) return;
-
         // 분노 모드 체크 (30% 이하)
         bool isRageMode = (float)hp / maxHP <= 0.3f;
         
         if (isRageMode && useAllFirePoints)
         {
-            // 분노 모드: 모든 발사 포인트에서 전방향 발사
-            ShootRageMode();
+            // 분노 모드: 한 방향 3발 + 전방향 발사
+            StartCoroutine(ShootRageModeRoutine());
         }
         else
         {
-            // 일반 모드: 첫 번째 발사 포인트에서 플레이어 방향으로 3발
-            ShootNormalMode(player.transform.position);
+            // 일반 모드: 플레이어 방향으로 일자 3발 연속 발사
+            StartCoroutine(ShootNormalModeRoutine());
         }
     }
     
-    void ShootNormalMode(Vector3 targetPos)
+    [Header("발사 딜레이")]
+    public float burstDelay = 0.15f;  // 연속 발사 간격
+    
+    IEnumerator ShootNormalModeRoutine()
     {
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        if (!player) yield break;
+        
         Transform fp = firePoints[0];
-        if (!fp) return;
+        if (!fp) yield break;
         
-        Vector2 baseDir = (targetPos - fp.position).normalized;
-        float baseAngle = Mathf.Atan2(baseDir.y, baseDir.x) * Mathf.Rad2Deg;
-        
-        // 3발 퍼지면서 발사
+        // 3발 일자로 연속 발사 (같은 방향)
         for (int i = 0; i < bulletsPerShot; i++)
         {
-            float offset = (i - (bulletsPerShot - 1) / 2f) * spreadAngle;
-            float angle = baseAngle + offset;
-            Vector2 dir = new Vector2(Mathf.Cos(angle * Mathf.Deg2Rad), Mathf.Sin(angle * Mathf.Deg2Rad));
+            // 매번 플레이어 위치 갱신
+            if (player)
+            {
+                Vector2 dir = (player.transform.position - fp.position).normalized;
+                float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+                SpawnBullet(fp.position, dir, angle);
+            }
             
-            SpawnBullet(fp.position, dir, angle);
+            if (i < bulletsPerShot - 1)
+                yield return new WaitForSeconds(burstDelay);
         }
     }
     
-    void ShootRageMode()
+    IEnumerator ShootRageModeRoutine()
     {
-        // 모든 발사 포인트에서 전방향으로 발사
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        
+        // 1) 먼저 한 방향으로 3발 발사
+        if (player && firePoints.Length > 0 && firePoints[0])
+        {
+            Transform fp = firePoints[0];
+            for (int i = 0; i < bulletsPerShot; i++)
+            {
+                if (player)
+                {
+                    Vector2 dir = (player.transform.position - fp.position).normalized;
+                    float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+                    SpawnBullet(fp.position, dir, angle);
+                }
+                
+                if (i < bulletsPerShot - 1)
+                    yield return new WaitForSeconds(burstDelay);
+            }
+        }
+        
+        yield return new WaitForSeconds(0.3f);
+        
+        // 2) 전방향 발사 (모든 발사 포인트에서)
         foreach (Transform fp in firePoints)
         {
             if (!fp) continue;
@@ -160,7 +187,6 @@ public class Boss : MonoBehaviour
             {
                 float angle = i * angleStep;
                 Vector2 dir = new Vector2(Mathf.Cos(angle * Mathf.Deg2Rad), Mathf.Sin(angle * Mathf.Deg2Rad));
-                
                 SpawnBullet(fp.position, dir, angle);
             }
         }

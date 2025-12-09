@@ -8,16 +8,24 @@ public class BossBar : MonoBehaviour
     public Image hpFill;             // 빨간 HP 바
     public Image whiteFill;          // 흰색 바 (뒤늦게 따라감)
     public TextMeshProUGUI nameText; // 보스 이름
+    
+    [Header("전체 UI 컨테이너 (숨길 대상)")]
+    public GameObject barContainer;  // 실제로 숨길 자식 오브젝트
 
     [Header("화이트 바 설정")]
     public float whiteFollowSpeed = 1f;  // 따라가는 속도
     
     float targetFillAmount = 1f;
+    CanvasGroup canvasGroup;
 
     void Awake()
     {
-        // 게임 시작 시 보스 바는 기본적으로 숨김
-        gameObject.SetActive(false);
+        // CanvasGroup으로 숨기기 (GameObject는 활성화 유지)
+        canvasGroup = GetComponent<CanvasGroup>();
+        if (!canvasGroup) canvasGroup = gameObject.AddComponent<CanvasGroup>();
+        
+        // 시작 시 숨김
+        SetVisible(false);
     }
 
     void Update()
@@ -39,7 +47,7 @@ public class BossBar : MonoBehaviour
         if (hpFill) hpFill.fillAmount = 1f;
         if (whiteFill) whiteFill.fillAmount = 1f;
         targetFillAmount = 1f;
-        gameObject.SetActive(true);
+        SetVisible(true);
     }
 
     public void UpdateHP(int currentHP, int maxHP)
@@ -56,6 +64,22 @@ public class BossBar : MonoBehaviour
 
     public void Hide()
     {
-        gameObject.SetActive(false);
+        SetVisible(false);
+    }
+    
+    void SetVisible(bool visible)
+    {
+        if (canvasGroup)
+        {
+            canvasGroup.alpha = visible ? 1f : 0f;
+            canvasGroup.interactable = visible;
+            canvasGroup.blocksRaycasts = visible;
+        }
+        
+        // barContainer가 있으면 그것도 활성화/비활성화
+        if (barContainer)
+        {
+            barContainer.SetActive(visible);
+        }
     }
 }

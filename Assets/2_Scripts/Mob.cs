@@ -16,7 +16,7 @@ public class Mob : MonoBehaviour
 
     [Header("참조")] public Rigidbody2D target; [SerializeField] Animator anim;
 
-    [Header("표식 프리팹(자식 오브젝트는 안 씀)")]
+    [Header("표식 프리팹")]
     public GameObject questionMarkPrefab;
     public GameObject exclamationMarkPrefab;
 
