@@ -144,7 +144,7 @@ MonoBehaviour:
   anim: {fileID: 0}
   questionMarkPrefab: {fileID: 8768382743714012739, guid: cd3cf4424527366438d63bec7342f42a, type: 3}
   exclamationMarkPrefab: {fileID: 4429560685922436355, guid: a096cbb40cf6aec4bab3a981d2fd900c, type: 3}
-  markerOffset: {x: 0, y: 1.5}
+  markerOffset: {x: 0, y: 2}
   markerScale: 0.3
   keepUpright: 1
   maxHP: 30
@@ -168,10 +168,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   segments: 64
-  lineWidth: 0.5
-  alpha: 0.35
-  ringColor: {r: 0.2, g: 0.7, b: 1, a: 0.6}
-  fovColor: {r: 1, g: 0.9, b: 0.1, a: 0.35}
+  lineWidth: 0.6
+  alpha: 0.85
+  ringColor: {r: 1, g: 0, b: 0, a: 1}
+  fovColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!114 &5959592275890911935
 MonoBehaviour:
   m_ObjectHideFlags: 0
