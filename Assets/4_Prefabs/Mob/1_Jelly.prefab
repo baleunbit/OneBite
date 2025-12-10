@@ -152,6 +152,8 @@ MonoBehaviour:
   hitSfxVolume: 1
   deathSfx: {fileID: 0}
   deathSfxVolume: 1
+  hitColor: {r: 1, g: 0.5, b: 0.5, a: 1}
+  hitFlashDuration: 0.1
   sensingRotationSpeed: 100
   alertRotationSpeed: 180
   isSensing: 0

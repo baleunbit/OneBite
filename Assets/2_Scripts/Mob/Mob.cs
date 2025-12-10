@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D), typeof(SpriteRenderer))]
 public class Mob : MonoBehaviour
@@ -30,6 +31,10 @@ public class Mob : MonoBehaviour
     [Header("SFX")] public AudioClip hitSfx; [Range(0f, 1f)] public float hitSfxVolume = 0.8f;
     public AudioClip deathSfx; [Range(0f, 1f)] public float deathSfxVolume = 1f;
 
+    [Header("피격 효과")]
+    public Color hitColor = Color.red;
+    public float hitFlashDuration = 0.1f;
+
     [Header("회전 속도")]
     public float sensingRotationSpeed = 60f;  // 의심 시 (detectRadius 진입) 플레이어 쪽으로 돌아보는 속도
     public float alertRotationSpeed = 120f;    // 발각 시 (FOV 진입) 플레이어 쪽으로 돌아보는 속도 (의심의 2배)
@@ -45,6 +50,8 @@ public class Mob : MonoBehaviour
 
     Rigidbody2D rb; SpriteRenderer sr;
     int hashIsWalk, Attack;
+    Color originalColor;
+    Coroutine hitFlashCoroutine;
 
     // 내부에서만 관리하는 마커 인스턴스
     GameObject _qm, _em;
@@ -57,6 +64,9 @@ public class Mob : MonoBehaviour
         sr = GetComponent<SpriteRenderer>();
         mobSenseVisualize = GetComponent<MobSenseVisualize>();
         currentHP = Mathf.Max(1, maxHP);
+        
+        // 원래 색상 저장
+        if (sr) originalColor = sr.color;
 
         float a = Random.Range(0f, 360f);
         currentViewDirection = new Vector2(Mathf.Cos(a * Mathf.Deg2Rad), Mathf.Sin(a * Mathf.Deg2Rad)).normalized;
@@ -230,7 +240,22 @@ public class Mob : MonoBehaviour
         if (hitSfx) AudioSource.PlayClipAtPoint(hitSfx, transform.position, hitSfxVolume);
         currentHP -= Mathf.Max(1, damage);
         SetAlerted();
+        
+        // 피격 효과
+        if (hitFlashCoroutine != null) StopCoroutine(hitFlashCoroutine);
+        hitFlashCoroutine = StartCoroutine(HitFlashCoroutine());
+        
         if (currentHP <= 0) Die();
+    }
+    
+    IEnumerator HitFlashCoroutine()
+    {
+        if (sr)
+        {
+            sr.color = hitColor;
+            yield return new WaitForSeconds(hitFlashDuration);
+            sr.color = originalColor;
+        }
     }
 
     public void KillSilently()
