@@ -7,6 +7,7 @@ public class Mob : MonoBehaviour
     [Header("이동/추격")] public float Speed = 7f;
 
     [Header("공격")] public int minDamage = 3; public int maxDamage = 5; public float attackCooldown = 1f;
+    public float alertAttackDelay = 0.5f; // 발각 후 첫 공격까지 딜레이
 
     [Header("탐지")]
     public float detectRadius = 4f;       // 경계 시작 범위 (부채꼴 회전 시작)
@@ -228,6 +229,12 @@ public class Mob : MonoBehaviour
 
     void SetAlerted()
     {
+        // 처음 발각될 때만 공격 딜레이 적용
+        if (!hasSpotted)
+        {
+            nextAttackTime = Time.time + alertAttackDelay;
+        }
+        
         hasSpotted = true;
         isSensing = false;
         ShowQuestion(false);
