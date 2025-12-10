@@ -1,9 +1,9 @@
-using System;
+ï»¿using System;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 
 public class SettingMenu : MonoBehaviour
 {
@@ -22,7 +22,7 @@ public class SettingMenu : MonoBehaviour
     public TMP_Text txtMusic;
     public TMP_Text txtMenu;
 
-    // ±âº»°ª
+    // ê¸°ë³¸ê°’
     const int DEFAULT_W = 1920;
     const int DEFAULT_H = 1080;
     const int DEFAULT_MODE = (int)FullScreenMode.ExclusiveFullScreen;
@@ -41,38 +41,59 @@ public class SettingMenu : MonoBehaviour
     const string K_VMENU = "SET_VOL_MENU";
 
     Resolution[] resList;
-    readonly int[] refreshRates = { 60, 90, 120, 144, 165, 240 };
+
+    // âœ” ë„¤ê°€ ìš”ì²­í•œ ì£¼ì‚¬ìœ¨ ëª©ë¡ë§Œ ì‚¬ìš©
+    readonly int[] refreshRates = { 60, 90, 120, 144, 165, 180, 200, 240 };
 
     void Start()
     {
         BuildResolutionList();
         BuildDisplayModeList();
         BuildRefreshRateList();
+
+        FixDropdownHeight(ddResolution, resList.Length);
+        FixDropdownHeight(ddDisplayMode, ddDisplayMode.options.Count);
+        FixDropdownHeight(ddRefreshRate, refreshRates.Length);
+
         LoadSettings();
         ApplyGraphics();
-        ApplyAudio();
     }
 
+
     // ======================================================
-    // UI ±¸¼º
+    // UI êµ¬ì„±
     // ======================================================
 
     void BuildResolutionList()
     {
-        resList = Screen.resolutions
-            .Select(r => new Resolution { width = r.width, height = r.height })
-            .Distinct(new ResComparer())
-            .OrderBy(r => r.width * r.height)
-            .ToArray();
+        var custom = new List<Resolution>
+        {
+            new Resolution { width = 1280, height = 720 },
+            new Resolution { width = 1440, height = 1080 },
+            new Resolution { width = 1680, height = 1050 },
+            new Resolution { width = 1728, height = 1080 },
+            new Resolution { width = 1920, height = 1080 },
+            new Resolution { width = 2560, height = 1440 },
+            new Resolution { width = 3440, height = 1440 }
+        };
+
+        resList = custom.ToArray();
 
         ddResolution.ClearOptions();
-        ddResolution.AddOptions(resList.Select(r => $"{r.width} x {r.height}").ToList());
+        ddResolution.AddOptions(
+            custom.Select(r => $"{r.width} x {r.height}").ToList()
+        );
     }
 
     void BuildDisplayModeList()
     {
         ddDisplayMode.ClearOptions();
-        ddDisplayMode.AddOptions(new List<string> { "ÀüÃ¼ È­¸é", "Ã¢ ¸ğµå", "ÀüÃ¼ Ã¢ ¸ğµå" });
+        ddDisplayMode.AddOptions(new List<string>
+        {
+            "ì „ì²´ í™”ë©´",       // ExclusiveFullScreen
+            "ì°½ ëª¨ë“œ",         // Windowed
+            "í…Œë‘ë¦¬ ì—†ëŠ” ì°½ëª¨ë“œ" // FullScreenWindow
+        });
     }
 
     void BuildRefreshRateList()
@@ -82,16 +103,14 @@ public class SettingMenu : MonoBehaviour
     }
 
     // ======================================================
-    // ¼³Á¤ Àû¿ë
+    // ì„¤ì • ì ìš©
     // ======================================================
 
     public void ApplyGraphics()
     {
-        // ÇØ»óµµ
         int iRes = ddResolution.value;
         var r = resList[Mathf.Clamp(iRes, 0, resList.Length - 1)];
 
-        // È­¸é ¸ğµå
         FullScreenMode mode = FullScreenMode.ExclusiveFullScreen;
         switch (ddDisplayMode.value)
         {
@@ -101,12 +120,10 @@ public class SettingMenu : MonoBehaviour
 
         Screen.SetResolution(r.width, r.height, mode);
 
-        // FPS = ÁÖ»çÀ² µ¿±âÈ­
         int rr = refreshRates[Mathf.Clamp(ddRefreshRate.value, 0, refreshRates.Length - 1)];
         Application.targetFrameRate = rr;
         QualitySettings.vSyncCount = 0;
 
-        // ÀúÀå
         PlayerPrefs.SetInt(K_W, r.width);
         PlayerPrefs.SetInt(K_H, r.height);
         PlayerPrefs.SetInt(K_MODE, (int)mode);
@@ -120,19 +137,22 @@ public class SettingMenu : MonoBehaviour
         float vMusic = slMusic.value;
         float vMenu = slMenu.value;
 
-        AudioListener.volume = vMaster;  // ÀüÃ¼ º¼·ı ±âº» ½Ã½ºÅÛ ¹İ¿µ
+        AudioListener.volume = vMaster / 100f;
 
-        SoundManager.I?.SetMusicVolume(vMusic);
-        SoundManager.I?.SetMenuVolume(vMenu);
+        SoundManager.I?.SetMusicVolume(vMusic / 100f);
+        SoundManager.I?.SetMenuVolume(vMenu / 100f);
 
         PlayerPrefs.SetFloat(K_VM, vMaster);
         PlayerPrefs.SetFloat(K_VB, vMusic);
         PlayerPrefs.SetFloat(K_VMENU, vMenu);
-        PlayerPrefs.Save();
+
+        UpdateMasterText(vMaster);
+        UpdateMusicText(vMusic);
+        UpdateMenuText(vMenu);
     }
 
     // ======================================================
-    // ºÒ·¯¿À±â
+    // ê°’ ë¶ˆëŸ¬ì˜¤ê¸°
     // ======================================================
 
     void LoadSettings()
@@ -142,11 +162,9 @@ public class SettingMenu : MonoBehaviour
         int m = PlayerPrefs.GetInt(K_MODE, DEFAULT_MODE);
         int rr = PlayerPrefs.GetInt(K_RR, DEFAULT_REFRESH);
 
-        // ÇØ»óµµ ¼±ÅÃ
         int iRes = Array.FindIndex(resList, r => r.width == w && r.height == h);
         ddResolution.value = (iRes >= 0 ? iRes : 0);
 
-        // ¸ğµå ¼±ÅÃ
         FullScreenMode fm = (FullScreenMode)m;
         ddDisplayMode.value = fm switch
         {
@@ -155,18 +173,16 @@ public class SettingMenu : MonoBehaviour
             _ => 0,
         };
 
-        // ÁÖ»çÀ² ¼±ÅÃ
         int iRR = Array.IndexOf(refreshRates, rr);
         ddRefreshRate.value = (iRR >= 0 ? iRR : 0);
 
-        // ¿Àµğ¿À
-        slMaster.value = PlayerPrefs.GetFloat(K_VM, DEFAULT_MASTER);
-        slMusic.value = PlayerPrefs.GetFloat(K_VB, DEFAULT_MUSIC);
-        slMenu.value = PlayerPrefs.GetFloat(K_VMENU, DEFAULT_MENU);
+        slMaster.value = PlayerPrefs.GetFloat(K_VM, DEFAULT_MASTER * 100f);
+        slMusic.value = PlayerPrefs.GetFloat(K_VB, DEFAULT_MUSIC * 100f);
+        slMenu.value = PlayerPrefs.GetFloat(K_VMENU, DEFAULT_MENU * 100f);
     }
 
     // ======================================================
-    // ÃÊ±âÈ­ ¹öÆ°
+    // ì´ˆê¸°í™” ë²„íŠ¼
     // ======================================================
 
     public void ResetToDefault()
@@ -187,33 +203,67 @@ public class SettingMenu : MonoBehaviour
 
     public void UpdateMasterText(float v)
     {
-        if (txtMaster) txtMaster.text = Mathf.RoundToInt(v * 100).ToString();
+        float real = slMaster.value;
+        txtMaster.text = ((int)real).ToString();
     }
 
     public void UpdateMusicText(float v)
     {
-        if (txtMusic) txtMusic.text = Mathf.RoundToInt(v * 100).ToString();
+        float real = slMusic.value;
+        txtMusic.text = ((int)real).ToString();
     }
 
     public void UpdateMenuText(float v)
     {
-        if (txtMenu) txtMenu.text = Mathf.RoundToInt(v * 100).ToString();
+        float real = slMenu.value;
+        txtMenu.text = ((int)real).ToString();
     }
 
-    public void OpenSettings()
+    void FixDropdownHeight(TMP_Dropdown dd, int itemCount)
     {
-        gameObject.SetActive(true);
+        if (dd == null || dd.template == null) return;
+
+        // í…œí”Œë¦¿ ê°€ì ¸ì˜¤ê¸°
+        var template = dd.template;
+        var viewport = template.Find("Viewport") as RectTransform;
+        var content = viewport.Find("Content") as RectTransform;
+
+        // í•­ëª© í•˜ë‚˜ì˜ ë†’ì´ ê³„ì‚°
+        float itemHeight = dd.itemText.rectTransform.rect.height;
+        if (itemHeight < 20f) itemHeight = 30f; // ìµœì†Œ ë³´ì •
+
+        // ì „ì²´ ë¦¬ìŠ¤íŠ¸ ê¸¸ì´ = í•­ëª© ë†’ì´ Ã— í•­ëª© ê°œìˆ˜
+        float fullHeight = itemHeight * itemCount;
+
+        // í…œí”Œë¦¿ì´ ë³´ì—¬ì¤„ ìµœëŒ€ Height
+        float maxHeight = 300f;
+
+        // ì‹¤ì œ template Height
+        float finalHeight = Mathf.Min(fullHeight, maxHeight);
+
+        // í…œí”Œë¦¿ ë†’ì´ ìˆ˜ì •
+        template.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, finalHeight);
+
+        // viewport ë†’ì´ ìˆ˜ì •
+        viewport.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, finalHeight);
+
+        // content ë†’ì´ ìˆ˜ì •
+        content.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, fullHeight);
+
+        // ìŠ¤í¬ë¡¤ ê°•ì œ ì¬ë¹Œë“œ
+        LayoutRebuilder.ForceRebuildLayoutImmediate(content);
     }
 
-    public void CloseSettings()
-    {
-        gameObject.SetActive(false);
-    }
+    // ì—´ê¸°/ë‹«ê¸°
+    public void OpenSettings() => gameObject.SetActive(true);
+    public void CloseSettings() => gameObject.SetActive(false);
 
-    // ======================================================
     class ResComparer : IEqualityComparer<Resolution>
     {
-        public bool Equals(Resolution a, Resolution b) => a.width == b.width && a.height == b.height;
-        public int GetHashCode(Resolution r) => r.width ^ r.height;
+        public bool Equals(Resolution a, Resolution b) =>
+            a.width == b.width && a.height == b.height;
+
+        public int GetHashCode(Resolution r) =>
+            r.width ^ r.height;
     }
 }

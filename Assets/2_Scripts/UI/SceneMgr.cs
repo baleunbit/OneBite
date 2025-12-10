@@ -10,7 +10,7 @@ public class SceneMgr : MonoBehaviour
     [SerializeField] string sceneGame = "2_Game";
     [SerializeField] string sceneEnd = "3_End";
 
-    [Header("UI (선택사항)")]
+    [Header("UI")]
     [SerializeField] GameObject ControlsPanel;
 
     void Start()
