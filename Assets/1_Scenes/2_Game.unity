@@ -6100,14 +6100,6 @@ PrefabInstance:
       propertyPath: bossBar
       value: 
       objectReference: {fileID: 757568938}
-    - target: {fileID: 4725732571164980330, guid: 445610f1592ae7c428f912c592a17b9f, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0.633
-      objectReference: {fileID: 0}
-    - target: {fileID: 4725732571164980330, guid: 445610f1592ae7c428f912c592a17b9f, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0.552
-      objectReference: {fileID: 0}
     - target: {fileID: 5950916918738921901, guid: 445610f1592ae7c428f912c592a17b9f, type: 3}
       propertyPath: bossBar
       value: 
@@ -6116,14 +6108,6 @@ PrefabInstance:
       propertyPath: cinemachineCamera
       value: 
       objectReference: {fileID: 718230529}
-    - target: {fileID: 6846230914170598992, guid: 445610f1592ae7c428f912c592a17b9f, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -0.635
-      objectReference: {fileID: 0}
-    - target: {fileID: 6846230914170598992, guid: 445610f1592ae7c428f912c592a17b9f, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0.536
-      objectReference: {fileID: 0}
     - target: {fileID: 7749397074239670649, guid: 445610f1592ae7c428f912c592a17b9f, type: 3}
       propertyPath: m_Name
       value: 1_BossRoom
