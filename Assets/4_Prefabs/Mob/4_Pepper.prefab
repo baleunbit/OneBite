@@ -14,8 +14,8 @@ GameObject:
   - component: {fileID: 3361475803995331736}
   - component: {fileID: 7677151499142277859}
   - component: {fileID: 8854525751063042380}
-  - component: {fileID: 3286687348866986512}
   - component: {fileID: 6018069413285881259}
+  - component: {fileID: 114302373725867980}
   m_Layer: 0
   m_Name: 4_Pepper
   m_TagString: Mob
@@ -184,8 +184,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9766939b6a1aa8e439a8ef8e2d6600c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!60 &3286687348866986512
-PolygonCollider2D:
+--- !u!114 &6018069413285881259
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 774278344359315910}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d74f2498c561c840a61d629b5ac5216, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  patrolSpeed: 3
+  moveTime: 1.5
+  stopTime: 1
+  turnSpeed: 90
+--- !u!61 &114302373725867980
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -218,7 +234,7 @@ PolygonCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0.2272284, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -228,93 +244,5 @@ PolygonCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: 3.435, y: -3.385}
-      - {x: 3.215, y: -3.195}
-      - {x: 2.985, y: -3.0149999}
-      - {x: 2.825, y: -2.8149998}
-      - {x: 2.585, y: -2.7949998}
-      - {x: 2.595, y: -2.395}
-      - {x: 2.395, y: -2.355}
-      - {x: 2.385, y: -1.995}
-      - {x: 2.325, y: -1.9649999}
-      - {x: 2.165, y: -1.985}
-      - {x: 2.165, y: -1.375}
-      - {x: 2.145, y: -1.355}
-      - {x: 1.9549999, y: -1.355}
-      - {x: 1.9549999, y: -0.755}
-      - {x: 1.935, y: -0.73499995}
-      - {x: 1.755, y: -0.73499995}
-      - {x: 1.755, y: 0.275}
-      - {x: 1.735, y: 0.295}
-      - {x: 1.545, y: 0.295}
-      - {x: 1.545, y: 1.105}
-      - {x: 1.525, y: 1.125}
-      - {x: 1.345, y: 1.125}
-      - {x: 1.365, y: 1.915}
-      - {x: 1.175, y: 1.9649999}
-      - {x: 1.135, y: 2.375}
-      - {x: 0.92499995, y: 2.365}
-      - {x: 0.91499996, y: 2.7949998}
-      - {x: 0.72499996, y: 2.965}
-      - {x: 0.965, y: 3.345}
-      - {x: 0.91499996, y: 3.615}
-      - {x: 0.065, y: 3.7949998}
-      - {x: -1.175, y: 3.7949998}
-      - {x: -1.1949999, y: 3.7749999}
-      - {x: -1.5649999, y: 3.595}
-      - {x: -1.545, y: 3.995}
-      - {x: -1.785, y: 4.225}
-      - {x: -2.415, y: 4.815}
-      - {x: -3.395, y: 4.815}
-      - {x: -3.425, y: 4.785}
-      - {x: -3.635, y: 4.625}
-      - {x: -3.635, y: 4.1349998}
-      - {x: -3.435, y: 3.935}
-      - {x: -2.445, y: 3.745}
-      - {x: -2.245, y: 3.735}
-      - {x: -2.655, y: 2.965}
-      - {x: -2.825, y: 2.8149998}
-      - {x: -3.0649998, y: 2.345}
-      - {x: -3.2849998, y: 1.7249999}
-      - {x: -3.2549999, y: 1.245}
-      - {x: -3.0349998, y: 1.275}
-      - {x: -3.0549998, y: 0.685}
-      - {x: -2.855, y: 0.655}
-      - {x: -2.855, y: 0.065}
-      - {x: -2.645, y: 0.035}
-      - {x: -2.655, y: -0.36499998}
-      - {x: -2.455, y: -0.405}
-      - {x: -2.435, y: -0.775}
-      - {x: -2.215, y: -1.1949999}
-      - {x: -2.0349998, y: -1.605}
-      - {x: -1.8149999, y: -1.8549999}
-      - {x: -1.605, y: -1.8149999}
-      - {x: -1.605, y: -2.215}
-      - {x: -1.4449999, y: -2.445}
-      - {x: 0.055, y: -3.885}
-      - {x: 0.21499999, y: -4.095}
-      - {x: 1.515, y: -4.725}
-      - {x: 2.225, y: -4.915}
-      - {x: 3.885, y: -4.915}
-      - {x: 4.075, y: -4.685}
-      - {x: 4.075, y: -4.065}
-      - {x: 4.055, y: -4.035}
-  m_UseDelaunayMesh: 0
---- !u!114 &6018069413285881259
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 774278344359315910}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9d74f2498c561c840a61d629b5ac5216, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  patrolSpeed: 3
-  moveTime: 1.5
-  stopTime: 1
-  turnSpeed: 90
+  m_Size: {x: 7.81904, y: 9.87}
+  m_EdgeRadius: 0

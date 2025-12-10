@@ -13,9 +13,9 @@ GameObject:
   - component: {fileID: 531883606175338947}
   - component: {fileID: 1850337658730789331}
   - component: {fileID: 417816985343646310}
-  - component: {fileID: 6065965925056092247}
   - component: {fileID: -2102641532646969050}
   - component: {fileID: 4764277353933852587}
+  - component: {fileID: 7499079982453963069}
   m_Layer: 0
   m_Name: 3_IceCream
   m_TagString: Mob
@@ -172,8 +172,36 @@ MonoBehaviour:
   alpha: 0.85
   ringColor: {r: 1, g: 0, b: 0, a: 1}
   fovColor: {r: 1, g: 1, b: 1, a: 1}
---- !u!60 &6065965925056092247
-PolygonCollider2D:
+--- !u!114 &-2102641532646969050
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5047303742285198552}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d74f2498c561c840a61d629b5ac5216, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  patrolSpeed: 3
+  moveTime: 1.5
+  stopTime: 1
+  turnSpeed: 90
+--- !u!114 &4764277353933852587
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5047303742285198552}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9766939b6a1aa8e439a8ef8e2d6600c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!61 &7499079982453963069
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -216,50 +244,5 @@ PolygonCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: 0.76, y: 0.62}
-      - {x: 0.7, y: 0.81}
-      - {x: 0.53999996, y: 0.96}
-      - {x: 0.39, y: 1.01}
-      - {x: -0.42999998, y: 1.01}
-      - {x: -0.58, y: 0.95}
-      - {x: -0.71999997, y: 0.78}
-      - {x: -0.77, y: 0.63}
-      - {x: -0.77, y: -0.53999996}
-      - {x: -0.71999997, y: -0.62}
-      - {x: -0.53, y: -0.71999997}
-      - {x: -0.14, y: -1.01}
-      - {x: 0.32, y: -1.01}
-      - {x: 0.39, y: -0.94}
-      - {x: 0.77, y: -0.45999998}
-      - {x: 0.77, y: 0.61}
-  m_UseDelaunayMesh: 0
---- !u!114 &-2102641532646969050
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5047303742285198552}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9d74f2498c561c840a61d629b5ac5216, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  patrolSpeed: 3
-  moveTime: 1.5
-  stopTime: 1
-  turnSpeed: 90
---- !u!114 &4764277353933852587
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5047303742285198552}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9766939b6a1aa8e439a8ef8e2d6600c5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_Size: {x: 1.54, y: 2.02}
+  m_EdgeRadius: 0

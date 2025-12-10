@@ -1,6 +1,8 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using Unity.Cinemachine;
 
 public class Player : MonoBehaviour
 {
@@ -27,6 +29,14 @@ public class Player : MonoBehaviour
     public Image whiteHealthBar;
     public float whiteBarFollowSpeed = 4f;
 
+    [Header("피격 효과")]
+    public Color hitColor = Color.red;       // 피격 시 색상
+    public float hitFlashDuration = 0.1f;    // 빨간색 유지 시간
+
+    [Header("카메라 흔들림")]
+    public CinemachineImpulseSource impulseSource;  // Inspector에서 연결
+    public float hitImpulseForce = 0.5f;            // 흔들림 강도
+
     // Player 쪽에 상태 플래그
     public bool IsBusyWithBite { get; private set; }
     public void SetBiteState(bool on) => IsBusyWithBite = on;
@@ -41,12 +51,21 @@ public class Player : MonoBehaviour
 
     Rigidbody2D rb; SpriteRenderer spriter; Animator ani;
     Vector2 input; bool isDead = false;
+    Color originalColor;
+    Coroutine hitFlashCoroutine;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         spriter = GetComponent<SpriteRenderer>();
         ani = GetComponent<Animator>();
+
+        // 원래 색상 저장
+        if (spriter) originalColor = spriter.color;
+
+        // Impulse Source 자동 탐색 (없으면 직접 연결 필요)
+        if (!impulseSource)
+            impulseSource = GetComponent<CinemachineImpulseSource>();
 
         health = Mathf.Clamp(health, 0, maxHealth);
         UpdateHealthBar();
@@ -119,7 +138,26 @@ public class Player : MonoBehaviour
         if (isDead) return;
         health = Mathf.Clamp(health - Mathf.Max(0, dmg), 0, maxHealth);
         UpdateHealthBar();
+        
+        // 피격 효과 (색상)
+        if (hitFlashCoroutine != null) StopCoroutine(hitFlashCoroutine);
+        hitFlashCoroutine = StartCoroutine(HitFlashCoroutine());
+        
+        // 카메라 흔들림
+        if (impulseSource)
+            impulseSource.GenerateImpulse(hitImpulseForce);
+        
         if (health <= 0) Die();
+    }
+    
+    IEnumerator HitFlashCoroutine()
+    {
+        if (spriter)
+        {
+            spriter.color = hitColor;
+            yield return new WaitForSeconds(hitFlashDuration);
+            spriter.color = originalColor;
+        }
     }
     public void DieFromHunger() { if (isDead) return; health = 0; UpdateHealthBar(); Die(); }
     void UpdateHealthBar()

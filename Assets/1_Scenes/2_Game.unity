@@ -1061,6 +1061,7 @@ GameObject:
   - component: {fileID: 315458526}
   - component: {fileID: 315458529}
   - component: {fileID: 315458530}
+  - component: {fileID: 315458531}
   m_Layer: 0
   m_Name: Camera
   m_TagString: MainCamera
@@ -1218,6 +1219,59 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 4
   CustomBlends: {fileID: 0}
+--- !u!114 &315458531
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 315458525}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 180ecf9b41d478f468eb3e9083753217, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ImpulseDefinition:
+    ImpulseChannel: 1
+    ImpulseShape: 2
+    CustomImpulseShape:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    ImpulseDuration: 0.2
+    ImpulseType: 0
+    DissipationRate: 0.25
+    RawSignal: {fileID: 0}
+    AmplitudeGain: 1
+    FrequencyGain: 1
+    RepeatMode: 0
+    Randomize: 1
+    TimeEnvelope:
+      AttackShape:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      DecayShape:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      AttackTime: 0
+      SustainTime: 0.2
+      DecayTime: 0.7
+      ScaleWithImpact: 1
+      HoldForever: 0
+    ImpactRadius: 100
+    DirectionMode: 0
+    DissipationMode: 2
+    DissipationDistance: 100
+    PropagationSpeed: 343
+  DefaultVelocity: {x: 0, y: -1, z: 0}
 --- !u!1 &336319036
 GameObject:
   m_ObjectHideFlags: 0
@@ -2338,6 +2392,10 @@ MonoBehaviour:
   quietStepUpgrade: 0.2
   whiteHealthBar: {fileID: 1517460740}
   whiteBarFollowSpeed: 4
+  hitColor: {r: 1, g: 0.5, b: 0.5, a: 1}
+  hitFlashDuration: 0.1
+  impulseSource: {fileID: 315458531}
+  hitImpulseForce: 0.5
 --- !u!50 &546217747
 Rigidbody2D:
   serializedVersion: 5
@@ -2749,6 +2807,7 @@ GameObject:
   - component: {fileID: 718230530}
   - component: {fileID: 718230529}
   - component: {fileID: 718230528}
+  - component: {fileID: 718230531}
   m_Layer: 0
   m_Name: CinemachineCamera
   m_TagString: Untagged
@@ -2845,6 +2904,30 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &718230531
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 718230527}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00b2d199b96b516448144ab30fb26aed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ApplyAfter: 2
+  ChannelMask: 1
+  Gain: 1
+  Use2DDistance: 0
+  UseCameraSpace: 1
+  SignalCombinationMode: 0
+  ReactionSettings:
+    m_SecondaryNoise: {fileID: 0}
+    AmplitudeGain: 1
+    FrequencyGain: 1
+    Duration: 1
+    m_NoiseOffsets: {x: 0, y: 0, z: 0}
 --- !u!1 &757568934
 GameObject:
   m_ObjectHideFlags: 0
@@ -3642,7 +3725,6 @@ RectTransform:
   - {fileID: 388043307}
   - {fileID: 1179548303}
   - {fileID: 2113384544}
-  - {fileID: 1250021087}
   - {fileID: 757568935}
   - {fileID: 1493722121}
   - {fileID: 54197468}
@@ -4791,9 +4873,9 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1250021086}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 10}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -44}
+  m_LocalScale: {x: 0.099999994, y: 0.099999994, z: 0.099999994}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 993888230}
@@ -4806,12 +4888,12 @@ RectTransform:
   - {fileID: 1243048784}
   - {fileID: 1866250876}
   - {fileID: 2021286333}
-  m_Father: {fileID: 951296536}
+  m_Father: {fileID: 2113384544}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -20, y: -20}
+  m_AnchoredPosition: {x: -11.474998, y: 5.5720005}
+  m_SizeDelta: {x: 234.55844, y: 123.18912}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1250021088
 MonoBehaviour:
@@ -6602,7 +6684,8 @@ Transform:
   m_LocalPosition: {x: 114.75, y: -55.72, z: 450}
   m_LocalScale: {x: 10, y: 10, z: 10}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1250021087}
   m_Father: {fileID: 951296536}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2146461842

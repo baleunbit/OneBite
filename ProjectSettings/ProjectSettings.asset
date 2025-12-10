@@ -574,7 +574,8 @@ PlayerSettings:
   webGLWebAssemblyBigInt: 0
   webGLCloseOnQuit: 0
   webWasm2023: 0
-  scriptingDefineSymbols: {}
+  scriptingDefineSymbols:
+    WebGL: "\uD654\uBA74\uD06C\uAE30;\uB4DC\uB86D"
   additionalCompilerArguments: {}
   platformArchitecture: {}
   scriptingBackend:
