@@ -7,7 +7,7 @@ public class Mob : MonoBehaviour
     [Header("이동/추격")] public float Speed = 7f;
 
     [Header("공격")] public int minDamage = 3; public int maxDamage = 5; public float attackCooldown = 1f;
-    public float alertAttackDelay = 0.5f; // 발각 후 첫 공격까지 딜레이
+    public float alertAttackDelay = 0.3f; // 발각 후 첫 공격까지 딜레이
 
     [Header("탐지")]
     public float detectRadius = 4f;       // 경계 시작 범위 (부채꼴 회전 시작)
@@ -65,6 +65,9 @@ public class Mob : MonoBehaviour
         sr = GetComponent<SpriteRenderer>();
         mobSenseVisualize = GetComponent<MobSenseVisualize>();
         currentHP = Mathf.Max(1, maxHP);
+        
+        // 중력 비활성화 (2D 탑다운)
+        if (rb) rb.gravityScale = 0f;
         
         // 원래 색상 저장
         if (sr) originalColor = sr.color;

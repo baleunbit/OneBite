@@ -136,6 +136,7 @@ MonoBehaviour:
   minDamage: 10
   maxDamage: 15
   attackCooldown: 2
+  alertAttackDelay: 0.5
   detectRadius: 15
   viewDistance: 15
   fovAngle: 80

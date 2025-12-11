@@ -159,6 +159,7 @@ MonoBehaviour:
   minDamage: 3
   maxDamage: 5
   attackCooldown: 1
+  alertAttackDelay: 0.5
   detectRadius: 15
   viewDistance: 15
   fovAngle: 80
@@ -167,8 +168,8 @@ MonoBehaviour:
   anim: {fileID: 7848182402521066036}
   questionMarkPrefab: {fileID: 8768382743714012739, guid: cd3cf4424527366438d63bec7342f42a, type: 3}
   exclamationMarkPrefab: {fileID: 4429560685922436355, guid: a096cbb40cf6aec4bab3a981d2fd900c, type: 3}
-  markerOffset: {x: 0, y: 2}
-  markerScale: 0.3
+  markerOffset: {x: 0, y: 1.5}
+  markerScale: 0.25
   keepUpright: 1
   maxHP: 30
   hitSfx: {fileID: 8300000, guid: e472f9a6a3784fd46ba0d286348beef3, type: 3}

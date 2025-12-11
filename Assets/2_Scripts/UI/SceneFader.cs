@@ -53,14 +53,43 @@ public class SceneFader : MonoBehaviour
     IEnumerator Fade(float from, float to)
     {
         float t = 0f;
-        var c = fadeImage.color;
+
         while (t < fadeDuration)
         {
             t += Time.unscaledDeltaTime;
+
+            // ★ fadeImage가 삭제되었거나 null이면 즉시 종료
+            if (fadeImage == null)
+                yield break;
+
             float a = Mathf.Lerp(from, to, t / fadeDuration);
+            var c = fadeImage.color;
             fadeImage.color = new Color(c.r, c.g, c.b, a);
+
             yield return null;
         }
-        fadeImage.color = new Color(c.r, c.g, c.b, to);
+
+        if (fadeImage != null)
+        {
+            var c = fadeImage.color;
+            fadeImage.color = new Color(c.r, c.g, c.b, to);
+        }
+    }
+    void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (fadeImage == null)
+        {
+            fadeImage = FindAnyObjectByType<Image>(); // 혹은 특정 경로로 찾기
+        }
     }
 }

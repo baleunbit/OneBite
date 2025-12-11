@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 [DisallowMultipleComponent]
@@ -11,6 +12,13 @@ public class Room : MonoBehaviour
     Bounds aabb;
     Transform[] spawnPoints;
     bool mobsActivated = false;  // 방의 몹들이 이미 활성화되었는지
+    bool stageUpdated = false;   // 스테이지 텍스트 업데이트 여부
+    
+    // 스테이지별 방문한 방 순서 추적 (static)
+    static Dictionary<int, int> stageRoomCounter = new Dictionary<int, int>();
+    static int lastVisitedStage = 0;
+    int myStage = 0;
+    int myRoomIndex = 0;
 
     void Awake() => Init();
     
@@ -88,12 +96,11 @@ public class Room : MonoBehaviour
     // 게임 시작 시 플레이어가 이미 방 안에 있는지 체크
     void CheckPlayerAlreadyInRoom()
     {
-        if (mobsActivated) return;
-        
         var player = GameObject.FindGameObjectWithTag("Player");
         if (!player) return;
         
         Vector2 playerPos = player.transform.position;
+        bool playerInRoom = false;
         
         // 1. 트리거 콜라이더로 체크
         if (triggerInners != null && triggerInners.Length > 0)
@@ -102,26 +109,90 @@ public class Room : MonoBehaviour
             {
                 if (trigger && trigger.OverlapPoint(playerPos))
                 {
-                    ActivateMobs();
-                    return;
+                    playerInRoom = true;
+                    break;
                 }
             }
         }
-        
         // 2. 트리거가 없으면 AABB bounds로 체크
-        if (aabb.Contains(playerPos))
+        else if (aabb.Contains(playerPos))
         {
-            ActivateMobs();
+            playerInRoom = true;
+        }
+        
+        if (playerInRoom)
+        {
+            // 스테이지 텍스트 업데이트
+            if (!stageUpdated)
+            {
+                UpdateStageText();
+                stageUpdated = true;
+            }
+            
+            if (!mobsActivated)
+            {
+                ActivateMobs();
+            }
         }
     }
     
     // 플레이어가 방에 들어오면 몹들 활성화
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (mobsActivated) return;
         if (!other.CompareTag("Player")) return;
 
+        // 스테이지 텍스트 업데이트 (한 번만)
+        if (!stageUpdated)
+        {
+            UpdateStageText();
+            stageUpdated = true;
+        }
+        
+        if (mobsActivated) return;
         ActivateMobs();
+    }
+    
+    void UpdateStageText()
+    {
+        // 방 이름에서 스테이지 번호 추출 (예: "1_ForestRoom" -> 1)
+        myStage = ParseStageFromName();
+        if (myStage <= 0) return;
+        
+        // 새 스테이지면 카운터 리셋
+        if (myStage != lastVisitedStage)
+        {
+            if (!stageRoomCounter.ContainsKey(myStage))
+                stageRoomCounter[myStage] = 0;
+            lastVisitedStage = myStage;
+        }
+        
+        // 방 번호 증가
+        stageRoomCounter[myStage]++;
+        myRoomIndex = stageRoomCounter[myStage];
+        
+        // UI 업데이트
+        UIManager.Instance?.UpdateStageText(myStage, myRoomIndex);
+    }
+    
+    int ParseStageFromName()
+    {
+        string roomName = gameObject.name;
+        if (string.IsNullOrEmpty(roomName)) return -1;
+        
+        int under = roomName.IndexOf('_');
+        if (under <= 0) return -1;
+        
+        var prefix = roomName.Substring(0, under);
+        if (int.TryParse(prefix, out int stage)) return stage;
+        return -1;
+    }
+    
+    // 씬 로드 시 static 변수 리셋
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+    static void ResetStageCounter()
+    {
+        stageRoomCounter.Clear();
+        lastVisitedStage = 0;
     }
 
     void ActivateMobs()

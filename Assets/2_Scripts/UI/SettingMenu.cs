@@ -44,9 +44,28 @@ public class SettingMenu : MonoBehaviour
 
     // ✔ 네가 요청한 주사율 목록만 사용
     readonly int[] refreshRates = { 60, 90, 120, 144, 165, 180, 200, 240 };
+    
+    bool initialized = false;
 
-    void Start()
+    void Awake()
     {
+        Initialize();
+    }
+    
+    void OnEnable()
+    {
+        // 패널이 활성화될 때마다 저장된 설정 불러오기
+        if (initialized)
+        {
+            LoadSettings();
+        }
+    }
+    
+    void Initialize()
+    {
+        if (initialized) return;
+        initialized = true;
+        
         BuildResolutionList();
         BuildDisplayModeList();
         BuildRefreshRateList();
@@ -55,8 +74,19 @@ public class SettingMenu : MonoBehaviour
         FixDropdownHeight(ddDisplayMode, ddDisplayMode.options.Count);
         FixDropdownHeight(ddRefreshRate, refreshRates.Length);
 
+        // 드롭다운 값 변경 시 자동 적용
+        ddResolution.onValueChanged.AddListener(_ => ApplyGraphics());
+        ddDisplayMode.onValueChanged.AddListener(_ => ApplyGraphics());
+        ddRefreshRate.onValueChanged.AddListener(_ => ApplyGraphics());
+
+        // 슬라이더 값 변경 시 자동 적용
+        slMaster.onValueChanged.AddListener(_ => ApplyAudio());
+        slMusic.onValueChanged.AddListener(_ => ApplyAudio());
+        slMenu.onValueChanged.AddListener(_ => ApplyAudio());
+
         LoadSettings();
         ApplyGraphics();
+        ApplyAudio();
     }
 
 

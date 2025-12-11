@@ -52,9 +52,9 @@ public class Boss : MonoBehaviour
     public void StartPattern()
     {
         if (!canAct)
-        {
-            canAct = true;
-            StartCoroutine(PatternRoutine());
+    {
+        canAct = true;
+        StartCoroutine(PatternRoutine());
         }
     }
 
@@ -68,7 +68,7 @@ public class Boss : MonoBehaviour
 
             if (bossRoot)
             {
-                bossRoot.isInfinity = false;
+            bossRoot.isInfinity = false;
             }
 
             yield return new WaitForSeconds(1.5f);
@@ -77,7 +77,7 @@ public class Boss : MonoBehaviour
             // 2) Attack 준비 --------------------------------------------------
             if (bossRoot)
             {
-                bossRoot.isInfinity = true;
+            bossRoot.isInfinity = true;
             }
 
             yield return new WaitForSeconds(0.3f);
@@ -96,7 +96,7 @@ public class Boss : MonoBehaviour
             // 4) 다시 Idle로 돌아가는 구간 ------------------------------------
             if (bossRoot)
             {
-                bossRoot.isInfinity = true;
+            bossRoot.isInfinity = true;
             }
 
             yield return new WaitForSeconds(1.2f);
@@ -213,7 +213,7 @@ public class Boss : MonoBehaviour
         if (bullet == null)
             bullet = b.AddComponent<Bullet>();
 
-        bullet.damage = bulletDamage;
+            bullet.damage = bulletDamage;
         bullet.isPlayerBullet = false;
     }
 

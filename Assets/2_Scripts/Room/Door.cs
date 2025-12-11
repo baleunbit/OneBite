@@ -128,7 +128,15 @@ public class Door : MonoBehaviour
         }
 
         // 이동
-        player.position = nextRoomGO.transform.position + (Vector3)exitOffset;
+        Vector3 targetPos = nextRoomGO.transform.position + (Vector3)exitOffset;
+        
+        // 보스 방이면 Y좌표를 300으로 고정
+        if (nextRoomGO.name.Contains("BossRoom"))
+        {
+            targetPos.y = 300f;
+        }
+        
+        player.position = targetPos;
 
         var rb = player.GetComponent<Rigidbody2D>();
         if (rb) rb.linearVelocity = Vector2.zero;

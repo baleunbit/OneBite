@@ -25,6 +25,9 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Image expFillImage;
     [SerializeField] private TextMeshProUGUI levelText;
 
+    [Header("Stage Text (스테이지 표시)")]
+    [SerializeField] private TextMeshProUGUI stageText;
+
     [Header("LevelUp Panel (GameObject)")]
     [SerializeField] private GameObject levelUpPanelGO;
     [SerializeField] private Button btn1, btn2, btn3, btn4;
@@ -102,6 +105,12 @@ public class UIManager : MonoBehaviour
             expFillImage.fillAmount = Mathf.Clamp01(ratio);
         }
         if (levelText) levelText.text = $"LV.{level}";
+    }
+
+    // ===== 스테이지 텍스트 UI =====
+    public void UpdateStageText(int stage, int roomIndex)
+    {
+        if (stageText) stageText.text = $"{stage}-{roomIndex}";
     }
 
     // ===== Gun/Weapon UI (옵션) =====

@@ -63,6 +63,10 @@ public class Gun : MonoBehaviour
 
     void OnDisable()
     {
+        // 공용 탄약 모드에서 재장전 중이면 UI 유지
+        if (useSharedAmmo && sharedAmmo && sharedAmmo.IsReloading)
+            return;
+        
         UIManager.Instance?.HideReloadCircle();
     }
 
@@ -82,9 +86,9 @@ public class Gun : MonoBehaviour
         // -----------------------
         //  🔥 자동 장전
         // -----------------------
-        if (!isReloading && GetCurrentAmmo() <= 0)
+        if (!IsReloading() && GetCurrentAmmo() <= 0)
         {
-            StartCoroutine(Reload());
+            TryStartReload();
             return;
         }
 
@@ -94,14 +98,14 @@ public class Gun : MonoBehaviour
         if (UIManager.Instance && UIManager.Instance.IsLevelUpPanelOpen)
             return;
 
-        if (isReloading) return;
+        if (IsReloading()) return;
 
         // -----------------------
         //  R키 수동 장전
         // -----------------------
         if (Input.GetKeyDown(KeyCode.R) && GetCurrentAmmo() < GetMaxAmmo())
         {
-            StartCoroutine(Reload());
+            TryStartReload();
             return;
         }
 
@@ -118,20 +122,39 @@ public class Gun : MonoBehaviour
         }
     }
 
-    IEnumerator Reload()
+    // 재장전 상태 확인 (공용탄약 모드면 SharedAmmo에서 확인)
+    bool IsReloading()
+    {
+        if (useSharedAmmo && sharedAmmo)
+            return sharedAmmo.IsReloading;
+        return isReloading;
+    }
+    
+    // 재장전 시작 (공용탄약 모드면 SharedAmmo에서 관리)
+    void TryStartReload()
+    {
+        if (useSharedAmmo && sharedAmmo)
+        {
+            sharedAmmo.StartReload(reloadTime);
+        }
+        else
+        {
+            StartCoroutine(ReloadIndividual());
+        }
+    }
+
+    // 개별 탄약 모드용 재장전
+    IEnumerator ReloadIndividual()
     {
         if (isReloading) yield break;
-        if (GetCurrentAmmo() >= GetMaxAmmo()) yield break;
+        if (currentAmmo >= maxAmmo) yield break;
 
         isReloading = true;
         UIManager.Instance?.ShowReloadCircle();
 
         yield return new WaitForSeconds(reloadTime);
 
-        if (useSharedAmmo && sharedAmmo)
-            sharedAmmo.Refill();
-        else
-            currentAmmo = maxAmmo;
+        currentAmmo = maxAmmo;
 
         UIManager.Instance?.UpdateAmmoText(GetCurrentAmmo(), GetMaxAmmo());
         UIManager.Instance?.HideReloadCircle();
