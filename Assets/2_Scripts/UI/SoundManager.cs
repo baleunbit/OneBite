@@ -1,20 +1,18 @@
-// SoundManager.cs (¼öÁ¤ ¿Ï·á ¹öÀü)
 using UnityEngine;
 
 public class SoundManager : MonoBehaviour
 {
     public static SoundManager I { get; private set; }
 
-    [Header("°øÅë BGM")]
+    [Header("ê¸°ë³¸ BGM")]
     public AudioClip bgmMenu;
     public AudioClip bgmGameOver;
 
-    [Header("½ºÅ×ÀÌÁöº° BGM (index = stage-1)")]
+    [Header("ìŠ¤í…Œì´ì§€ë³„ BGM (index = stage-1)")]
     public AudioClip[] stageBgms;
 
-    [Header("º¼·ı ¼³Á¤")]
-    [Range(0f, 1f)] public float menuVolume = 1f;     // ¸Ş´º º¼·ı
-    [Range(0f, 1f)] public float musicVolume = 1f;    // ÀÎ°ÔÀÓ À½¾Ç º¼·ı
+    [Header("ë³¼ë¥¨ ì„¤ì •")]
+    [Range(0f, 1f)] public float musicVolume = 1f;
 
     AudioSource src;
 
@@ -29,13 +27,13 @@ public class SoundManager : MonoBehaviour
     }
 
     // -------------------------------------------------------
-    // BGM Àç»ı
+    // BGM ì¬ìƒ
     // -------------------------------------------------------
 
     public void PlayMenu()
     {
         Play(bgmMenu);
-        src.volume = menuVolume;
+        src.volume = musicVolume;
     }
 
     public void PlayGameOver()
@@ -72,24 +70,14 @@ public class SoundManager : MonoBehaviour
     }
 
     // -------------------------------------------------------
-    // ¼³Á¤ ¸Ş´º¿¡¼­ È£ÃâµÇ´Â ºÎºĞ
+    // ë³¼ë¥¨ ì¡°ì ˆ (ì„¤ì • ë©”ë‰´ì—ì„œ í˜¸ì¶œ)
     // -------------------------------------------------------
 
     public void SetMusicVolume(float v)
     {
         musicVolume = Mathf.Clamp01(v);
-
-        // ÀÎ°ÔÀÓ BGM Àç»ı ÁßÀÏ °æ¿ì ¹İ¿µ
-        if (src.clip != bgmMenu)
-            src.volume = musicVolume;
-    }
-
-    public void SetMenuVolume(float v)
-    {
-        menuVolume = Mathf.Clamp01(v);
-
-        // ¸Ş´º BGM Àç»ı ÁßÀÏ °æ¿ì ¹İ¿µ
-        if (src.clip == bgmMenu)
-            src.volume = menuVolume;
+        
+        // í˜„ì¬ ì¬ìƒ ì¤‘ì¸ ëª¨ë“  BGMì— ì¦‰ì‹œ ì ìš©
+        if (src) src.volume = musicVolume;
     }
 }

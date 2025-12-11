@@ -53,6 +53,9 @@ public class Player : MonoBehaviour
     Vector2 input; bool isDead = false;
     Color originalColor;
     Coroutine hitFlashCoroutine;
+    
+    // 속도 수정자 (둔화 장판 등)
+    float speedModifier = 1f;
 
     void Start()
     {
@@ -107,7 +110,7 @@ public class Player : MonoBehaviour
         }
 
         // Bite 끝나면 여기 코드 실행 → Held input으로 다시 움직임
-        rb.linearVelocity = input * moveSpeed;
+        rb.linearVelocity = input * moveSpeed * speedModifier;
     }
 
     void LateUpdate()
@@ -248,5 +251,22 @@ public class Player : MonoBehaviour
             // 시야각도 감소
             m.fovAngle = Mathf.Clamp(m.fovAngle - (amount * 0.5f), 10f, 180f);
         }
+    }
+
+    // ===== 속도 수정자 (둔화 장판 등) =====
+    public void ApplySpeedModifier(float multiplier)
+    {
+        speedModifier *= multiplier;
+    }
+
+    public void RemoveSpeedModifier(float multiplier)
+    {
+        if (multiplier != 0f)
+            speedModifier /= multiplier;
+    }
+
+    public void ResetSpeedModifier()
+    {
+        speedModifier = 1f;
     }
 }

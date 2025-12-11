@@ -27,7 +27,7 @@ public class Mob : MonoBehaviour
     public float markerScale = 0.8f;
     public bool keepUpright = true;
 
-    [Header("체력")] public int maxHP = 30;
+    [Header("체력")] public int maxHP = 6;
 
     [Header("SFX")] public AudioClip hitSfx; [Range(0f, 1f)] public float hitSfxVolume = 0.8f;
     public AudioClip deathSfx; [Range(0f, 1f)] public float deathSfxVolume = 1f;

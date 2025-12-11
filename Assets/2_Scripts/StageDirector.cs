@@ -1,8 +1,8 @@
 // StageDirector.cs
-// - ½ºÅ×ÀÌÁö ÁøÀÔ ½Ã ±ÔÄ¢/±â¹ÍÀ» Àû¿ë(ÀÚµ¿ ºÎÆ®½ºÆ®·¦ Æ÷ÇÔ)
-// - Door¿¡¼­ ApplyStage¸¦ È£ÃâÇÏ´Â ±¸Á¶ ±×´ë·Î »ç¿ë °¡´É
-// - ¿©±ä ¹«±â Å¸ÀÔ ÁÖÀÔÀ» ÇÏÁö ¾Ê´Â´Ù. PlayerLoadout¸¸ °»½ÅÇÏ¸é
-//   ¹ß»çÃ¼´Â ProjectileDamageAuto°¡ "ÇöÀç ¹«±â µ¥¹ÌÁö"¸¦ ÀÚµ¿ »ùÇÃ¸µÇÑ´Ù.
+// - ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½Ä¢/ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½(ï¿½Úµï¿½ ï¿½ï¿½Æ®ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½)
+// - Doorï¿½ï¿½ï¿½ï¿½ ApplyStageï¿½ï¿½ È£ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½×´ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+// - ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Å¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´Â´ï¿½. PlayerLoadoutï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¸ï¿½
+//   ï¿½ß»ï¿½Ã¼ï¿½ï¿½ ProjectileDamageAutoï¿½ï¿½ "ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½"ï¿½ï¿½ ï¿½Úµï¿½ ï¿½ï¿½ï¿½Ã¸ï¿½ï¿½Ñ´ï¿½.
 
 using UnityEngine;
 
@@ -26,15 +26,15 @@ public class StageDirector : MonoBehaviour
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
     static void ResetDomain() { _inst = null; }
 
-    [Header("2½ºÅ× °¨¼Ó(°­ÇÏ°Ô Ã¼°¨)")]
+    [Header("2ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½(ï¿½ï¿½ï¿½Ï°ï¿½ Ã¼ï¿½ï¿½)")]
     [Range(0.1f, 1f)] public float stage2_TimeScale = 0.6f;
     public float stage2_RigidbodyExtraDrag = 8f;
 
-    [Header("3½ºÅ× ¹Ì²ô·³")]
+    [Header("3ï¿½ï¿½ï¿½ï¿½ ï¿½Ì²ï¿½ï¿½ï¿½")]
     public float stage3_PlayerDrag = 0.05f;
     public float stage3_PlayerAngularDrag = 0.05f;
 
-    [Header("4½ºÅ× È­»ó")]
+    [Header("4ï¿½ï¿½ï¿½ï¿½ È­ï¿½ï¿½")]
     public float stage4_BurnDps = 10f;
 
     public int CurrentStage { get; private set; } = 1;
@@ -48,7 +48,7 @@ public class StageDirector : MonoBehaviour
 
     void Start()
     {
-        // ½ÃÀÛ ¹æ ±ÔÄ¢ ÀÚµ¿ Àû¿ë
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½Ä¢ ï¿½Úµï¿½ ï¿½ï¿½ï¿½ï¿½
         var player = GameObject.FindGameObjectWithTag("Player");
         if (!player) return;
         var room = FindRoomByPosition(player.transform.position);
@@ -61,11 +61,14 @@ public class StageDirector : MonoBehaviour
         if (stage <= 0) stage = 1;
         CurrentStage = stage;
 
-        // ¹«±â/Å¸¼ö ±ÔÄ¢
+        Debug.Log($"[StageDirector] ========== ìŠ¤í…Œì´ì§€ {stage} ì§„ì… ==========");
+        Debug.Log($"[StageDirector] ë°©: {roomGO.name}");
+
+        // ë¬´ê¸°/íƒ€ì… ê·œì¹™
         var wm = playerGO.GetComponent<WeaponManager>();
         if (wm) wm.ApplyStageRules(stage);
 
-        // °øÅë ¸®¼Â
+        // ìƒíƒœ ì´ˆê¸°í™”
         Time.timeScale = 1f;
         var status = playerGO.GetComponent<PlayerStatusEffects>();
         if (!status) status = playerGO.AddComponent<PlayerStatusEffects>();
@@ -73,28 +76,35 @@ public class StageDirector : MonoBehaviour
         DisableIfExists<RoomSlowAll>(roomGO);
         DisableIfExists<BurnDamageOverTime>(roomGO);
 
-        // ½ºÅ×ÀÌÁö ±â¹Í
+        // ìŠ¤í…Œì´ì§€ë³„ ê¸°ë¯¹
         switch (stage)
         {
-            case 1: break;
+            case 1:
+                Debug.Log("[StageDirector] ê¸°ë¯¹: ì—†ìŒ (ê¸°ë³¸)");
+                break;
 
             case 2:
                 Time.timeScale = stage2_TimeScale;
                 var slow = roomGO.GetComponent<RoomSlowAll>() ?? roomGO.AddComponent<RoomSlowAll>();
                 slow.Init(stage2_RigidbodyExtraDrag);
                 slow.enabled = true;
+                Debug.Log($"[StageDirector] ê¸°ë¯¹: ìŠ¬ë¡œìš° (TimeScale: {stage2_TimeScale}, Drag: {stage2_RigidbodyExtraDrag})");
                 break;
 
             case 3:
                 status.SetSlippery(true, stage3_PlayerDrag, stage3_PlayerAngularDrag);
+                Debug.Log($"[StageDirector] ê¸°ë¯¹: ë¯¸ë„ëŸ¬ì›€ (Drag: {stage3_PlayerDrag}, AngularDrag: {stage3_PlayerAngularDrag})");
                 break;
 
             case 4:
                 var burn = roomGO.GetComponent<BurnDamageOverTime>() ?? roomGO.AddComponent<BurnDamageOverTime>();
                 burn.Init(playerGO.transform, stage4_BurnDps);
                 burn.enabled = true;
+                Debug.Log($"[StageDirector] ê¸°ë¯¹: í™”ìƒ (DPS: {stage4_BurnDps})");
                 break;
         }
+        
+        Debug.Log($"[StageDirector] ==========================================");
     }
 
     public static int ParseStageFromName(string roomName)

@@ -4,7 +4,7 @@ using System.Collections;
 public class Boss : MonoBehaviour
 {
     [Header("Boss Status")]
-    public int maxHP = 300;
+    public int maxHP = 100;
     int hp;
 
     public int contactDamage = 3;
