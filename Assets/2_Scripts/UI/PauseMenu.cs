@@ -47,7 +47,47 @@ public class PauseMenu : MonoBehaviour
         paused = true;
         Time.timeScale = 0f;
         AudioListener.pause = true;
-        if (menuRoot) menuRoot.SetActive(true);
+        
+        if (menuRoot)
+        {
+            menuRoot.SetActive(true);
+            
+            // RectTransform 강제 리셋
+            var rt = menuRoot.GetComponent<RectTransform>();
+            if (rt)
+            {
+                // Anchor를 중앙으로 설정
+                rt.anchorMin = new Vector2(0.5f, 0.5f);
+                rt.anchorMax = new Vector2(0.5f, 0.5f);
+                rt.pivot = new Vector2(0.5f, 0.5f);
+                
+                rt.anchoredPosition = Vector2.zero;
+                rt.localScale = Vector3.one;
+                
+                // 크기가 음수거나 너무 작으면 강제 설정
+                if (rt.sizeDelta.x <= 0 || rt.sizeDelta.y <= 0)
+                {
+                    rt.sizeDelta = new Vector2(800f, 500f); // 기본 크기
+                }
+            }
+            
+            // CanvasGroup 투명도 확인
+            var cg = menuRoot.GetComponent<CanvasGroup>();
+            if (cg)
+            {
+                cg.alpha = 1f;
+                cg.blocksRaycasts = true;
+                cg.interactable = true;
+            }
+            
+            // 맨 앞으로 가져오기
+            menuRoot.transform.SetAsLastSibling();
+        }
+        else
+        {
+            Debug.LogError("[PauseMenu] menuRoot가 null입니다!");
+        }
+        
         if (showCursorOnPause) Cursor.visible = true;
     }
 
