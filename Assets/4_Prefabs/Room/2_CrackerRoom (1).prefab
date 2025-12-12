@@ -1098,5 +1098,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3fa8127d10661347ac7cf3cabbc26d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slowMultiplier: 0.8
-  slowColor: {r: 0.5566037, g: 0.6854116, b: 1, a: 1}
+  speedMultiplier: 0.8
+  fieldColor: {r: 0.5113207, g: 0.65328336, b: 1, a: 1}

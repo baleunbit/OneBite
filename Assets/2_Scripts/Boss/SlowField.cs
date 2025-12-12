@@ -2,15 +2,19 @@ using UnityEngine;
 using System.Collections.Generic;
 
 /// <summary>
-/// 둔화 장판 - 플레이어가 위에 있으면 이동속도 감소 + 파란색 표시
+/// 속도 장판 - 플레이어가 위에 있으면 이동속도 변경 + 색상 표시
+/// Inspector에서 속도 배율과 색상을 자유롭게 조절 가능
 /// </summary>
 public class SlowField : MonoBehaviour
 {
-    [Header("둔화 설정")]
-    public float slowMultiplier = 0.5f;  // 이동속도 배율 (0.5 = 50% 감소)
+    [Header("속도 설정")]
+    [Tooltip("이동속도 배율\n0.5 = 50% 감속 (슬로우)\n1.0 = 변화 없음\n1.5 = 50% 증가\n2.0 = 2배 빠르게")]
+    [Range(0.1f, 3f)]
+    public float speedMultiplier = 0.5f;  // 기본값: 슬로우 (50% 감속)
     
     [Header("시각 효과")]
-    public Color slowColor = new Color(0.3f, 0.5f, 1f, 1f);  // 파란색
+    [Tooltip("장판 위에 있을 때 플레이어 색상")]
+    public Color fieldColor = new Color(0.3f, 0.5f, 1f, 1f);  // 기본값: 파란색
     
     HashSet<Player> affectedPlayers = new HashSet<Player>();
 
@@ -22,8 +26,8 @@ public class SlowField : MonoBehaviour
             if (player && !affectedPlayers.Contains(player))
             {
                 affectedPlayers.Add(player);
-                player.ApplySpeedModifier(slowMultiplier);
-                player.SetColorOverride(slowColor);  // 색상 오버라이드 설정
+                player.ApplySpeedModifier(speedMultiplier);
+                player.SetColorOverride(fieldColor);  // 색상 오버라이드 설정
             }
         }
     }
@@ -36,7 +40,7 @@ public class SlowField : MonoBehaviour
             if (player && affectedPlayers.Contains(player))
             {
                 affectedPlayers.Remove(player);
-                player.RemoveSpeedModifier(slowMultiplier);
+                player.RemoveSpeedModifier(speedMultiplier);
                 player.ClearColorOverride();  // 색상 오버라이드 해제
             }
         }
@@ -49,7 +53,7 @@ public class SlowField : MonoBehaviour
         {
             if (player)
             {
-                player.RemoveSpeedModifier(slowMultiplier);
+                player.RemoveSpeedModifier(speedMultiplier);
                 player.ClearColorOverride();
             }
         }

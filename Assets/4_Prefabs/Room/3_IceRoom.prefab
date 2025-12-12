@@ -269,6 +269,7 @@ GameObject:
   - component: {fileID: 4883986897683666046}
   - component: {fileID: 6746214516865665243}
   - component: {fileID: 9052003974932158576}
+  - component: {fileID: 7667742930147942595}
   m_Layer: 0
   m_Name: 3_IceRoom
   m_TagString: Untagged
@@ -469,6 +470,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   roomID: 0
+--- !u!114 &7667742930147942595
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1970868626729607141}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f3fa8127d10661347ac7cf3cabbc26d5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speedMultiplier: 1.5
+  fieldColor: {r: 0.46115336, g: 0.90188676, b: 0.6892421, a: 1}
 --- !u!1 &1976919261482589679
 GameObject:
   m_ObjectHideFlags: 0

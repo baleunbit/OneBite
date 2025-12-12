@@ -2255,7 +2255,7 @@ MonoBehaviour:
   biteRangeBonus: 0.5
   quietStepBonus: 0.5
   weaponDamageUpgrade: 1
-  biteRangeUpgrade: 0.1
+  biteRangeUpgrade: 0.5
   moveSpeedUpgradePercent: 0.05
   quietStepUpgrade: 0.2
   whiteHealthBar: {fileID: 1517460740}
@@ -4950,8 +4950,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07ed7c6e9b80b394298a93fa780263ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stage3_PlayerDrag: 1
-  stage3_PlayerAngularDrag: 1
+  stage3_PlayerDrag: 0.01
+  stage3_PlayerAngularDrag: 0.01
   stage4_BurnDamage: 1
   stage4_BurnInterval: 5
 --- !u!4 &1588544591

@@ -7,7 +7,12 @@ using Unity.Cinemachine;
 public class Player : MonoBehaviour
 {
     [Header("이동")] public float moveSpeed = 10f;
-    [Header("체력")] public int maxHealth = 100; public int health = 100; public Image healthBarImage;
+    
+    [Header("체력")]
+    public int maxHealth = 100;
+    public int health = 100;
+    public Image healthBarImage;
+
 
     [Header("경험치 / 레벨")]
     [SerializeField] private int level = 1;
@@ -27,7 +32,7 @@ public class Player : MonoBehaviour
 
     [Header("HP Follow")]
     public Image whiteHealthBar;
-    public float whiteBarFollowSpeed = 4f;
+    public float whiteBarFollowSpeed = 1.5f; // 기존 4f → 1~2 추천
 
     [Header("피격 효과")]
     public Color hitColor = Color.red;       // 피격 시 색상
@@ -36,6 +41,7 @@ public class Player : MonoBehaviour
     [Header("카메라 흔들림")]
     public CinemachineImpulseSource impulseSource;  // Inspector에서 연결
     public float hitImpulseForce = 0.5f;            // 흔들림 강도
+
 
     // Player 쪽에 상태 플래그
     public bool IsBusyWithBite { get; private set; }
@@ -142,20 +148,30 @@ public class Player : MonoBehaviour
     public void TakeDamage(int dmg)
     {
         if (isDead) return;
-        health = Mathf.Clamp(health - Mathf.Max(0, dmg), 0, maxHealth);
-        UpdateHealthBar();
-        
-        // 피격 효과 (색상)
+
+        StartCoroutine(DamageOverFrames(dmg));
+
+        // 피격 효과
         if (hitFlashCoroutine != null) StopCoroutine(hitFlashCoroutine);
         hitFlashCoroutine = StartCoroutine(HitFlashCoroutine());
-        
-        // 카메라 흔들림
+
         if (impulseSource)
             impulseSource.GenerateImpulse(hitImpulseForce);
-        
+    }
+
+    IEnumerator DamageOverFrames(int dmg)
+    {
+        int steps = dmg; // 1씩 나눔
+        for (int i = 0; i < steps; i++)
+        {
+            health = Mathf.Max(health - 1, 0);
+            UpdateHealthBar();
+            yield return null; // 한 프레임
+        }
+
         if (health <= 0) Die();
     }
-    
+
     IEnumerator HitFlashCoroutine()
     {
         if (spriter)
@@ -186,6 +202,7 @@ public class Player : MonoBehaviour
     {
         if (healthBarImage)
             healthBarImage.fillAmount = (float)health / maxHealth;
+        Debug.Log($"[Player] 체력: {health}/{maxHealth}");
     }
 
     void Die()
