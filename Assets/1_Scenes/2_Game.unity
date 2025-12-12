@@ -616,7 +616,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0.9500427, y: 655.0002}
+  m_AnchoredPosition: {x: 0.9500427, y: 655}
   m_SizeDelta: {x: 200, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &88877569
@@ -1138,7 +1138,7 @@ Transform:
   m_GameObject: {fileID: 315458525}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -124.8, y: -216.3, z: -1}
+  m_LocalPosition: {x: 84.95, y: -149.675, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2224,7 +2224,7 @@ Transform:
   m_GameObject: {fileID: 546217742}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -124.8, y: -216.3, z: 0}
+  m_LocalPosition: {x: 84.95, y: -149.675, z: 0}
   m_LocalScale: {x: 3.5, y: 3.5, z: 3.5}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2620,8 +2620,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: PauseMenu, Assembly-CSharp
+      - m_Target: {fileID: 1575859840}
+        m_TargetAssemblyTypeName: PauseSystem, Assembly-CSharp
         m_MethodName: BackToMenu
         m_Mode: 1
         m_Arguments:
@@ -2772,7 +2772,7 @@ Transform:
   m_GameObject: {fileID: 718230527}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -124.8, y: -216.3, z: -1}
+  m_LocalPosition: {x: 84.95, y: -149.675, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5935,30 +5935,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 153371624359039073, guid: 7f35159af84d5ac4cbd75655a1ba7c51, type: 3}
-      propertyPath: bossAI
-      value: 
-      objectReference: {fileID: 9201846235631760830}
-    - target: {fileID: 168722616976442670, guid: 7f35159af84d5ac4cbd75655a1ba7c51, type: 3}
-      propertyPath: anim
-      value: 
-      objectReference: {fileID: 8569526158377662422}
-    - target: {fileID: 168722616976442670, guid: 7f35159af84d5ac4cbd75655a1ba7c51, type: 3}
-      propertyPath: bossBar
-      value: 
-      objectReference: {fileID: 757568938}
-    - target: {fileID: 168722616976442670, guid: 7f35159af84d5ac4cbd75655a1ba7c51, type: 3}
-      propertyPath: warningObject
-      value: 
-      objectReference: {fileID: 7283697401488967151}
-    - target: {fileID: 168722616976442670, guid: 7f35159af84d5ac4cbd75655a1ba7c51, type: 3}
-      propertyPath: warningPrefab
-      value: 
-      objectReference: {fileID: 7283697401488967151}
-    - target: {fileID: 2764352565004671011, guid: 7f35159af84d5ac4cbd75655a1ba7c51, type: 3}
-      propertyPath: bossAI
-      value: 
-      objectReference: {fileID: 9201846235631760830}
     - target: {fileID: 2764352565004671011, guid: 7f35159af84d5ac4cbd75655a1ba7c51, type: 3}
       propertyPath: bossBar
       value: 
@@ -5967,14 +5943,10 @@ PrefabInstance:
       propertyPath: cinemachineCamera
       value: 
       objectReference: {fileID: 718230529}
-    - target: {fileID: 3595665234133434438, guid: 7f35159af84d5ac4cbd75655a1ba7c51, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 3.4737291
-      objectReference: {fileID: 0}
-    - target: {fileID: 3595665234133434438, guid: 7f35159af84d5ac4cbd75655a1ba7c51, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0.61562
-      objectReference: {fileID: 0}
+    - target: {fileID: 5727620260892142388, guid: 7f35159af84d5ac4cbd75655a1ba7c51, type: 3}
+      propertyPath: bossBar
+      value: 
+      objectReference: {fileID: 757568938}
     - target: {fileID: 6919843357644658759, guid: 7f35159af84d5ac4cbd75655a1ba7c51, type: 3}
       propertyPath: m_LocalPosition.x
       value: -126.6
@@ -6019,14 +5991,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: 4_BossRoom
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 168722616976442670, guid: 7f35159af84d5ac4cbd75655a1ba7c51, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 8704132823083430637, guid: 7f35159af84d5ac4cbd75655a1ba7c51, type: 3}
-      insertIndex: 1
-      addedObject: {fileID: 9201846235631760830}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7f35159af84d5ac4cbd75655a1ba7c51, type: 3}
 --- !u!1001 &4367834128703023878
 PrefabInstance:
@@ -6109,11 +6077,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d068cc554ee379642a2c15dc8515b61c, type: 3}
---- !u!1 &4534166641830794771 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8704132823083430637, guid: 7f35159af84d5ac4cbd75655a1ba7c51, type: 3}
-  m_PrefabInstance: {fileID: 4119650516151800940}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &7105099019645668272
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6291,51 +6254,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 26a1880d3c7fc69468e5434537c0fc0e, type: 3}
---- !u!1 &7283697401488967151 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1718782182964579306, guid: 7f35159af84d5ac4cbd75655a1ba7c51, type: 3}
-  m_PrefabInstance: {fileID: 4119650516151800940}
-  m_PrefabAsset: {fileID: 0}
---- !u!95 &8569526158377662422 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 6736326032451094058, guid: 7f35159af84d5ac4cbd75655a1ba7c51, type: 3}
-  m_PrefabInstance: {fileID: 4119650516151800940}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &9201846235631760830
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4534166641830794771}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c83c8fe49db9c6a4082268db97546e9d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxHP: 100
-  contactDamage: 5
-  bossBar: {fileID: 757568938}
-  bossName: BOSS
-  anim: {fileID: 8569526158377662422}
-  canAct: 0
-  chargeSpeed: 20
-  chargeInterval: 5
-  chargeDamage: 10
-  warningObject: {fileID: 7283697401488967151}
-  warningDuration: 1
-  fadeOutDuration: 0.3
-  fadeInDuration: 0.5
-  returnDelay: 0.5
-  wallLayer:
-    serializedVersion: 2
-    m_Bits: 0
-  playerLayer:
-    serializedVersion: 2
-    m_Bits: 0
-  collisionCheckDistance: 0.5
-  hitColor: {r: 1, g: 0, b: 0, a: 1}
-  hitFlashDuration: 0.1
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
