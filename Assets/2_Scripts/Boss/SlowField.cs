@@ -12,7 +12,6 @@ public class SlowField : MonoBehaviour
     [Header("시각 효과")]
     public Color slowColor = new Color(0.3f, 0.5f, 1f, 1f);  // 파란색
     
-    Dictionary<Player, Color> originalColors = new Dictionary<Player, Color>();
     HashSet<Player> affectedPlayers = new HashSet<Player>();
 
     void OnTriggerEnter2D(Collider2D col)
@@ -24,14 +23,7 @@ public class SlowField : MonoBehaviour
             {
                 affectedPlayers.Add(player);
                 player.ApplySpeedModifier(slowMultiplier);
-                
-                // 스프라이트 색상 변경
-                var sr = player.GetComponentInChildren<SpriteRenderer>();
-                if (sr)
-                {
-                    originalColors[player] = sr.color;
-                    sr.color = slowColor;
-                }
+                player.SetColorOverride(slowColor);  // 색상 오버라이드 설정
             }
         }
     }
@@ -45,14 +37,7 @@ public class SlowField : MonoBehaviour
             {
                 affectedPlayers.Remove(player);
                 player.RemoveSpeedModifier(slowMultiplier);
-                
-                // 스프라이트 색상 복구
-                var sr = player.GetComponentInChildren<SpriteRenderer>();
-                if (sr && originalColors.TryGetValue(player, out Color origColor))
-                {
-                    sr.color = origColor;
-                    originalColors.Remove(player);
-                }
+                player.ClearColorOverride();  // 색상 오버라이드 해제
             }
         }
     }
@@ -65,16 +50,10 @@ public class SlowField : MonoBehaviour
             if (player)
             {
                 player.RemoveSpeedModifier(slowMultiplier);
-                
-                var sr = player.GetComponentInChildren<SpriteRenderer>();
-                if (sr && originalColors.TryGetValue(player, out Color origColor))
-                {
-                    sr.color = origColor;
-                }
+                player.ClearColorOverride();
             }
         }
         affectedPlayers.Clear();
-        originalColors.Clear();
     }
 }
 

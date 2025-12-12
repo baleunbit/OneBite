@@ -145,6 +145,7 @@ GameObject:
   - component: {fileID: 8672022794985094104}
   - component: {fileID: 7625823640348170883}
   - component: {fileID: 2586220000777671996}
+  - component: {fileID: 5457544076170504014}
   m_Layer: 0
   m_Name: 2_CrackerRoom (3)
   m_TagString: Untagged
@@ -340,6 +341,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   roomID: 0
+--- !u!114 &5457544076170504014
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2478477138683693893}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f3fa8127d10661347ac7cf3cabbc26d5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slowMultiplier: 0.8
+  slowColor: {r: 0.5566037, g: 0.6854116, b: 1, a: 1}
 --- !u!1 &4110143440688049097
 GameObject:
   m_ObjectHideFlags: 0

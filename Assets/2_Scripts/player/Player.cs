@@ -54,6 +54,9 @@ public class Player : MonoBehaviour
     Color originalColor;
     Coroutine hitFlashCoroutine;
     
+    // 색상 오버라이드 (SlowField 등에서 사용)
+    Color? colorOverride = null;
+    
     // 속도 수정자 (둔화 장판 등)
     float speedModifier = 1f;
 
@@ -159,9 +162,25 @@ public class Player : MonoBehaviour
         {
             spriter.color = hitColor;
             yield return new WaitForSeconds(hitFlashDuration);
-            spriter.color = originalColor;
+            // 오버라이드 색상이 있으면 그 색상으로, 없으면 원래 색상으로
+            spriter.color = colorOverride ?? originalColor;
         }
     }
+    
+    // ===== 색상 오버라이드 (SlowField 등) =====
+    public void SetColorOverride(Color color)
+    {
+        colorOverride = color;
+        if (spriter) spriter.color = color;
+    }
+    
+    public void ClearColorOverride()
+    {
+        colorOverride = null;
+        if (spriter) spriter.color = originalColor;
+    }
+    
+    public bool HasColorOverride() => colorOverride.HasValue;
     public void DieFromHunger() { if (isDead) return; health = 0; UpdateHealthBar(); Die(); }
     void UpdateHealthBar()
     {

@@ -938,6 +938,7 @@ GameObject:
   - component: {fileID: 6811103655935079543}
   - component: {fileID: 7610372160662607722}
   - component: {fileID: 7859012411052228543}
+  - component: {fileID: 2475812161511933577}
   - component: {fileID: 2661933502237192153}
   m_Layer: 0
   m_Name: 2_CrackerRoom
@@ -1121,6 +1122,20 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 6.5578356, y: 7.571127}
   m_EdgeRadius: 0
+--- !u!114 &2475812161511933577
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6116839090215016894}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f3fa8127d10661347ac7cf3cabbc26d5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slowMultiplier: 0.8
+  slowColor: {r: 0.5566037, g: 0.6854116, b: 1, a: 1}
 --- !u!114 &2661933502237192153
 MonoBehaviour:
   m_ObjectHideFlags: 0
