@@ -147,7 +147,13 @@ public class Door : MonoBehaviour
         if (nextRoom)
         {
             int stage = StageDirector.ParseStageFromName(nextRoomGO.name);
+            Debug.Log($"[Door] 방 이동: {currentRoom.name} -> {nextRoomGO.name}");
+            Debug.Log($"[Door] ParseStageFromName 결과: {stage}");
             StageDirector.Instance?.ApplyStage(stage, nextRoomGO, player.gameObject);
+        }
+        else
+        {
+            Debug.LogWarning($"[Door] nextRoom 컴포넌트가 없음: {nextRoomGO.name}");
         }
 
         requireExit = true;

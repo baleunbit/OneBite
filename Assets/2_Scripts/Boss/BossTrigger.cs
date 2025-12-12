@@ -45,18 +45,18 @@ public class BossTrigger : MonoBehaviour
     {
         if (!col.CompareTag("Player")) return;
 
+        // 스테이지 번호 파싱
+        int stage = 1;
+        string roomName = gameObject.name;
+        if (!string.IsNullOrEmpty(roomName) && roomName.Length > 0)
+            int.TryParse(roomName.Substring(0, 1), out stage);
+
         // ===============================
         // 🔥 스테이지별 무기 대미지 처리 (복구됨)
         // ===============================
         var weaponManager = FindFirstObjectByType<WeaponManager>();
         if (weaponManager != null)
         {
-            int stage = 1;
-            string roomName = gameObject.name;
-
-            if (!string.IsNullOrEmpty(roomName) && roomName.Length > 0)
-                int.TryParse(roomName.Substring(0, 1), out stage);
-
             if (roomName.Contains("BossRoom"))
             {
                 // 1스테이지 보스룸: 포크 강화 (3/1 그대로)
@@ -99,8 +99,11 @@ public class BossTrigger : MonoBehaviour
                 Debug.LogWarning("[BossTrigger] bossBar가 null입니다!");
             }
 
-            // 🔥 등장
-            if (bossRoot) bossRoot.StartAppear();
+            // 🔥 등장 연출 (4스테이지 보스는 등장 연출 없음)
+            if (bossRoot && stage != 4) 
+            {
+                bossRoot.StartAppear();
+            }
 
             // 🔥 패턴 시작
             if (bossAI) bossAI.StartPattern();

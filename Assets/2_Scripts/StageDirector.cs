@@ -93,10 +93,14 @@ public class StageDirector : MonoBehaviour
     public void ApplyStage(int stage, GameObject roomGO, GameObject playerGO)
     {
         if (stage <= 0) stage = 1;
+        
+        Debug.Log($"[StageDirector] ========== ApplyStage 호출 ==========");
+        Debug.Log($"[StageDirector] 입력받은 stage: {stage}");
+        Debug.Log($"[StageDirector] 이전 CurrentStage: {CurrentStage}");
+        Debug.Log($"[StageDirector] 방 이름: {roomGO.name}");
+        Debug.Log($"[StageDirector] ParseStageFromName 결과: {ParseStageFromName(roomGO.name)}");
+        
         CurrentStage = stage;
-
-        Debug.Log($"[StageDirector] ========== 스테이지 {stage} 진입 ==========");
-        Debug.Log($"[StageDirector] 방: {roomGO.name}");
 
         // 무기/타입 규칙
         var wm = playerGO.GetComponent<WeaponManager>();

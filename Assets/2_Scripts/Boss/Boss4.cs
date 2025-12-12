@@ -2,10 +2,10 @@ using UnityEngine;
 using System.Collections;
 
 /// <summary>
-/// Boss3 - 세로 방향 돌진 패턴 (4스테이지 보스)
+/// 4스테이지 보스 - 세로 방향 돌진 패턴
 /// Warning으로 공격 경로 표시 후 아래로 돌진, Wall에 부딪히면 원래 위치로 복귀
 /// </summary>
-public class Boss3 : BossBase
+public class Boss4 : BossBase
 {
     [Header("돌진 설정")]
     public float chargeSpeed = 20f;           // 돌진 속도
@@ -28,16 +28,11 @@ public class Boss3 : BossBase
     public LayerMask playerLayer;             // Player 레이어
     public float collisionCheckDistance = 0.5f; // 충돌 체크 거리
 
-    [Header("피격 효과")]
-    public Color hitColor = Color.red;
-    public float hitFlashDuration = 0.1f;
-
     // 내부 변수
     SpriteRenderer sr;
     SpriteRenderer warningSr;
     Collider2D myCollider;
-    Color originalColor;
-    Coroutine hitFlashCoroutine;
+    Color boss4OriginalColor;
     
     bool isCharging = false;
     Vector3 originalPosition;  // 원래 위치
@@ -49,7 +44,7 @@ public class Boss3 : BossBase
 
         sr = GetComponent<SpriteRenderer>();
         if (!sr) sr = GetComponentInChildren<SpriteRenderer>();
-        if (sr) originalColor = sr.color;
+        if (sr) boss4OriginalColor = sr.color;
 
         myCollider = GetComponent<Collider2D>();
 
@@ -73,19 +68,19 @@ public class Boss3 : BossBase
 
         while (hp > 0 && canAct)
         {
-            Debug.Log("[Boss3] 패턴 루프 시작, 대기 중...");
+            Debug.Log("[Boss4] 패턴 루프 시작, 대기 중...");
             
             // 1. 휴식 (5초)
             yield return new WaitForSeconds(chargeInterval);
 
             if (!canAct || hp <= 0) break;
 
-            Debug.Log("[Boss3] 공격 시작!");
+            Debug.Log("[Boss4] 공격 시작!");
 
             // 2. Warning 표시 + 돌진 실행
             yield return StartCoroutine(WarningAndCharge());
 
-            Debug.Log("[Boss3] 공격 완료, 다음 루프로...");
+            Debug.Log("[Boss4] 공격 완료, 다음 루프로...");
         }
     }
 
@@ -167,7 +162,7 @@ public class Boss3 : BossBase
     {
         isCharging = true;
 
-        Debug.Log("[Boss3] 돌진 시작!");
+        Debug.Log("[Boss4] 돌진 시작!");
 
         // 돌진 실행 - Raycast로 충돌 감지하면서 이동
         while (isCharging && canAct && hp > 0)
@@ -183,7 +178,7 @@ public class Boss3 : BossBase
             {
                 // 벽에 닿음 - 벽 위치까지만 이동 후 멈춤
                 transform.position = new Vector3(transform.position.x, wallHit.point.y + collisionCheckDistance, transform.position.z);
-                Debug.Log("[Boss3] 벽과 충돌! 돌진 종료");
+                Debug.Log("[Boss4] 벽과 충돌! 돌진 종료");
                 isCharging = false;
                 break;
             }
@@ -198,7 +193,7 @@ public class Boss3 : BossBase
                 if (playerComp != null)
                 {
                     playerComp.TakeDamage(chargeDamage);
-                    Debug.Log($"[Boss3] 플레이어에게 {chargeDamage} 대미지!");
+                    Debug.Log($"[Boss4] 플레이어에게 {chargeDamage} 대미지!");
                 }
             }
             
@@ -211,7 +206,7 @@ public class Boss3 : BossBase
                 // Wall 태그 체크
                 if (hit.CompareTag("Wall"))
                 {
-                    Debug.Log("[Boss3] Wall 태그 충돌! 돌진 종료");
+                    Debug.Log("[Boss4] Wall 태그 충돌! 돌진 종료");
                     isCharging = false;
                     break;
                 }
@@ -225,7 +220,7 @@ public class Boss3 : BossBase
                     if (playerComp != null)
                     {
                         playerComp.TakeDamage(chargeDamage);
-                        Debug.Log($"[Boss3] 플레이어에게 {chargeDamage} 대미지! (OverlapCircle)");
+                        Debug.Log($"[Boss4] 플레이어에게 {chargeDamage} 대미지! (OverlapCircle)");
                     }
                 }
             }
@@ -240,7 +235,7 @@ public class Boss3 : BossBase
 
         isCharging = false;
         
-        Debug.Log("[Boss3] 돌진 완료, 복귀 시작");
+        Debug.Log("[Boss4] 돌진 완료, 복귀 시작");
 
         // 원래 위치로 복귀
         yield return StartCoroutine(ReturnToOriginalPosition());
@@ -251,7 +246,7 @@ public class Boss3 : BossBase
     /// </summary>
     IEnumerator ReturnToOriginalPosition()
     {
-        Debug.Log("[Boss3] 복귀 중...");
+        Debug.Log("[Boss4] 복귀 중...");
 
         // 잠시 대기
         yield return new WaitForSeconds(returnDelay);
@@ -265,7 +260,7 @@ public class Boss3 : BossBase
         // 페이드 인
         yield return StartCoroutine(FadeIn());
 
-        Debug.Log("[Boss3] 복귀 완료!");
+        Debug.Log("[Boss4] 복귀 완료!");
     }
 
     /// <summary>
@@ -309,14 +304,14 @@ public class Boss3 : BossBase
             elapsed += Time.deltaTime;
             float t = elapsed / fadeInDuration;
             
-            Color c = originalColor;
+            Color c = boss4OriginalColor;
             c.a = Mathf.Lerp(0f, 1f, t);
             sr.color = c;
 
             yield return null;
         }
 
-        sr.color = originalColor;
+        sr.color = boss4OriginalColor;
     }
 
     /// <summary>
@@ -326,7 +321,7 @@ public class Boss3 : BossBase
     {
         if (col.gameObject.CompareTag("Wall") && isCharging)
         {
-            Debug.Log("[Boss3] OnCollision - 벽 충돌!");
+            Debug.Log("[Boss4] OnCollision - 벽 충돌!");
             isCharging = false;
         }
 
@@ -337,7 +332,7 @@ public class Boss3 : BossBase
             {
                 int damage = isCharging ? chargeDamage : contactDamage;
                 playerComp.TakeDamage(damage);
-                Debug.Log($"[Boss3] OnCollision - 플레이어 {damage} 대미지!");
+                Debug.Log($"[Boss4] OnCollision - 플레이어 {damage} 대미지!");
             }
         }
     }
@@ -346,7 +341,7 @@ public class Boss3 : BossBase
     {
         if (col.CompareTag("Wall") && isCharging)
         {
-            Debug.Log("[Boss3] OnTrigger - 벽 충돌!");
+            Debug.Log("[Boss4] OnTrigger - 벽 충돌!");
             isCharging = false;
         }
 
@@ -357,28 +352,22 @@ public class Boss3 : BossBase
             {
                 int damage = isCharging ? chargeDamage : contactDamage;
                 playerComp.TakeDamage(damage);
-                Debug.Log($"[Boss3] OnTrigger - 플레이어 {damage} 대미지!");
+                Debug.Log($"[Boss4] OnTrigger - 플레이어 {damage} 대미지!");
             }
         }
     }
 
     /// <summary>
-    /// 데미지 처리 오버라이드
+    /// 피격 플래시 오버라이드 (페이드 중에도 색상 복원 처리)
     /// </summary>
-    protected override void OnDamaged(int dmg)
-    {
-        if (hitFlashCoroutine != null) StopCoroutine(hitFlashCoroutine);
-        hitFlashCoroutine = StartCoroutine(HitFlashCoroutine());
-    }
-
-    IEnumerator HitFlashCoroutine()
+    protected override IEnumerator HitFlashCoroutine()
     {
         if (sr)
         {
             Color prevColor = sr.color;
             sr.color = hitColor;
             yield return new WaitForSecondsRealtime(hitFlashDuration);
-            sr.color = prevColor.a > 0.5f ? originalColor : prevColor;
+            sr.color = prevColor.a > 0.5f ? boss4OriginalColor : prevColor;
         }
     }
 
@@ -388,6 +377,7 @@ public class Boss3 : BossBase
     protected override void OnDeath()
     {
         isCharging = false;
-        Debug.Log("[Boss3] 처치됨!");
+        Debug.Log("[Boss4] 처치됨!");
     }
 }
+

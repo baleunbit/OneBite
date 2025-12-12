@@ -18,6 +18,14 @@ public abstract class BossBase : MonoBehaviour
 
     [Header("Animation")]
     public Animator anim;
+    
+    [Header("피격 효과")]
+    public Color hitColor = Color.red;
+    public float hitFlashDuration = 0.1f;
+    
+    protected SpriteRenderer spriteRenderer;
+    protected Color originalColor;
+    protected Coroutine hitFlashCoroutine;
 
     /// <summary>
     /// 보스가 행동할 수 있는지 여부
@@ -43,6 +51,14 @@ public abstract class BossBase : MonoBehaviour
 
         if (!anim)
             anim = GetComponentInChildren<Animator>();
+            
+        // 피격 효과용 스프라이트 렌더러 찾기
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        if (!spriteRenderer)
+            spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        
+        if (spriteRenderer)
+            originalColor = spriteRenderer.color;
     }
 
     /// <summary>
@@ -72,10 +88,28 @@ public abstract class BossBase : MonoBehaviour
         if (bossBar != null)
             bossBar.UpdateHP(hp, maxHP);
 
+        // 피격 효과
+        if (hitFlashCoroutine != null) 
+            StopCoroutine(hitFlashCoroutine);
+        hitFlashCoroutine = StartCoroutine(HitFlashCoroutine());
+
         OnDamaged(dmg);
 
         if (hp <= 0)
             Die();
+    }
+    
+    /// <summary>
+    /// 피격 시 색상 플래시 효과
+    /// </summary>
+    protected virtual IEnumerator HitFlashCoroutine()
+    {
+        if (spriteRenderer)
+        {
+            spriteRenderer.color = hitColor;
+            yield return new WaitForSeconds(hitFlashDuration);
+            spriteRenderer.color = originalColor;
+        }
     }
 
     /// <summary>

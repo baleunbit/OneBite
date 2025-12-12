@@ -2,10 +2,10 @@ using UnityEngine;
 using System.Collections;
 
 /// <summary>
-/// 첫 번째 보스 - 총알 발사 패턴
+/// 1스테이지 보스 - 총알 발사 패턴
 /// BossBase를 상속받아 고유 패턴 구현
 /// </summary>
-public class Boss : BossBase
+public class Boss1 : BossBase
 {
     [Header("Projectile Settings")]
     public GameObject bossBullet;
@@ -172,3 +172,4 @@ public class Boss : BossBase
         bullet.isPlayerBullet = false;
     }
 }
+
