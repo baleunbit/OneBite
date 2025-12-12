@@ -23,9 +23,8 @@ public class Boss4 : BossBase
     public float fadeInDuration = 0.5f;       // 나타나는 시간
     public float returnDelay = 0.5f;          // 복귀 전 대기 시간
 
-    [Header("충돌 설정")]
-    public LayerMask wallLayer;               // Wall 레이어
-    public LayerMask playerLayer;             // Player 레이어
+    [Header("이동 설정")]
+    public float moveToTargetSpeed = 15f;     // 플레이어 X 위치로 이동하는 속도
     public float collisionCheckDistance = 0.5f; // 충돌 체크 거리
 
     // 내부 변수
@@ -89,10 +88,25 @@ public class Boss4 : BossBase
     /// </summary>
     IEnumerator WarningAndCharge()
     {
-        // Warning 활성화 및 위치 설정
+        // 1. 플레이어 X 위치 찾기
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        if (player)
+        {
+            targetX = player.transform.position.x;
+        }
+        else
+        {
+            targetX = transform.position.x;
+        }
+
+        // 2. 플레이어 X 위치로 이동
+        yield return StartCoroutine(MoveToTargetX());
+
+        if (!canAct || hp <= 0) yield break;
+
+        // 3. Warning 활성화 및 위치 설정
         if (warningObject)
         {
-            // Warning 위치 설정 (보스의 현재 X)
             SetupWarning();
             warningObject.SetActive(true);
             
@@ -109,8 +123,32 @@ public class Boss4 : BossBase
 
         if (!canAct || hp <= 0) yield break;
 
-        // 돌진 실행
+        // 4. 돌진 실행
         yield return StartCoroutine(ChargeAttack());
+    }
+
+    /// <summary>
+    /// 플레이어 X 위치로 이동
+    /// </summary>
+    IEnumerator MoveToTargetX()
+    {
+        while (Mathf.Abs(transform.position.x - targetX) > 0.1f)
+        {
+            if (!canAct || hp <= 0) yield break;
+
+            float direction = Mathf.Sign(targetX - transform.position.x);
+            float moveAmount = moveToTargetSpeed * Time.deltaTime;
+            
+            // 목표 위치를 넘어가지 않도록
+            float newX = transform.position.x + direction * moveAmount;
+            if ((direction > 0 && newX > targetX) || (direction < 0 && newX < targetX))
+            {
+                newX = targetX;
+            }
+            
+            transform.position = new Vector3(newX, transform.position.y, transform.position.z);
+            yield return null;
+        }
     }
 
     /// <summary>
@@ -119,11 +157,8 @@ public class Boss4 : BossBase
     void SetupWarning()
     {
         if (!warningObject) return;
-
-        // 보스의 현재 X 위치 저장 (돌진할 때 이 위치로)
-        targetX = transform.position.x;
         
-        // Warning의 X 위치를 보스에 맞춤
+        // Warning의 X 위치를 보스(플레이어 X)에 맞춤
         Vector3 warningPos = warningObject.transform.position;
         warningObject.transform.position = new Vector3(targetX, warningPos.y, warningPos.z);
     }
@@ -164,40 +199,13 @@ public class Boss4 : BossBase
 
         Debug.Log("[Boss4] 돌진 시작!");
 
-        // 돌진 실행 - Raycast로 충돌 감지하면서 이동
+        // 돌진 실행 - 태그 기반 충돌 감지
         while (isCharging && canAct && hp > 0)
         {
             // 이동량 계산
             float moveAmount = chargeSpeed * Time.deltaTime;
             
-            // 아래로 Raycast 발사하여 Wall 체크
-            Vector2 origin = transform.position;
-            RaycastHit2D wallHit = Physics2D.Raycast(origin, Vector2.down, moveAmount + collisionCheckDistance, wallLayer);
-            
-            if (wallHit.collider != null)
-            {
-                // 벽에 닿음 - 벽 위치까지만 이동 후 멈춤
-                transform.position = new Vector3(transform.position.x, wallHit.point.y + collisionCheckDistance, transform.position.z);
-                Debug.Log("[Boss4] 벽과 충돌! 돌진 종료");
-                isCharging = false;
-                break;
-            }
-            
-            // 플레이어 체크
-            RaycastHit2D playerHit = Physics2D.Raycast(origin, Vector2.down, moveAmount + collisionCheckDistance, playerLayer);
-            if (playerHit.collider != null)
-            {
-                Player playerComp = playerHit.collider.GetComponent<Player>();
-                if (playerComp == null) playerComp = playerHit.collider.GetComponentInParent<Player>();
-                
-                if (playerComp != null)
-                {
-                    playerComp.TakeDamage(chargeDamage);
-                    Debug.Log($"[Boss4] 플레이어에게 {chargeDamage} 대미지!");
-                }
-            }
-            
-            // 보스 주변 충돌 체크 (원형)
+            // 보스 주변 충돌 체크 (원형) - 태그 기반
             Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, collisionCheckDistance);
             foreach (var hit in hits)
             {
@@ -220,7 +228,7 @@ public class Boss4 : BossBase
                     if (playerComp != null)
                     {
                         playerComp.TakeDamage(chargeDamage);
-                        Debug.Log($"[Boss4] 플레이어에게 {chargeDamage} 대미지! (OverlapCircle)");
+                        Debug.Log($"[Boss4] 플레이어에게 {chargeDamage} 대미지!");
                     }
                 }
             }
