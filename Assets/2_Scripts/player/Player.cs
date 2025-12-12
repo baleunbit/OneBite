@@ -253,7 +253,34 @@ public class Player : MonoBehaviour
         }
     }
 
-    // ===== 속도 수정자 (둔화 장판 등) =====
+    // ===== 속도 관리 =====
+    private float baseMoveSpeed;
+    
+    public void SetMoveSpeed(float speed)
+    {
+        moveSpeed = speed;
+    }
+    
+    public void RestoreMoveSpeed()
+    {
+        if (baseMoveSpeed > 0)
+            moveSpeed = baseMoveSpeed;
+    }
+    
+    public void SaveBaseMoveSpeed()
+    {
+        if (baseMoveSpeed <= 0)
+            baseMoveSpeed = moveSpeed;
+    }
+    
+    public float GetBaseMoveSpeed() => baseMoveSpeed > 0 ? baseMoveSpeed : moveSpeed;
+
+    public void ResetSpeedModifier()
+    {
+        speedModifier = 1f;
+    }
+    
+    // 속도 수정자 (SlowField 등에서 사용)
     public void ApplySpeedModifier(float multiplier)
     {
         speedModifier *= multiplier;
@@ -263,10 +290,5 @@ public class Player : MonoBehaviour
     {
         if (multiplier != 0f)
             speedModifier /= multiplier;
-    }
-
-    public void ResetSpeedModifier()
-    {
-        speedModifier = 1f;
     }
 }

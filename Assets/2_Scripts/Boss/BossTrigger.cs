@@ -59,20 +59,18 @@ public class BossTrigger : MonoBehaviour
 
             if (roomName.Contains("BossRoom"))
             {
-                // 1스테이지 보스룸: 포크 강화 (보스용 데미지 증가)
+                // 1스테이지 보스룸: 포크 강화 (3/1 그대로)
                 if (stage == 1)
                 {
-                    weaponManager.stage1WeaponDamage[0] = 12f;  // 포크 강화
-                    weaponManager.stage1WeaponDamage[1] = 6f;
-                    weaponManager.stage1WeaponDamage[2] = 6f;
                     weaponManager.ApplyStageRules(1);
                 }
-                // 4스테이지 보스룸: 젓가락 강화 (유일하게 젓가락 사용)
+                // 4스테이지 보스룸: 젓가락 강화 (3/1 그대로)
                 else if (stage == 4)
                 {
-                    weaponManager.stage4WeaponDamage[0] = 6f;
-                    weaponManager.stage4WeaponDamage[1] = 6f;
-                    weaponManager.stage4WeaponDamage[2] = 12f;  // 젓가락 강화
+                    // 4스테이지 보스룸만 젓가락 강화로 변경
+                    weaponManager.stage4WeaponDamage[0] = 1f;
+                    weaponManager.stage4WeaponDamage[1] = 1f;
+                    weaponManager.stage4WeaponDamage[2] = 3f;  // 젓가락 강화
                     weaponManager.ApplyStageRules(4);
                 }
                 // 그 외 보스룸: 해당 스테이지 규칙 그대로 적용

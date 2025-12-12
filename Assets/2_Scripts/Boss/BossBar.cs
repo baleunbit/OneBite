@@ -9,9 +9,6 @@ public class BossBar : MonoBehaviour
     public Image whiteFill;          // 흰색 바 (뒤늦게 따라감)
     public TextMeshProUGUI nameText; // 보스 이름
     
-    [Header("전체 UI 컨테이너 (숨길 대상)")]
-    public GameObject barContainer;  // 실제로 숨길 자식 오브젝트
-
     [Header("화이트 바 설정")]
     public float whiteFollowSpeed = 1f;  // 따라가는 속도
     
@@ -74,12 +71,6 @@ public class BossBar : MonoBehaviour
             canvasGroup.alpha = visible ? 1f : 0f;
             canvasGroup.interactable = visible;
             canvasGroup.blocksRaycasts = visible;
-        }
-        
-        // barContainer가 있으면 그것도 활성화/비활성화
-        if (barContainer)
-        {
-            barContainer.SetActive(visible);
         }
     }
 }

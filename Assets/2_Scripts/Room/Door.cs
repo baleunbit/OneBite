@@ -1,5 +1,6 @@
 // Door.cs
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(Collider2D))]
 public class Door : MonoBehaviour
@@ -123,7 +124,7 @@ public class Door : MonoBehaviour
         if (!nextRoomGO)
         {
             Debug.Log("[Door] 다음 방 없음 → 엔드씬으로 전환");
-            SceneMgr.I?.GoToEndScene();
+            GoToEndScene();
             return;
         }
 
@@ -140,6 +141,14 @@ public class Door : MonoBehaviour
 
         var rb = player.GetComponent<Rigidbody2D>();
         if (rb) rb.linearVelocity = Vector2.zero;
+
+        // 🔥 새 방 진입 시 스테이지 규칙 적용
+        var nextRoom = nextRoomGO.GetComponent<Room>();
+        if (nextRoom)
+        {
+            int stage = StageDirector.ParseStageFromName(nextRoomGO.name);
+            StageDirector.Instance?.ApplyStage(stage, nextRoomGO, player.gameObject);
+        }
 
         requireExit = true;
         nextGlobalAllowedTime = Time.time + reenterCooldown;
@@ -188,5 +197,23 @@ public class Door : MonoBehaviour
             if (d < bestDist) { bestDist = d; best = r; }
         }
         return best;
+    }
+    
+    void GoToEndScene()
+    {
+        Time.timeScale = 1f;
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+        SoundManager.I?.PlayMenu();
+        
+        // SceneMgr가 있으면 사용, 없으면 직접 로드
+        if (SceneMgr.I)
+        {
+            SceneMgr.I.GoToEndScene();
+        }
+        else
+        {
+            SceneManager.LoadScene("3_End");
+        }
     }
 }
