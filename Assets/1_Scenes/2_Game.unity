@@ -6197,22 +6197,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: 4_BossRoom
       objectReference: {fileID: 0}
-    - target: {fileID: 5134865862439001626, guid: 0c10b53ce5628594b92d3919b34d5387, type: 3}
-      propertyPath: m_Size.x
-      value: 5.3797483
-      objectReference: {fileID: 0}
-    - target: {fileID: 5134865862439001626, guid: 0c10b53ce5628594b92d3919b34d5387, type: 3}
-      propertyPath: m_Size.y
-      value: 3.876198
-      objectReference: {fileID: 0}
-    - target: {fileID: 5134865862439001626, guid: 0c10b53ce5628594b92d3919b34d5387, type: 3}
-      propertyPath: m_Offset.x
-      value: -0.05690813
-      objectReference: {fileID: 0}
-    - target: {fileID: 5134865862439001626, guid: 0c10b53ce5628594b92d3919b34d5387, type: 3}
-      propertyPath: m_Offset.y
-      value: -1.239307
-      objectReference: {fileID: 0}
     - target: {fileID: 7007448064302282415, guid: 0c10b53ce5628594b92d3919b34d5387, type: 3}
       propertyPath: m_LocalPosition.x
       value: -126.6
@@ -6252,14 +6236,6 @@ PrefabInstance:
     - target: {fileID: 7007448064302282415, guid: 0c10b53ce5628594b92d3919b34d5387, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7838962401373879213, guid: 0c10b53ce5628594b92d3919b34d5387, type: 3}
-      propertyPath: bossAI
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 7838962401373879213, guid: 0c10b53ce5628594b92d3919b34d5387, type: 3}
-      propertyPath: bossRoot
-      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
