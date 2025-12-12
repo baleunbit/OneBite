@@ -5,7 +5,7 @@ using Unity.Cinemachine;
 public class BossTrigger : MonoBehaviour
 {
     public BossRoot bossRoot;
-    public Boss bossAI;
+    public BossBase bossAI;  // Boss, Boss3 등 모든 보스 할당 가능
     public BossBar bossBar;
 
     [Header("카메라 줌 설정")]

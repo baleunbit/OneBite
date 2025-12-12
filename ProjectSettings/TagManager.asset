@@ -10,6 +10,8 @@ TagManager:
   - GameObject
   - Crosshair
   - Boss
+  - Enemy
+  - Wall
   layers:
   - Default
   - TransparentFX

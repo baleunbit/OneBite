@@ -8,8 +8,8 @@ public class BossRoot : MonoBehaviour
 
     [Header("등장 설정")]
     public float appearHeight = 15f;  // 더 위에서 등장
-    public float appearSpeed = 1.0f;
-    public Boss bossAI;
+    public float appearSpeed = 0.3f;  // 등장 속도 (낮을수록 천천히 내려옴)
+    public BossBase bossAI;  // Boss, Boss3 등 모든 보스 할당 가능
 
     [Header("이동 설정")]
     public bool isInfinity = false;       // false = Idle, true = Infinity
