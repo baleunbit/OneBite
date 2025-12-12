@@ -8,7 +8,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: 1_BossAttack
-  m_Speed: 0.8
+  m_Speed: 0.5
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 3607312495031636423}
@@ -21,7 +21,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 507d350cbe4429b44a4da018dcc5f35b, type: 2}
+  m_Motion: {fileID: 7400000, guid: 1b98277ba699bdb4e9fc2cb35b25e6b1, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -33,7 +33,7 @@ AnimatorController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: 1_BossCtr
+  m_Name: 4_BossCtrl
   serializedVersion: 5
   m_AnimatorParameters:
   - m_Name: BossAttack
@@ -88,7 +88,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: 1_BossIdle
-  m_Speed: 1
+  m_Speed: 0.5
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 2124052298023960110}
@@ -101,7 +101,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: f627bd39a9f35b64f945e75e00546888, type: 2}
+  m_Motion: {fileID: 7400000, guid: 2228dcdee399e5f4aad44db2f2830335, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 

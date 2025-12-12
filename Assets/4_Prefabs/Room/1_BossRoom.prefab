@@ -592,8 +592,8 @@ Transform:
   m_GameObject: {fileID: 2080935063134399234}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.101, y: 1.124, z: 0}
-  m_LocalScale: {x: 0.83333343, y: 1.25, z: 1.25}
+  m_LocalPosition: {x: -0.101, y: 0.5052499, z: 0}
+  m_LocalScale: {x: 0.85, y: 1.25, z: 1.25}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2182794683749425970}
@@ -643,24 +643,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHP: 500
   contactDamage: 3
-  bulletDamage: 5
+  bossBar: {fileID: 0}
+  bossName: BOSS
+  anim: {fileID: 3779423644215274932}
+  canAct: 0
   bossBullet: {fileID: 6578160224776761967, guid: 61594293acbfe4948b922872aaca9c6a, type: 3}
   firePoints:
   - {fileID: 797678852632815771}
   - {fileID: 4725732571164980330}
   - {fileID: 6846230914170598992}
   bulletSpeed: 50
-  shootInterval: 4
+  bulletDamage: 5
   bulletsPerShot: 3
   spreadAngle: 15
+  burstDelay: 0.15
   rageBulletsPerPoint: 5
   useAllFirePoints: 1
-  bossBar: {fileID: 0}
-  bossName: BOSS
-  canAct: 0
   bossRoot: {fileID: 3119372441075913088}
-  anim: {fileID: 3779423644215274932}
-  burstDelay: 0.15
 --- !u!114 &3119372441075913088
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -674,7 +673,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   visual: {fileID: 2182794683749425970}
-  appearHeight: 5
+  appearHeight: 100
   appearSpeed: 1
   bossAI: {fileID: 2290631933291188543}
   isInfinity: 0
@@ -716,7 +715,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.0006183982, y: 0.0070189834}
+  m_Offset: {x: -0.0006183386, y: 0.007019013}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -726,7 +725,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1.7194144, y: 1.736034}
+  m_Size: {x: 1.4841206, y: 1.4960341}
   m_EdgeRadius: 0
 --- !u!1 &3653721184747373976
 GameObject:
@@ -1844,7 +1843,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.85, y: 0.85, z: 0.85}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7182905681256237371}
