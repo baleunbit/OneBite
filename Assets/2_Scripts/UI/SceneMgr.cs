@@ -35,6 +35,9 @@ public class SceneMgr : MonoBehaviour
     {
         Time.timeScale = 1f;
         AudioListener.pause = false;
+        
+        // 게임 상태 완전 초기화
+        StageDirector.ResetGameState();
 
         if (SceneFader.I)
             SceneFader.I.LoadSceneWithFade(sceneGame);
@@ -80,6 +83,10 @@ public class SceneMgr : MonoBehaviour
     public void OnClickRestart()
     {
         Time.timeScale = 1f;
+        
+        // 게임 상태 완전 초기화
+        StageDirector.ResetGameState();
+        
         SoundManager.I?.PlayStageBgm(1);
         if (SceneFader.I)
             SceneFader.I.LoadSceneWithFade(sceneGame);
@@ -90,6 +97,10 @@ public class SceneMgr : MonoBehaviour
     public void OnClickMenu()
     {
         Time.timeScale = 1f;
+        
+        // 게임 상태 완전 초기화
+        StageDirector.ResetGameState();
+        
         SoundManager.I?.PlayMenu();
         if (SceneFader.I)
             SceneFader.I.LoadSceneWithFade(sceneMenu);

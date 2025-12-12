@@ -13,6 +13,10 @@ public class SceneMgrRelay : MonoBehaviour
         Time.timeScale = 1f;
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
+        
+        // 게임 상태 완전 초기화
+        StageDirector.ResetGameState();
+        
         SceneManager.LoadScene(gameScene);
     }
     
@@ -21,6 +25,10 @@ public class SceneMgrRelay : MonoBehaviour
         Time.timeScale = 1f;
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Confined;
+        
+        // 게임 상태 완전 초기화
+        StageDirector.ResetGameState();
+        
         SceneManager.LoadScene(gameScene);
     }
     
@@ -29,6 +37,10 @@ public class SceneMgrRelay : MonoBehaviour
         Time.timeScale = 1f;
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
+        
+        // 게임 상태 완전 초기화
+        StageDirector.ResetGameState();
+        
         SceneManager.LoadScene(menuScene);
     }
     

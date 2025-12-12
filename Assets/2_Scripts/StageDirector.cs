@@ -5,6 +5,7 @@
 //   �߻�ü�� ProjectileDamageAuto�� "���� ���� ������"�� �ڵ� ���ø��Ѵ�.
 
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 [DefaultExecutionOrder(-200)]
 public class StageDirector : MonoBehaviour
@@ -25,6 +26,17 @@ public class StageDirector : MonoBehaviour
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
     static void ResetDomain() { _inst = null; }
+    
+    // 게임 상태 완전 초기화 (메뉴로 돌아갈 때 호출)
+    public static void ResetGameState()
+    {
+        if (_inst)
+        {
+            _inst.CurrentStage = 1;
+        }
+        Room.ResetStageCounter();
+        Time.timeScale = 1f;
+    }
 
     [Header("2���� ����(���ϰ� ü��)")]
     [Range(0.1f, 1f)] public float stage2_TimeScale = 0.6f;
@@ -37,7 +49,7 @@ public class StageDirector : MonoBehaviour
     [Header("4���� ȭ��")]
     public float stage4_BurnDps = 10f;
 
-    public int CurrentStage { get; private set; } = 1;
+    public int CurrentStage { get; set; } = 1;
 
     void Awake()
     {

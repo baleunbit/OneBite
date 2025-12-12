@@ -68,7 +68,7 @@ public class Door : MonoBehaviour
             // 보스 방이 클리어되면 보스 바 숨기기
             if (ownerRoom && ownerRoom.gameObject.name.Contains("BossRoom"))
             {
-                var bossBar = FindFirstObjectByType<BossBar>();
+                var bossBar = FindFirstObjectByType<BossBar>(FindObjectsInactive.Include);
                 if (bossBar) bossBar.Hide();
             }
         }

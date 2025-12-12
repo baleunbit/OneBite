@@ -167,6 +167,10 @@ public class UIManager : MonoBehaviour
     public void OnClick_Restart()
     {
         Time.timeScale = 1f;
+        
+        // 게임 상태 완전 초기화
+        StageDirector.ResetGameState();
+        
         var s = SceneManager.GetActiveScene();
         SceneManager.LoadScene(s.buildIndex);
     }

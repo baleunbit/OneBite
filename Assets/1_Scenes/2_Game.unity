@@ -172,7 +172,9 @@ PrefabInstance:
       value: 4_BossRoom
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 5271991093692311570, guid: f5c77fd97785d21478eb71439eac9518, type: 3}
+    - {fileID: 6421522379929679898, guid: f5c77fd97785d21478eb71439eac9518, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f5c77fd97785d21478eb71439eac9518, type: 3}
@@ -2542,7 +2544,7 @@ MonoBehaviour:
   requireStealth: 1
   requireBackAngle: 0
   backAngle: 120
-  biteSfx: {fileID: 8300000, guid: d16429b64b3be6a42beb5639001e2bd5, type: 3}
+  biteSfx: {fileID: 8300000, guid: faea3253a4dac474ea037f9c4d59e597, type: 3}
   biteSfxVolume: 1
   biteCooldown: 0.35
   biteStateName: Bite
@@ -3028,7 +3030,7 @@ MonoBehaviour:
   hpFill: {fileID: 436979740}
   whiteFill: {fileID: 863208232}
   nameText: {fileID: 1212075612}
-  barContainer: {fileID: 0}
+  barContainer: {fileID: 951296532}
   whiteFollowSpeed: 0.5
 --- !u!1 &836246727
 GameObject:
@@ -4485,7 +4487,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 100
+  m_SortingOrder: 6
   m_Sprite: {fileID: 1381259058213544956, guid: 4eced64e5fd22674aa2cdb4121af1ab9, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -4817,7 +4819,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.000061035156, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0.00024414, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1250021088
@@ -6033,7 +6035,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 100
+  m_SortingOrder: 6
   m_Sprite: {fileID: 21300000, guid: 81efdf45deb4644489685fb98378dcc6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -6276,9 +6278,89 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2293430763444122130, guid: 26a1880d3c7fc69468e5434537c0fc0e, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2293430763444122130, guid: 26a1880d3c7fc69468e5434537c0fc0e, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2293430763444122130, guid: 26a1880d3c7fc69468e5434537c0fc0e, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3735167608565451593, guid: 26a1880d3c7fc69468e5434537c0fc0e, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3735167608565451593, guid: 26a1880d3c7fc69468e5434537c0fc0e, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5260874744627354977, guid: 26a1880d3c7fc69468e5434537c0fc0e, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1575859840}
+    - target: {fileID: 5260874744627354977, guid: 26a1880d3c7fc69468e5434537c0fc0e, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: BackToMenu
+      objectReference: {fileID: 0}
+    - target: {fileID: 5260874744627354977, guid: 26a1880d3c7fc69468e5434537c0fc0e, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: PauseSystem, Assembly-CSharp
+      objectReference: {fileID: 0}
     - target: {fileID: 5620056105989521107, guid: 26a1880d3c7fc69468e5434537c0fc0e, type: 3}
       propertyPath: m_Name
       value: PausePanel
+      objectReference: {fileID: 0}
+    - target: {fileID: 5620056105989521107, guid: 26a1880d3c7fc69468e5434537c0fc0e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5643898308883878533, guid: 26a1880d3c7fc69468e5434537c0fc0e, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5643898308883878533, guid: 26a1880d3c7fc69468e5434537c0fc0e, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5643898308883878533, guid: 26a1880d3c7fc69468e5434537c0fc0e, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7041554412801849396, guid: 26a1880d3c7fc69468e5434537c0fc0e, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7041554412801849396, guid: 26a1880d3c7fc69468e5434537c0fc0e, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8127491654004893867, guid: 26a1880d3c7fc69468e5434537c0fc0e, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1575859840}
+    - target: {fileID: 8127491654004893867, guid: 26a1880d3c7fc69468e5434537c0fc0e, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Resume
+      objectReference: {fileID: 0}
+    - target: {fileID: 8127491654004893867, guid: 26a1880d3c7fc69468e5434537c0fc0e, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: PauseSystem, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 8986375563369827339, guid: 26a1880d3c7fc69468e5434537c0fc0e, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1575859840}
+    - target: {fileID: 8986375563369827339, guid: 26a1880d3c7fc69468e5434537c0fc0e, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Restart
+      objectReference: {fileID: 0}
+    - target: {fileID: 8986375563369827339, guid: 26a1880d3c7fc69468e5434537c0fc0e, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: PauseSystem, Assembly-CSharp
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

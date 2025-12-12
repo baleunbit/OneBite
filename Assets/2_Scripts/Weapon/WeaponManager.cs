@@ -21,11 +21,11 @@ public class WeaponManager : MonoBehaviour
     public int stage3Index = 0;
     
     [Header("스테이지별 무기별 데미지 (0=Fork, 1=Spoon, 2=ChopStick)")]
-    [Tooltip("기본 1데미지, 강화 무기 3데미지 (몹 체력 6 기준: 6타 vs 2타)")]
+    [Tooltip("기본 1데미지, 강화 무기 3데미지")]
     public float[] stage1WeaponDamage = { 3f, 1f, 1f };   // 1스테이지: 포크 강화
-    public float[] stage2WeaponDamage = { 1f, 3f, 1f };   // 2스테이지: 스푼 강화
-    public float[] stage3WeaponDamage = { 1f, 3f, 1f };   // 3스테이지: 스푼푼 강화
-    public float[] stage4WeaponDamage = { 1f, 1f, 3f };   // 4스테이지(보스): 젓가락 강화
+    public float[] stage2WeaponDamage = { 3f, 1f, 1f };   // 2스테이지: 포크 강화
+    public float[] stage3WeaponDamage = { 1f, 3f, 1f };   // 3스테이지: 숟가락 강화
+    public float[] stage4WeaponDamage = { 1f, 3f, 1f };   // 4스테이지: 숟가락 강화 (보스룸은 BossTrigger에서 젓가락으로 변경)
 
     int currentIndex = -1;
     GameObject currentGO;

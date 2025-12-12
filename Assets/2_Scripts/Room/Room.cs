@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 [DisallowMultipleComponent]
 public class Room : MonoBehaviour
@@ -17,10 +18,20 @@ public class Room : MonoBehaviour
     // 스테이지별 방문한 방 순서 추적 (static)
     static Dictionary<int, int> stageRoomCounter = new Dictionary<int, int>();
     static int lastVisitedStage = 0;
+    static bool initialized = false;
     int myStage = 0;
     int myRoomIndex = 0;
 
-    void Awake() => Init();
+    void Awake()
+    {
+        // 씬 로드 이벤트 등록 (한 번만)
+        if (!initialized)
+        {
+            SceneManager.sceneLoaded += OnSceneLoaded;
+            initialized = true;
+        }
+        Init();
+    }
     
     void Start()
     {
@@ -187,12 +198,26 @@ public class Room : MonoBehaviour
         return -1;
     }
     
-    // 씬 로드 시 static 변수 리셋
-    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
-    static void ResetStageCounter()
+    // 씬 로드 시 static 변수 리셋 (씬 전환마다 호출)
+    static void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        ResetStageCounter();
+    }
+    
+    // 게임 상태 초기화 (외부에서도 호출 가능)
+    public static void ResetStageCounter()
     {
         stageRoomCounter.Clear();
         lastVisitedStage = 0;
+    }
+    
+    // 도메인 리로드 시 초기화
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+    static void ResetDomain()
+    {
+        stageRoomCounter.Clear();
+        lastVisitedStage = 0;
+        initialized = false;
     }
 
     void ActivateMobs()

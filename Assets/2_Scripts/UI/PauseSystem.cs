@@ -65,6 +65,10 @@ public class PauseSystem : MonoBehaviour
     {
         Time.timeScale = 1f;
         AudioListener.pause = false;
+        
+        // 게임 상태 완전 초기화
+        StageDirector.ResetGameState();
+        
         var cur = SceneManager.GetActiveScene();
         SceneManager.LoadScene(cur.buildIndex);
     }
@@ -75,6 +79,9 @@ public class PauseSystem : MonoBehaviour
         AudioListener.pause = false;
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
+        
+        // 게임 상태 완전 초기화
+        StageDirector.ResetGameState();
 
         var ev = FindFirstObjectByType<UnityEngine.EventSystems.EventSystem>();
         if (ev) Destroy(ev.gameObject);

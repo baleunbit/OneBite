@@ -149,7 +149,7 @@ MonoBehaviour:
   markerScale: 0.25
   keepUpright: 1
   maxHP: 30
-  hitSfx: {fileID: 8300000, guid: e472f9a6a3784fd46ba0d286348beef3, type: 3}
+  hitSfx: {fileID: 8300000, guid: 3e2f8ac0696b2304da11f1ddcec37b10, type: 3}
   hitSfxVolume: 1
   deathSfx: {fileID: 0}
   deathSfxVolume: 1

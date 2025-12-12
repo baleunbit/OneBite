@@ -52,7 +52,7 @@ public class Boss2 : MonoBehaviour
         hp = maxHP;
 
         if (!bossBar)
-            bossBar = FindFirstObjectByType<BossBar>();
+            bossBar = FindFirstObjectByType<BossBar>(FindObjectsInactive.Include);
 
         var playerObj = GameObject.FindGameObjectWithTag("Player");
         if (playerObj) player = playerObj.transform;

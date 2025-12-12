@@ -653,7 +653,7 @@ MonoBehaviour:
   shootInterval: 4
   bulletsPerShot: 3
   spreadAngle: 15
-  rageBulletsPerPoint: 3
+  rageBulletsPerPoint: 5
   useAllFirePoints: 1
   bossBar: {fileID: 0}
   bossName: BOSS

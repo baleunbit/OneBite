@@ -43,7 +43,7 @@ public class Boss : MonoBehaviour
         hp = maxHP;
 
         if (!bossBar)
-            bossBar = FindFirstObjectByType<BossBar>();
+            bossBar = FindFirstObjectByType<BossBar>(FindObjectsInactive.Include);
 
         if (!anim)
             anim = GetComponentInChildren<Animator>();
