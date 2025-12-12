@@ -111,13 +111,14 @@ public class StageDirector : MonoBehaviour
         // 화상 중지
         StopBurn();
 
-        // 플레이어 속도 복원
+        // 플레이어 속도 및 색상 복원
         var player = playerGO.GetComponent<Player>();
         if (player)
         {
             player.SaveBaseMoveSpeed();  // 기본 속도 저장 (최초 1회)
             player.RestoreMoveSpeed();   // 원래 속도로 복원
             player.ResetSpeedModifier();
+            player.ClearColorOverride(); // 색상 오버라이드 해제
         }
         
         // 스테이지별 기믹

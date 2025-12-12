@@ -21,8 +21,8 @@ public class SettingMenu : MonoBehaviour
     // 기본값
     const int DEFAULT_MODE = (int)FullScreenMode.ExclusiveFullScreen;
     const int DEFAULT_REFRESH = 60;
-    const float DEFAULT_MASTER = 0.5f;
-    const float DEFAULT_MUSIC = 1f;
+    const float DEFAULT_MASTER = 1f;  // 100%
+    const float DEFAULT_MUSIC = 1f;   // 100%
 
     // PlayerPrefs Keys
     const string K_MODE = "SET_MODE";

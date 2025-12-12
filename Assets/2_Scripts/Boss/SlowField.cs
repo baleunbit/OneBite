@@ -46,9 +46,20 @@ public class SlowField : MonoBehaviour
         }
     }
 
+    void OnDisable()
+    {
+        // 비활성화될 때 모든 영향받은 플레이어 복구
+        CleanupAffectedPlayers();
+    }
+
     void OnDestroy()
     {
         // 장판 사라질 때 모든 영향받은 플레이어 복구
+        CleanupAffectedPlayers();
+    }
+    
+    void CleanupAffectedPlayers()
+    {
         foreach (var player in affectedPlayers)
         {
             if (player)

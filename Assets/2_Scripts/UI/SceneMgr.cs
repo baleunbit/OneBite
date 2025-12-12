@@ -39,10 +39,7 @@ public class SceneMgr : MonoBehaviour
         // 게임 상태 완전 초기화
         StageDirector.ResetGameState();
 
-        if (SceneFader.I)
-            SceneFader.I.LoadSceneWithFade(sceneGame);
-        else
-            SceneManager.LoadScene(sceneGame);
+        SceneManager.LoadScene(sceneGame);
 
         SoundManager.I?.PlayStageBgm(1);
     }
@@ -73,10 +70,7 @@ public class SceneMgr : MonoBehaviour
         Cursor.lockState = CursorLockMode.None;
         SoundManager.I?.PlayMenu(); // 엔딩 BGM 없으면 메뉴용으로 재생
 
-        if (SceneFader.I)
-            SceneFader.I.LoadSceneWithFade(sceneEnd);
-        else
-            SceneManager.LoadScene(sceneEnd);
+        SceneManager.LoadScene(sceneEnd);
     }
 
     // 🔸 엔드씬 버튼용
@@ -88,10 +82,7 @@ public class SceneMgr : MonoBehaviour
         StageDirector.ResetGameState();
         
         SoundManager.I?.PlayStageBgm(1);
-        if (SceneFader.I)
-            SceneFader.I.LoadSceneWithFade(sceneGame);
-        else
-            SceneManager.LoadScene(sceneGame);
+        SceneManager.LoadScene(sceneGame);
     }
 
     public void OnClickMenu()
@@ -102,9 +93,6 @@ public class SceneMgr : MonoBehaviour
         StageDirector.ResetGameState();
         
         SoundManager.I?.PlayMenu();
-        if (SceneFader.I)
-            SceneFader.I.LoadSceneWithFade(sceneMenu);
-        else
-            SceneManager.LoadScene(sceneMenu);
+        SceneManager.LoadScene(sceneMenu);
     }
 }
