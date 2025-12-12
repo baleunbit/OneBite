@@ -37,8 +37,8 @@ public class Bullet : MonoBehaviour
             var myCol = GetComponent<Collider2D>();
             if (myCol)
             {
-                // 보스와 충돌 무시
-                var bosses = FindObjectsByType<Boss>(FindObjectsSortMode.None);
+                // 보스와 충돌 무시 (모든 BossBase 상속 클래스)
+                var bosses = FindObjectsByType<BossBase>(FindObjectsSortMode.None);
                 foreach (var boss in bosses)
                 {
                     var bossCol = boss.GetComponent<Collider2D>();
@@ -103,7 +103,12 @@ public class Bullet : MonoBehaviour
 
             if (tag == "Boss")
             {
-                obj.GetComponent<Boss>()?.TakeDamage((int)damage);
+                // BossBase를 상속받는 모든 보스 처리 (Boss, Boss3 등)
+                var bossBase = obj.GetComponent<BossBase>();
+                if (bossBase != null)
+                {
+                    bossBase.TakeDamage((int)damage);
+                }
                 Destroy(gameObject);
                 return;
             }
