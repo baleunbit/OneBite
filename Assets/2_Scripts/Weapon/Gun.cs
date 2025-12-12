@@ -13,7 +13,7 @@ public class Gun : MonoBehaviour
     public float fireRate = 0.2f;
 
     [Header("데미지/관통")]
-    [SerializeField] float Damage = 5f;
+    [SerializeField] float Damage = 1f;  // 기본 대미지 (스테이지별로 오버라이드됨)
     [SerializeField] int Pierce = 1;
     float stageDamageOverride = -1f;  // 스테이지별 데미지 오버라이드
 

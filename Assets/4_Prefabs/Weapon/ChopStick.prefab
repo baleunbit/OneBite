@@ -105,8 +105,10 @@ MonoBehaviour:
   maxAmmo: 6
   reloadTime: 2
   fireRate: 0.25
+  Damage: 1
   Pierce: 1
   bulletPrefab: {fileID: 2338185472800916295, guid: f19738c94d9c17c4c8cbc4b14c8265cd, type: 3}
+  useSharedAmmo: 1
   sharedAmmo: {fileID: 0}
 --- !u!114 &-4218107517917325442
 MonoBehaviour:

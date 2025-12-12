@@ -58,6 +58,11 @@ public class PauseSystem : MonoBehaviour
         Time.timeScale = 1f;
         AudioListener.pause = false;
         if (menuRoot) menuRoot.SetActive(false);
+        
+        // 게임 중에는 커서 숨기기
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Confined;
+        
         Debug.Log("[PauseSystem] 게임 재개");
     }
 

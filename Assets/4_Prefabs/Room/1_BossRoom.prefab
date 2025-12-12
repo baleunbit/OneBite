@@ -180,7 +180,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bossRoot: {fileID: 3119372441075913088}
-  bossAI: {fileID: 2290631933291188543}
+  bossAI: {fileID: 3420893510559573793}
   bossBar: {fileID: 0}
   cinemachineCamera: {fileID: 0}
   bossRoomZoom: 50
@@ -572,8 +572,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7182905681256237371}
+  - component: {fileID: 3420893510559573793}
   - component: {fileID: 1858100624824932760}
-  - component: {fileID: 2290631933291188543}
   - component: {fileID: 3119372441075913088}
   - component: {fileID: 1994285354881676944}
   m_Layer: 0
@@ -602,6 +602,39 @@ Transform:
   - {fileID: 6846230914170598992}
   m_Father: {fileID: 1204727782890561450}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3420893510559573793
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2080935063134399234}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cacaaf2aedffdc445851bb36a73ba073, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHP: 300
+  contactDamage: 3
+  bossBar: {fileID: 0}
+  bossName: BOSS
+  anim: {fileID: 3779423644215274932}
+  hitColor: {r: 1, g: 0, b: 0, a: 1}
+  hitFlashDuration: 0.1
+  canAct: 0
+  bossBullet: {fileID: 6578160224776761967, guid: 61594293acbfe4948b922872aaca9c6a, type: 3}
+  firePoints:
+  - {fileID: 797678852632815771}
+  - {fileID: 4725732571164980330}
+  - {fileID: 6846230914170598992}
+  bulletSpeed: 50
+  bulletDamage: 5
+  bulletsPerShot: 3
+  spreadAngle: 15
+  burstDelay: 0.15
+  rageBulletsPerPoint: 3
+  useAllFirePoints: 1
+  bossRoot: {fileID: 3119372441075913088}
 --- !u!50 &1858100624824932760
 Rigidbody2D:
   serializedVersion: 5
@@ -629,37 +662,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &2290631933291188543
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2080935063134399234}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 332261d8a4add5a4da304f47eace4e44, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxHP: 500
-  contactDamage: 3
-  bossBar: {fileID: 0}
-  bossName: BOSS
-  anim: {fileID: 3779423644215274932}
-  canAct: 0
-  bossBullet: {fileID: 6578160224776761967, guid: 61594293acbfe4948b922872aaca9c6a, type: 3}
-  firePoints:
-  - {fileID: 797678852632815771}
-  - {fileID: 4725732571164980330}
-  - {fileID: 6846230914170598992}
-  bulletSpeed: 50
-  bulletDamage: 5
-  bulletsPerShot: 3
-  spreadAngle: 15
-  burstDelay: 0.15
-  rageBulletsPerPoint: 5
-  useAllFirePoints: 1
-  bossRoot: {fileID: 3119372441075913088}
 --- !u!114 &3119372441075913088
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -675,7 +677,7 @@ MonoBehaviour:
   visual: {fileID: 2182794683749425970}
   appearHeight: 100
   appearSpeed: 1
-  bossAI: {fileID: 2290631933291188543}
+  bossAI: {fileID: 0}
   isInfinity: 0
   idleHeight: 0.5
   idleSpeed: 2
@@ -1503,7 +1505,7 @@ Transform:
   m_GameObject: {fileID: 7749397074239670649}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -152, y: -122, z: 0}
+  m_LocalPosition: {x: 485.85022, y: 257.8945, z: 0}
   m_LocalScale: {x: 30, y: 20, z: 20}
   m_ConstrainProportionsScale: 0
   m_Children:

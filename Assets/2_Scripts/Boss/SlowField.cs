@@ -20,28 +20,44 @@ public class SlowField : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D col)
     {
+        // Player만 처리
+        if (!col.CompareTag("Player")) return;
+        
+        Debug.Log($"[SlowField] OnTriggerEnter2D - Player 감지");
+        
         if (col.CompareTag("Player"))   
         {
             var player = col.GetComponent<Player>() ?? col.GetComponentInParent<Player>();
+            Debug.Log($"[SlowField] Player 찾음: {player != null}, speedMultiplier: {speedMultiplier}");
+            
             if (player && !affectedPlayers.Contains(player))
             {
                 affectedPlayers.Add(player);
+                Debug.Log($"[SlowField] 적용 전 speedModifier: {player.GetSpeedModifier()}");
                 player.ApplySpeedModifier(speedMultiplier);
-                player.SetColorOverride(fieldColor);  // 색상 오버라이드 설정
+                Debug.Log($"[SlowField] 적용 후 speedModifier: {player.GetSpeedModifier()}, multiplier: {speedMultiplier}");
+                player.SetColorOverride(fieldColor);
             }
         }
     }
 
     void OnTriggerExit2D(Collider2D col)
     {
+        // Player만 처리
+        if (!col.CompareTag("Player")) return;
+        
+        Debug.Log($"[SlowField] OnTriggerExit2D - Player 감지");
+        
         if (col.CompareTag("Player"))
         {
             var player = col.GetComponent<Player>() ?? col.GetComponentInParent<Player>();
             if (player && affectedPlayers.Contains(player))
             {
+                Debug.Log($"[SlowField] 해제 전 speedModifier: {player.GetSpeedModifier()}");
                 affectedPlayers.Remove(player);
                 player.RemoveSpeedModifier(speedMultiplier);
-                player.ClearColorOverride();  // 색상 오버라이드 해제
+                Debug.Log($"[SlowField] 해제 후 speedModifier: {player.GetSpeedModifier()}, multiplier: {speedMultiplier}");
+                player.ClearColorOverride();
             }
         }
     }

@@ -9,8 +9,8 @@ public class RoomGenerator : MonoBehaviour
 
     [Header("스테이지 생성 규칙")]
     public int startStage = 1;
-    public int endStage = 2;
-    public int roomsPerStage = 5;
+    public int endStage = 4;
+    public int roomsPerStage = 2;
     public string bossRoomExactName = "BossRoom";
 
     [Header("배치 설정(기존 유지)")]
@@ -82,14 +82,24 @@ public class RoomGenerator : MonoBehaviour
             var boss = FindBossPrefab(stage);
             if (boss)
             {
+                Debug.Log($"[RoomGenerator] ★★★ {stage}스테이지 보스룸 배치 시작: {boss.name} ★★★");
                 TryPlaceRoom(boss, ref prev);
-                Debug.Log($"[RoomGenerator] {stage}_BossRoom 배치 완료");
+                Debug.Log($"[RoomGenerator] ★★★ {stage}스테이지 보스룸 배치 완료! 체인 길이: {_chain.Count} ★★★");
             }
             else
             {
-                Debug.Log($"[RoomGenerator] {stage}_BossRoom 없음 → 건너뜀");
+                Debug.LogError($"[RoomGenerator] ❌ {stage}스테이지 보스룸 프리팹 없음!");
             }
         }
+        
+        // 최종 체인 전체 출력
+        Debug.Log("========== 최종 체인 구성 ==========");
+        for (int i = 0; i < _chain.Count; i++)
+        {
+            var room = GetChainedRoom(i);
+            Debug.Log($"체인[{i}]: {(room ? room.name : "NULL")}");
+        }
+        Debug.Log("=====================================");
     }
 
     // ───────────────── Stage별 생성 ─────────────────
@@ -121,11 +131,29 @@ public class RoomGenerator : MonoBehaviour
     private GameObject FindBossPrefab(int stage)
     {
         string exact = $"{stage}_{bossRoomExactName}";
+        Debug.Log($"[RoomGenerator] FindBossPrefab - 찾는 스테이지: {stage}, 정확한 이름: {exact}");
+        
+        // 모든 보스룸 프리팹 출력
+        var allBossRooms = roomPrefabs.Where(p => p && p.name.Contains("Boss")).ToList();
+        Debug.Log($"[RoomGenerator] 등록된 보스룸 프리팹들: {string.Join(", ", allBossRooms.Select(p => p.name))}");
+        
         var exactHit = roomPrefabs.FirstOrDefault(p => p && p.name == exact);
-        if (exactHit) return exactHit;
+        if (exactHit)
+        {
+            Debug.Log($"[RoomGenerator] 정확히 일치하는 보스룸 찾음: {exactHit.name}");
+            return exactHit;
+        }
 
         string prefix = $"{stage}_Boss";
-        return roomPrefabs.FirstOrDefault(p => p && p.name.StartsWith(prefix));
+        var prefixHit = roomPrefabs.FirstOrDefault(p => p && p.name.StartsWith(prefix));
+        if (prefixHit)
+        {
+            Debug.Log($"[RoomGenerator] 접두사로 찾은 보스룸: {prefixHit.name}");
+            return prefixHit;
+        }
+        
+        Debug.LogWarning($"[RoomGenerator] {stage}스테이지 보스룸을 찾지 못함!");
+        return null;
     }
 
     // ───────────── 공통 배치 로직 ─────────────
@@ -154,6 +182,8 @@ public class RoomGenerator : MonoBehaviour
                 var entry = BuildEntryFromInstance(room);
                 _rooms.Add(entry);
                 _chain.Add(_rooms.Count - 1);
+                
+                Debug.Log($"[RoomGenerator] 체인[{_chain.Count-1}]에 추가됨: {room.name} (프리팹: {prefab.name})");
 
                 prev = entry;
                 placed = true;

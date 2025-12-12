@@ -94,11 +94,14 @@ public class StageDirector : MonoBehaviour
     {
         if (stage <= 0) stage = 1;
         
+        int previousStage = CurrentStage;
+        bool stageChanged = (previousStage != stage);
+        
         Debug.Log($"[StageDirector] ========== ApplyStage 호출 ==========");
         Debug.Log($"[StageDirector] 입력받은 stage: {stage}");
-        Debug.Log($"[StageDirector] 이전 CurrentStage: {CurrentStage}");
+        Debug.Log($"[StageDirector] 이전 CurrentStage: {previousStage}");
+        Debug.Log($"[StageDirector] 스테이지 변경됨: {stageChanged}");
         Debug.Log($"[StageDirector] 방 이름: {roomGO.name}");
-        Debug.Log($"[StageDirector] ParseStageFromName 결과: {ParseStageFromName(roomGO.name)}");
         
         CurrentStage = stage;
 
@@ -110,19 +113,22 @@ public class StageDirector : MonoBehaviour
         Time.timeScale = 1f;
         var status = playerGO.GetComponent<PlayerStatusEffects>();
         if (!status) status = playerGO.AddComponent<PlayerStatusEffects>();
-        status.ClearAll();
         
-        // 화상 중지
-        StopBurn();
-
-        // 플레이어 속도 및 색상 복원
-        var player = playerGO.GetComponent<Player>();
-        if (player)
+        // 🔥 스테이지가 변경될 때만 상태/속도/색상 초기화
+        if (stageChanged)
         {
-            player.SaveBaseMoveSpeed();  // 기본 속도 저장 (최초 1회)
-            player.RestoreMoveSpeed();   // 원래 속도로 복원
-            player.ResetSpeedModifier();
-            player.ClearColorOverride(); // 색상 오버라이드 해제
+            Debug.Log("[StageDirector] 스테이지 변경! 상태 초기화");
+            status.ClearAll();
+            StopBurn();
+            
+            var player = playerGO.GetComponent<Player>();
+            if (player)
+            {
+                player.SaveBaseMoveSpeed();
+                player.RestoreMoveSpeed();
+                player.ResetSpeedModifier();
+                player.ClearColorOverride();
+            }
         }
         
         // 스테이지별 기믹

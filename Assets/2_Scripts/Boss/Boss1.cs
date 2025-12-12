@@ -18,9 +18,12 @@ public class Boss1 : BossBase
     public float spreadAngle = 15f;       // 퍼지는 각도
     public float burstDelay = 0.15f;      // 연속 발사 간격
 
-    [Header("분노 모드 (30% 이하)")]
+    [Header("분노 모드 (50% 이하)")]
     public int rageBulletsPerPoint = 3;   // 분노 시 각 포인트당 발사 수
     public bool useAllFirePoints = true;  // 모든 발사 포인트 사용
+    
+    // 1스테이지 보스는 50%부터 분노 모드
+    protected override bool IsRageMode => HPRatio <= 0.5f;
 
     [Header("Boss Root (movement/pattern)")]
     public BossRoot bossRoot;

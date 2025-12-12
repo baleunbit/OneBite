@@ -19,7 +19,7 @@ public class Player : MonoBehaviour
     [SerializeField] private int exp = 0;
 
     [Header("강화 스탯 (현재 값)")]
-    public int weaponDamageBonus = 1;      // 무기 공격력 +X
+    public int weaponDamageBonus = 0;      // 무기 공격력 +X (레벨업으로 증가)
     public float moveSpeedBonus = 1f;      // 이동속도 +X%
     public float biteRangeBonus = 0.5f;    // 한입 범위 증가
     public float quietStepBonus = 1f;      // 조용한 발걸음(적 ? 범위 감소)
@@ -63,8 +63,10 @@ public class Player : MonoBehaviour
     // 색상 오버라이드 (SlowField 등에서 사용)
     Color? colorOverride = null;
     
-    // 속도 수정자 (둔화 장판 등)
+    // 속도 수정자 (SlowField 등에서 사용) - 직접 설정 방식
     float speedModifier = 1f;
+    int slowFieldCount = 0;  // 현재 밟고 있는 SlowField 개수
+    float currentSlowMultiplier = 1f;  // 현재 적용된 SlowField의 multiplier
 
     void Start()
     {
@@ -314,17 +316,32 @@ public class Player : MonoBehaviour
     public void ResetSpeedModifier()
     {
         speedModifier = 1f;
+        slowFieldCount = 0;
+        currentSlowMultiplier = 1f;
     }
     
-    // 속도 수정자 (SlowField 등에서 사용)
+    public float GetSpeedModifier() => speedModifier;
+    
+    // 속도 수정자 (SlowField 등에서 사용) - 새로운 방식
     public void ApplySpeedModifier(float multiplier)
     {
-        speedModifier *= multiplier;
+        slowFieldCount++;
+        currentSlowMultiplier = multiplier;
+        speedModifier = multiplier;
+        Debug.Log($"[Player] SlowField 진입! count: {slowFieldCount}, speedModifier: {speedModifier}");
     }
 
     public void RemoveSpeedModifier(float multiplier)
     {
-        if (multiplier != 0f)
-            speedModifier /= multiplier;
+        slowFieldCount = Mathf.Max(0, slowFieldCount - 1);
+        
+        // 모든 SlowField에서 나왔으면 속도 복구
+        if (slowFieldCount <= 0)
+        {
+            speedModifier = 1f;
+            currentSlowMultiplier = 1f;
+            slowFieldCount = 0;
+        }
+        Debug.Log($"[Player] SlowField 이탈! count: {slowFieldCount}, speedModifier: {speedModifier}");
     }
 }

@@ -27,7 +27,14 @@ public class Door : MonoBehaviour
     float startTime;
     bool requireExit;
     static float nextGlobalAllowedTime = 0f;
+    static int maxVisitedChainIndex = 0;  // 최대 방문한 체인 인덱스
     Room ownerRoom;
+    
+    // 게임 재시작 시 리셋
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+    static void ResetStatic() { maxVisitedChainIndex = 0; nextGlobalAllowedTime = 0f; }
+    
+    public static void ResetVisitedIndex() { maxVisitedChainIndex = 0; }
     
     [Header("문 열림 체크 딜레이")]
     [SerializeField] float doorCheckDelay = 1f;  // 몹 스폰 대기 시간
@@ -102,8 +109,12 @@ public class Door : MonoBehaviour
         if (Time.time < nextGlobalAllowedTime) return;
         if (requireExit) return;
 
-        // 현재 방
-        Room currentRoom = ownerRoom ? ownerRoom : FindRoomByPosition(player.position);
+        // 현재 방 - 항상 플레이어 위치로 찾기 (ownerRoom 버그 방지)
+        Room currentRoom = FindRoomByPosition(player.position);
+        if (!currentRoom) 
+        {
+            currentRoom = ownerRoom;
+        }
         if (!currentRoom) return;
 
         // 조건: 전멸 필요 시
@@ -115,10 +126,13 @@ public class Door : MonoBehaviour
 
         // 체인 인덱스
         int curIndex = generator.FindChainIndexByRoom(currentRoom);
+        Debug.Log($"[Door] 현재 방: {currentRoom.name}, 체인 인덱스: {curIndex}, 최대 방문 인덱스: {maxVisitedChainIndex}");
         if (curIndex < 0) { Debug.LogWarning("[Door] 현재 방 인덱스를 찾지 못함"); return; }
 
-        // 다음 방 조회
-        var nextRoomGO = generator.GetChainedRoom(curIndex + 1);
+        // 🔥 항상 최대 방문 인덱스 + 1로 이동 (뒤로 못 감!)
+        int nextIndex = Mathf.Max(curIndex + 1, maxVisitedChainIndex + 1);
+        var nextRoomGO = generator.GetChainedRoom(nextIndex);
+        Debug.Log($"[Door] 다음 인덱스: {nextIndex}, 다음 방: {(nextRoomGO ? nextRoomGO.name : "NULL")}");
 
         // 🔚 다음 방이 없으면 엔드씬
         if (!nextRoomGO)
@@ -128,19 +142,18 @@ public class Door : MonoBehaviour
             return;
         }
 
-        // 이동
+        // 이동 - 실제 방 위치로!
         Vector3 targetPos = nextRoomGO.transform.position + (Vector3)exitOffset;
-        
-        // 보스 방이면 Y좌표를 300으로 고정
-        if (nextRoomGO.name.Contains("BossRoom"))
-        {
-            targetPos.y = 300f;
-        }
-        
         player.position = targetPos;
+        
+        Debug.Log($"[Door] 플레이어 이동 위치: {targetPos}, 방 위치: {nextRoomGO.transform.position}");
 
         var rb = player.GetComponent<Rigidbody2D>();
         if (rb) rb.linearVelocity = Vector2.zero;
+
+        // 🔥 최대 방문 인덱스 업데이트
+        maxVisitedChainIndex = Mathf.Max(maxVisitedChainIndex, nextIndex);
+        Debug.Log($"[Door] 최대 방문 인덱스 업데이트: {maxVisitedChainIndex}");
 
         // 🔥 새 방 진입 시 스테이지 규칙 적용
         var nextRoom = nextRoomGO.GetComponent<Room>();

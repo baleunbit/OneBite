@@ -26,6 +26,15 @@ public class BossRoot : MonoBehaviour
         // 현재 위치를 기준점으로 저장
         basePosition = transform.position;
         initialized = true;
+        
+        // bossAI 자동 연결 (같은 오브젝트 또는 직접 자식에서만)
+        if (!bossAI)
+            bossAI = GetComponent<BossBase>();
+        if (!bossAI)
+            bossAI = GetComponentInChildren<BossBase>(true);
+            
+        if (!bossAI)
+            Debug.LogWarning($"[BossRoot] {gameObject.name}: bossAI가 연결되지 않았습니다! Inspector에서 연결해주세요.");
     }
 
     public void StartAppear()

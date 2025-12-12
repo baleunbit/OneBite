@@ -8,8 +8,8 @@ using System.Collections;
 public class Boss4 : BossBase
 {
     [Header("돌진 설정")]
-    public float chargeSpeed = 20f;           // 돌진 속도
-    public float chargeInterval = 5f;         // 돌진 사이 휴식 시간 (5초)
+    public float chargeSpeed = 50f;           // 돌진 속도 (빠르게!)
+    public float chargeInterval = 3f;         // 돌진 사이 휴식 시간
 
     [Header("돌진 대미지")]
     public int chargeDamage = 10;             // 돌진 시 플레이어 대미지
@@ -23,9 +23,11 @@ public class Boss4 : BossBase
     public float fadeInDuration = 0.5f;       // 나타나는 시간
     public float returnDelay = 0.5f;          // 복귀 전 대기 시간
 
-    [Header("이동 설정")]
-    public float moveToTargetSpeed = 15f;     // 플레이어 X 위치로 이동하는 속도
+    [Header("충돌 설정")]
     public float collisionCheckDistance = 0.5f; // 충돌 체크 거리
+    
+    [Header("비주얼 (실제 움직일 오브젝트)")]
+    public Transform visualTransform;         // 비주얼 오브젝트 (없으면 자기 자신)
 
     // 내부 변수
     SpriteRenderer sr;
@@ -36,6 +38,9 @@ public class Boss4 : BossBase
     bool isCharging = false;
     Vector3 originalPosition;  // 원래 위치
     float targetX;             // 돌진할 X 위치
+    
+    // 실제 움직일 Transform (visualTransform이 있으면 그것, 없으면 자신)
+    Transform MoveTarget => visualTransform ? visualTransform : transform;
 
     protected override void Start()
     {
@@ -46,9 +51,11 @@ public class Boss4 : BossBase
         if (sr) boss4OriginalColor = sr.color;
 
         myCollider = GetComponent<Collider2D>();
+        if (!myCollider && visualTransform)
+            myCollider = visualTransform.GetComponent<Collider2D>();
 
-        // 원래 위치 저장
-        originalPosition = transform.position;
+        // 원래 위치 저장 (비주얼 기준)
+        originalPosition = MoveTarget.position;
 
         // Warning 오브젝트 초기화 (처음엔 비활성화)
         if (warningObject)
@@ -96,24 +103,23 @@ public class Boss4 : BossBase
         }
         else
         {
-            targetX = transform.position.x;
+            targetX = MoveTarget.position.x;
         }
 
-        // 2. 플레이어 X 위치로 이동
-        yield return StartCoroutine(MoveToTargetX());
-
-        if (!canAct || hp <= 0) yield break;
-
-        // 3. Warning 활성화 및 위치 설정
+        // 2. Warning 표시 (플레이어 X 위치에)
         if (warningObject)
         {
             SetupWarning();
             warningObject.SetActive(true);
-            
-            // 깜빡임 효과
+        }
+
+        // 3. 보스를 플레이어 X 위치 상단으로 즉시 이동
+        MoveTarget.position = new Vector3(targetX, originalPosition.y, MoveTarget.position.z);
+
+        // 4. Warning 깜빡임 (1초 대기)
+        if (warningObject)
+        {
             yield return StartCoroutine(BlinkWarning());
-            
-            // Warning 비활성화
             warningObject.SetActive(false);
         }
         else
@@ -123,32 +129,8 @@ public class Boss4 : BossBase
 
         if (!canAct || hp <= 0) yield break;
 
-        // 4. 돌진 실행
+        // 5. 아래로 돌진!
         yield return StartCoroutine(ChargeAttack());
-    }
-
-    /// <summary>
-    /// 플레이어 X 위치로 이동
-    /// </summary>
-    IEnumerator MoveToTargetX()
-    {
-        while (Mathf.Abs(transform.position.x - targetX) > 0.1f)
-        {
-            if (!canAct || hp <= 0) yield break;
-
-            float direction = Mathf.Sign(targetX - transform.position.x);
-            float moveAmount = moveToTargetSpeed * Time.deltaTime;
-            
-            // 목표 위치를 넘어가지 않도록
-            float newX = transform.position.x + direction * moveAmount;
-            if ((direction > 0 && newX > targetX) || (direction < 0 && newX < targetX))
-            {
-                newX = targetX;
-            }
-            
-            transform.position = new Vector3(newX, transform.position.y, transform.position.z);
-            yield return null;
-        }
     }
 
     /// <summary>
@@ -205,8 +187,8 @@ public class Boss4 : BossBase
             // 이동량 계산
             float moveAmount = chargeSpeed * Time.deltaTime;
             
-            // 보스 주변 충돌 체크 (원형) - 태그 기반
-            Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, collisionCheckDistance);
+            // 비주얼 주변 충돌 체크 (원형) - 태그 기반
+            Collider2D[] hits = Physics2D.OverlapCircleAll(MoveTarget.position, collisionCheckDistance);
             foreach (var hit in hits)
             {
                 if (hit == myCollider) continue;
@@ -235,8 +217,8 @@ public class Boss4 : BossBase
             
             if (!isCharging) break;
             
-            // 아래로 이동
-            transform.position += Vector3.down * moveAmount;
+            // 비주얼을 아래로 이동
+            MoveTarget.position += Vector3.down * moveAmount;
             
             yield return null;
         }
@@ -262,8 +244,8 @@ public class Boss4 : BossBase
         // 페이드 아웃
         yield return StartCoroutine(FadeOut());
 
-        // 원래 위치로 이동
-        transform.position = originalPosition;
+        // 비주얼을 원래 위치로 이동
+        MoveTarget.position = originalPosition;
 
         // 페이드 인
         yield return StartCoroutine(FadeIn());

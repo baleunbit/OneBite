@@ -45,11 +45,10 @@ public class BossTrigger : MonoBehaviour
     {
         if (!col.CompareTag("Player")) return;
 
-        // 스테이지 번호 파싱
-        int stage = 1;
+        // 스테이지 번호 파싱 (StageDirector와 동일한 방식)
         string roomName = gameObject.name;
-        if (!string.IsNullOrEmpty(roomName) && roomName.Length > 0)
-            int.TryParse(roomName.Substring(0, 1), out stage);
+        int stage = StageDirector.ParseStageFromName(roomName);
+        Debug.Log($"[BossTrigger] 방 이름: {roomName}, 파싱된 스테이지: {stage}");
 
         // ===============================
         // 🔥 스테이지별 무기 대미지 처리 (복구됨)
