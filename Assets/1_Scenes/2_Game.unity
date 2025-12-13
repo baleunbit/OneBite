@@ -616,7 +616,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0.9500427, y: 655.0003}
+  m_AnchoredPosition: {x: 0.9500427, y: 655}
   m_SizeDelta: {x: 200, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &88877569
@@ -1138,7 +1138,7 @@ Transform:
   m_GameObject: {fileID: 315458525}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -108.6, y: -157.3, z: -1}
+  m_LocalPosition: {x: 88, y: -151, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1857,67 +1857,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 448262583}
   m_CullTransparentMesh: 1
---- !u!1001 &475215755
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 513101739710063888, guid: a2b1b49c5c0c0f144bc3501b58679de2, type: 3}
-      propertyPath: m_Name
-      value: 4_BossRoom
-      objectReference: {fileID: 0}
-    - target: {fileID: 936098038160918981, guid: a2b1b49c5c0c0f144bc3501b58679de2, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -112.6
-      objectReference: {fileID: 0}
-    - target: {fileID: 936098038160918981, guid: a2b1b49c5c0c0f144bc3501b58679de2, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -135.8
-      objectReference: {fileID: 0}
-    - target: {fileID: 936098038160918981, guid: a2b1b49c5c0c0f144bc3501b58679de2, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 936098038160918981, guid: a2b1b49c5c0c0f144bc3501b58679de2, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 936098038160918981, guid: a2b1b49c5c0c0f144bc3501b58679de2, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 936098038160918981, guid: a2b1b49c5c0c0f144bc3501b58679de2, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 936098038160918981, guid: a2b1b49c5c0c0f144bc3501b58679de2, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 936098038160918981, guid: a2b1b49c5c0c0f144bc3501b58679de2, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 936098038160918981, guid: a2b1b49c5c0c0f144bc3501b58679de2, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 936098038160918981, guid: a2b1b49c5c0c0f144bc3501b58679de2, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8341742436629975356, guid: a2b1b49c5c0c0f144bc3501b58679de2, type: 3}
-      propertyPath: bossBar
-      value: 
-      objectReference: {fileID: 757568938}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: a2b1b49c5c0c0f144bc3501b58679de2, type: 3}
 --- !u!1 &487062131
 GameObject:
   m_ObjectHideFlags: 0
@@ -2285,7 +2224,7 @@ Transform:
   m_GameObject: {fileID: 546217742}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -108.6, y: -157.3, z: 0}
+  m_LocalPosition: {x: 88, y: -151, z: 0}
   m_LocalScale: {x: 3.5, y: 3.5, z: 3.5}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2833,7 +2772,7 @@ Transform:
   m_GameObject: {fileID: 718230527}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -108.6, y: -157.3, z: -1}
+  m_LocalPosition: {x: 88, y: -151, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6264,4 +6203,3 @@ SceneRoots:
   - {fileID: 951296536}
   - {fileID: 546217744}
   - {fileID: 4367834128703023878}
-  - {fileID: 475215755}

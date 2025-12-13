@@ -935,7 +935,8 @@ MonoBehaviour:
   hitColor: {r: 1, g: 0, b: 0, a: 1}
   hitFlashDuration: 0.1
   canAct: 0
-  chargeSpeed: 20
+  currentState: 0
+  chargeSpeed: 100
   chargeInterval: 5
   chargeDamage: 10
   warningObject: {fileID: 4418823237473608109}
@@ -944,6 +945,8 @@ MonoBehaviour:
   fadeInDuration: 0.5
   returnDelay: 0.5
   collisionCheckDistance: 0.5
+  maxHitsPerCharge: 3
+  hitCooldown: 0.3
   visualTransform: {fileID: 5585178868858525274}
 --- !u!114 &7878173891873917666
 MonoBehaviour:
