@@ -59,6 +59,7 @@ public class WeaponManager : MonoBehaviour
     public void ApplyStageRules(int stage)
     {
         currentStage = stage;
+        Debug.Log($"[WeaponManager] 스테이지 {stage} 규칙 적용");
         
         // 현재 장착된 무기에 데미지 적용
         ApplyDamageToCurrentWeapon();
@@ -71,6 +72,7 @@ public class WeaponManager : MonoBehaviour
             case 1: idx = stage1Index; break;
             case 2: idx = stage2Index; break;
             case 3: idx = stage3Index; break;
+            case 4: idx = stage3Index; break;  // 4스테이지도 처리
             default: idx = defaultIndex; break;
         }
 

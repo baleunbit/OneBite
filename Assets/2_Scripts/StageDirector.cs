@@ -105,9 +105,18 @@ public class StageDirector : MonoBehaviour
         
         CurrentStage = stage;
 
-        // 무기/타입 규칙
+        // 무기/타입 규칙 (WeaponManager는 플레이어가 아닌 다른 오브젝트에 있을 수 있음)
         var wm = playerGO.GetComponent<WeaponManager>();
-        if (wm) wm.ApplyStageRules(stage);
+        if (!wm) wm = FindFirstObjectByType<WeaponManager>();
+        if (wm) 
+        {
+            wm.ApplyStageRules(stage);
+            Debug.Log($"[StageDirector] WeaponManager에 스테이지 {stage} 적용!");
+        }
+        else
+        {
+            Debug.LogWarning("[StageDirector] WeaponManager를 찾을 수 없음!");
+        }
 
         // 상태 초기화
         Time.timeScale = 1f;

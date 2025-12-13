@@ -2245,8 +2245,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 20
-  maxHealth: 100
-  health: 100
+  maxHealth: 120
+  health: 120
   healthBarImage: {fileID: 1108112211}
   level: 1
   exp: 0
