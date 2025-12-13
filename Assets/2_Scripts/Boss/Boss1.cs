@@ -33,11 +33,10 @@ public class Boss1 : BossBase
     //-------------------------------------------------------------------
     protected override IEnumerator PatternRoutine()
     {
-        while (hp > 0)
+        while (hp > 0 && canAct)
         {
             // 1) Idle 상태 --------------------------------------------------
-            anim.ResetTrigger("BossAttack");   // 혹시 남은 trigger 제거
-            anim.Play("1_BossIdle");
+            SetAttacking(false);  // Bool 기반
 
             if (bossRoot)
                 bossRoot.isInfinity = false;
@@ -51,7 +50,7 @@ public class Boss1 : BossBase
             yield return new WaitForSeconds(0.3f);
 
             // 3) Attack 모션 실행 ---------------------------------------------
-            anim.SetTrigger("BossAttack");
+            SetAttacking(true);  // Bool 기반
 
             yield return new WaitForSeconds(0.1f);
             Shoot();                            // 공격 타이밍에 따라 조절 가능
@@ -60,10 +59,40 @@ public class Boss1 : BossBase
             yield return new WaitForSeconds(0.6f);
 
             // 4) 다시 Idle로 돌아가는 구간 ------------------------------------
+            SetAttacking(false);  // Bool 기반
+            
             if (bossRoot)
                 bossRoot.isInfinity = true;
 
             yield return new WaitForSeconds(1.2f);
+        }
+    }
+    
+    /// <summary>
+    /// 애니메이션 상태 설정 (Bool 파라미터 사용)
+    /// </summary>
+    void SetAttacking(bool isAttacking)
+    {
+        if (!anim) return;
+
+        // BossAttack 파라미터 사용 (Bool)
+        foreach (var param in anim.parameters)
+        {
+            if (param.name == "BossAttack" && param.type == AnimatorControllerParameterType.Bool)
+            {
+                anim.SetBool("BossAttack", isAttacking);
+                return;
+            }
+        }
+        
+        // 파라미터 없으면 직접 Play
+        if (isAttacking)
+        {
+            anim.Play("BossAttack");
+        }
+        else
+        {
+            anim.Play("BossIdle");
         }
     }
 
