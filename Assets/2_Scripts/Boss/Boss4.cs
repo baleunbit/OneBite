@@ -46,13 +46,21 @@ public class Boss4 : BossBase
     {
         base.Start();
 
-        sr = GetComponent<SpriteRenderer>();
-        if (!sr) sr = GetComponentInChildren<SpriteRenderer>();
-        if (sr) boss4OriginalColor = sr.color;
-
-        myCollider = GetComponent<Collider2D>();
-        if (!myCollider && visualTransform)
+        // 비주얼에서 컴포넌트 찾기
+        if (visualTransform)
+        {
+            sr = visualTransform.GetComponent<SpriteRenderer>();
             myCollider = visualTransform.GetComponent<Collider2D>();
+            anim = visualTransform.GetComponent<Animator>();
+        }
+        
+        // 없으면 자신/자식에서 찾기
+        if (!sr) sr = GetComponent<SpriteRenderer>();
+        if (!sr) sr = GetComponentInChildren<SpriteRenderer>();
+        if (!myCollider) myCollider = GetComponent<Collider2D>();
+        if (!anim) anim = GetComponentInChildren<Animator>();
+        
+        if (sr) boss4OriginalColor = sr.color;
 
         // 원래 위치 저장 (비주얼 기준)
         originalPosition = MoveTarget.position;
@@ -63,6 +71,33 @@ public class Boss4 : BossBase
             warningSr = warningObject.GetComponent<SpriteRenderer>();
             warningObject.SetActive(false);
         }
+        
+        // 시작 전에는 애니메이터 비활성화 (StartPattern 전까지)
+        if (anim) anim.enabled = false;
+    }
+    
+    /// <summary>
+    /// 보스 패턴 시작 (오버라이드)
+    /// </summary>
+    public override void StartPattern()
+    {
+        // 애니메이터 활성화
+        if (anim) anim.enabled = true;
+        
+        base.StartPattern();
+    }
+    
+    /// <summary>
+    /// 애니메이션 상태 설정 (Bool 파라미터 사용)
+    /// </summary>
+    void SetAnimState(string stateName)
+    {
+        if (anim && anim.enabled)
+        {
+            bool isAttacking = (stateName == "Attack");
+            anim.SetBool("IsAttacking", isAttacking);
+            Debug.Log($"[Boss4] 애니메이션 IsAttacking: {isAttacking}");
+        }
     }
 
     /// <summary>
@@ -71,12 +106,16 @@ public class Boss4 : BossBase
     protected override IEnumerator PatternRoutine()
     {
         yield return new WaitForSeconds(0.5f); // 시작 대기
+        
+        // 시작 시 Idle 상태
+        SetAnimState("Idle");
 
         while (hp > 0 && canAct)
         {
             Debug.Log("[Boss4] 패턴 루프 시작, 대기 중...");
             
-            // 1. 휴식 (5초)
+            // 1. 휴식 - Idle 애니메이션
+            SetAnimState("Idle");
             yield return new WaitForSeconds(chargeInterval);
 
             if (!canAct || hp <= 0) break;
@@ -178,47 +217,46 @@ public class Boss4 : BossBase
     IEnumerator ChargeAttack()
     {
         isCharging = true;
+        bool hasHitPlayer = false;  // 플레이어 한 번만 대미지
 
         Debug.Log("[Boss4] 돌진 시작!");
+        
+        // 돌진 애니메이션
+        SetAnimState("Attack");
 
         // 돌진 실행 - 태그 기반 충돌 감지
         while (isCharging && canAct && hp > 0)
         {
-            // 이동량 계산
+            // 비주얼을 아래로 이동 (먼저 이동!)
             float moveAmount = chargeSpeed * Time.deltaTime;
+            MoveTarget.position += Vector3.down * moveAmount;
             
-            // 비주얼 주변 충돌 체크 (원형) - 태그 기반
+            // 충돌 체크
             Collider2D[] hits = Physics2D.OverlapCircleAll(MoveTarget.position, collisionCheckDistance);
             foreach (var hit in hits)
             {
                 if (hit == myCollider) continue;
                 
-                // Wall 태그 체크
+                // Wall 충돌 → 돌진 종료
                 if (hit.CompareTag("Wall"))
                 {
-                    Debug.Log("[Boss4] Wall 태그 충돌! 돌진 종료");
+                    Debug.Log("[Boss4] Wall 충돌! 돌진 종료");
                     isCharging = false;
                     break;
                 }
                 
-                // 플레이어 체크
-                if (hit.CompareTag("Player"))
+                // 플레이어 충돌 → 한 번만 대미지
+                if (!hasHitPlayer && hit.CompareTag("Player"))
                 {
-                    Player playerComp = hit.GetComponent<Player>();
-                    if (playerComp == null) playerComp = hit.GetComponentInParent<Player>();
-                    
+                    Player playerComp = hit.GetComponent<Player>() ?? hit.GetComponentInParent<Player>();
                     if (playerComp != null)
                     {
                         playerComp.TakeDamage(chargeDamage);
+                        hasHitPlayer = true;
                         Debug.Log($"[Boss4] 플레이어에게 {chargeDamage} 대미지!");
                     }
                 }
             }
-            
-            if (!isCharging) break;
-            
-            // 비주얼을 아래로 이동
-            MoveTarget.position += Vector3.down * moveAmount;
             
             yield return null;
         }
@@ -249,6 +287,9 @@ public class Boss4 : BossBase
 
         // 페이드 인
         yield return StartCoroutine(FadeIn());
+        
+        // 복귀 완료 후 Idle 애니메이션
+        SetAnimState("Idle");
 
         Debug.Log("[Boss4] 복귀 완료!");
     }
